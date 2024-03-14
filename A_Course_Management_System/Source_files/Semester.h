@@ -3,10 +3,12 @@
 
 #include <string>
 #include <vector>
+#include "LinkedList.h"
+#include "Course.h"
 
 struct Semester {
     std::string semester;
-    std::vector<std::string> courses;
+    LinkedList<Course> courses;
 
     Semester(const std::string& semester)
         : semester(semester) {}
@@ -15,5 +17,6 @@ struct Semester {
     void addCourse(const std::string& course);
     void viewCourses() const;
 };
+
 
 #endif // SEMESTER_H
