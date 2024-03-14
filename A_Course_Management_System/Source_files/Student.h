@@ -21,8 +21,6 @@ struct Student : public User {
     void viewCourses();
 
     void viewScoreboard();
-
-    
 };
 
 #endif // STUDENT_H

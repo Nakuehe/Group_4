@@ -30,6 +30,7 @@ struct Staff : public User {
     void exportStudentsInCourse();
 
     void importScoreboard();
+    
     void viewScoreboard();
 
     void updateStudentResult();
