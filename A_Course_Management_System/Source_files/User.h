@@ -12,8 +12,6 @@ struct User {
 
     bool login(const std::string& username, const std::string& password);
 
-    void logout();
-
     bool changePassword(const std::string& oldPassword, const std::string& newPassword);
     
     bool check(const std::string& username,const std::string& password);
