@@ -15,6 +15,10 @@ struct User {
     void logout();
 
     bool changePassword(const std::string& oldPassword, const std::string& newPassword);
+    
+    bool check(const std::string& username,const std::string& password);
+
 };
+
 
 #endif // USER_H
