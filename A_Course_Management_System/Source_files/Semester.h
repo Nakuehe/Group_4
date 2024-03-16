@@ -1,8 +1,6 @@
 #ifndef SEMESTER_H
 #define SEMESTER_H
 
-#include <string>
-#include <vector>
 #include "LinkedList.h"
 #include "Course.h"
 
@@ -14,7 +12,9 @@ struct Semester {
         : semester(semester) {}
 
     void createSemester();
-    void addCourse(const std::string& course);
+    void addCourse(const Course& course){
+        courses.add(course);
+    }
     void viewCourses() const;
 };
 
