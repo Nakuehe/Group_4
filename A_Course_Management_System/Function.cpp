@@ -17,7 +17,7 @@ struct Student
 
 };
 
-void changepass(string username, string newPassword) {
+void changepass(string username, string newPassword) { 
     ofstream data(username + ".txt");
     system("cls");
     cout << "Please Enter New Password:";
