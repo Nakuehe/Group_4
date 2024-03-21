@@ -15,7 +15,6 @@ struct Semester {
     void addCourse(const Course& course){
         courses.add(course);
     }
-    void viewCourses() const;
 };
 
 

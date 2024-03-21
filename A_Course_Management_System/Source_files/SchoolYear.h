@@ -1,4 +1,3 @@
-#include <string>
 #include "LinkedList.h"
 #include "Semester.h"
 

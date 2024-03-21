@@ -4,6 +4,7 @@
 #include <string>
 
 
+
 struct Student{
     std::string studentID;
     std::string firstName;
@@ -13,7 +14,7 @@ struct Student{
     std::string socialID;
 
     Student(const std::string& studentID, const std::string& firstName, const std::string& lastName, const std::string& gender, const std::string& dateOfBirth, const std::string& socialID)
-        :studentID(studentID), firstName(firstName), lastName(lastName), gender(gender), dateOfBirth(dateOfBirth), socialID(socialID) {}
+        :studentID(studentID), firstName(firstName), lastName(lastName), gender(gender), dateOfBirth(dateOfBirth), socialID(socialID){}
 
 
     void viewCourses();

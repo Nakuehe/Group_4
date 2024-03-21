@@ -1,6 +1,5 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
-#include "Student.h"
 #include <stdexcept>
 
 template <typename T>
@@ -93,13 +92,36 @@ public:
         return current->data;
     }
 
+    T removeFirst() {
+        if (head == nullptr) {
+            throw std::out_of_range("List is empty");
+        }
+
+        Node<T>* oldHead = head;
+        T data = oldHead->data; // Copy the data
+        head = head->next;
+        if (head == nullptr) {
+            tail = nullptr; // The list is now empty
+        }
+        delete oldHead; // Delete the old head node
+        count--;
+        return data; // Return the data of the removed node
+    }
+
+    bool isEmpty(){
+        return count == 0;
+    }
+
     // ~LinkedList(){
-    //     Node<T>* current = head;
+    //     Node<LinkedList<T>*>* current = head;
     //     while (current != nullptr) {
-    //         Node<T>* next = current->next;
-    //         delete current;
+    //         Node<LinkedList<T>*>* next = current->next;
+    //         delete current->data;  // delete the LinkedList that current points to
+    //         delete current;  // delete the node itself
     //         current = next;
     //     }
+    //     head = tail = nullptr;
+    //     count = 0;
     // }
 };
 
