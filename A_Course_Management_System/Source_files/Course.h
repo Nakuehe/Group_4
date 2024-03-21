@@ -4,11 +4,13 @@
 #include <string>
 #include "LinkedList.h"
 #include "Student.h"
+#include "Score.h"
 
 struct Course {
     std::string courseID;
     std::string courseName;
     LinkedList<Student> students;
+    LinkedList<Score> Scoreboard;
 
     Course(const std::string& courseID, const std::string& courseName)
         : courseID(courseID), courseName(courseName) {}
