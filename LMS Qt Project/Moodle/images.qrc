@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/images"/>
+    <qresource prefix="/">
+        <file>../asset/loginpageAsset/fblogo.svg</file>
+        <file>../asset/loginpageAsset/hide.png</file>
+        <file>../asset/loginpageAsset/show.png</file>
+        <file>../asset/loginpageAsset/FITLogo.png</file>
+        <file>../asset/loginpageAsset/exit.png</file>
+        <file>../asset/loginpageAsset/course.png</file>
+        <file>../asset/loginpageAsset/course_toggled.png</file>
+        <file>../asset/loginpageAsset/exit_toggled.png</file>
+        <file>../asset/loginpageAsset/grade.png</file>
+        <file>../asset/loginpageAsset/grade_toggled.png</file>
+        <file>../asset/loginpageAsset/user.png</file>
+        <file>../asset/loginpageAsset/user_toggled.png</file>
+        <file>../asset/loginpageAsset/menu.png</file>
+        <file>../asset/loginpageAsset/course2.png</file>
+        <file>../asset/loginpageAsset/course2_toggled.png</file>
+    </qresource>
+</RCC>
