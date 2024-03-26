@@ -11,13 +11,13 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -26,27 +26,63 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
+    QGridLayout *gridLayout;
+    QSpacerItem *horizontalSpacer_2;
+    QSpacerItem *verticalSpacer;
+    QSpacerItem *verticalSpacer_2;
+    QSpacerItem *horizontalSpacer;
+    QGroupBox *groupBox_3;
+    QLabel *label;
     QGroupBox *groupBox;
     QLineEdit *lineEdit;
     QPushButton *pushButtonLogin;
-    QLineEdit *lineEditPassword;
+    QGroupBox *groupBox_2;
     QLabel *labelPlaceholder;
+    QLineEdit *lineEditPassword;
     QPushButton *pushButtonShowPassword;
-    QLabel *label;
-    QMenuBar *menubar;
-    QStatusBar *statusbar;
+    QSpacerItem *verticalSpacer_3;
+    QSpacerItem *verticalSpacer_4;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(883, 630);
+        MainWindow->resize(984, 732);
         MainWindow->setStyleSheet(QString::fromUtf8("background-color: #F0F2F5"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        groupBox = new QGroupBox(centralwidget);
+        gridLayout = new QGridLayout(centralwidget);
+        gridLayout->setObjectName("gridLayout");
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer_2, 2, 2, 1, 1);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer, 3, 1, 1, 1);
+
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_2, 1, 1, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer, 2, 0, 1, 1);
+
+        groupBox_3 = new QGroupBox(centralwidget);
+        groupBox_3->setObjectName("groupBox_3");
+        groupBox_3->setMinimumSize(QSize(701, 631));
+        groupBox_3->setStyleSheet(QString::fromUtf8("background-color:#F0F2F5;\n"
+"border: 0px\n"
+""));
+        label = new QLabel(groupBox_3);
+        label->setObjectName("label");
+        label->setGeometry(QRect(70, 10, 541, 241));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/asset/loginpageAsset/FITLogo.png")));
+        label->setScaledContents(true);
+        groupBox = new QGroupBox(groupBox_3);
         groupBox->setObjectName("groupBox");
-        groupBox->setGeometry(QRect(200, 180, 461, 361));
+        groupBox->setGeometry(QRect(120, 250, 461, 361));
         groupBox->setStyleSheet(QString::fromUtf8("border-radius: 10px;\n"
 "background-color: #FFFFFF"));
         lineEdit = new QLineEdit(groupBox);
@@ -62,6 +98,7 @@ public:
 "\n"
 "QLineEdit:focus {\n"
 "    color: black;\n"
+"	border: 1px solid blue; \n"
 "}"));
         lineEdit->setDragEnabled(false);
         pushButtonLogin = new QPushButton(groupBox);
@@ -85,9 +122,16 @@ public:
 "}\n"
 "\n"
 ""));
-        lineEditPassword = new QLineEdit(groupBox);
+        groupBox_2 = new QGroupBox(groupBox);
+        groupBox_2->setObjectName("groupBox_2");
+        groupBox_2->setGeometry(QRect(20, 120, 431, 80));
+        labelPlaceholder = new QLabel(groupBox_2);
+        labelPlaceholder->setObjectName("labelPlaceholder");
+        labelPlaceholder->setGeometry(QRect(30, 30, 191, 31));
+        labelPlaceholder->setStyleSheet(QString::fromUtf8("color: gray;"));
+        lineEditPassword = new QLineEdit(groupBox_2);
         lineEditPassword->setObjectName("lineEditPassword");
-        lineEditPassword->setGeometry(QRect(30, 130, 401, 51));
+        lineEditPassword->setGeometry(QRect(10, 20, 401, 51));
         lineEditPassword->setStyleSheet(QString::fromUtf8("QLineEdit {\n"
 "    border: 1px solid rgb(212, 212, 212);\n"
 "    border-radius: 10px;\n"
@@ -98,15 +142,12 @@ public:
 "\n"
 "QLineEdit:focus {\n"
 "    color: black;\n"
+"	border: 1px solid blue;\n"
 "}"));
         lineEditPassword->setEchoMode(QLineEdit::Password);
-        labelPlaceholder = new QLabel(groupBox);
-        labelPlaceholder->setObjectName("labelPlaceholder");
-        labelPlaceholder->setGeometry(QRect(50, 140, 191, 31));
-        labelPlaceholder->setStyleSheet(QString::fromUtf8("color: gray;"));
-        pushButtonShowPassword = new QPushButton(groupBox);
+        pushButtonShowPassword = new QPushButton(groupBox_2);
         pushButtonShowPassword->setObjectName("pushButtonShowPassword");
-        pushButtonShowPassword->setGeometry(QRect(390, 140, 31, 31));
+        pushButtonShowPassword->setGeometry(QRect(370, 30, 31, 31));
         pushButtonShowPassword->setStyleSheet(QString::fromUtf8("QPushButton:hover{\n"
 "	border-radius: 15px; \n"
 "	background-color: lightgray;\n"
@@ -119,23 +160,23 @@ public:
 "\n"
 ""));
         lineEditPassword->raise();
-        lineEdit->raise();
-        pushButtonLogin->raise();
         labelPlaceholder->raise();
         pushButtonShowPassword->raise();
-        label = new QLabel(centralwidget);
-        label->setObjectName("label");
-        label->setGeometry(QRect(160, -70, 541, 241));
-        label->setPixmap(QPixmap(QString::fromUtf8(":/loginpageAsset/FITLogo.png")));
-        label->setScaledContents(true);
+        groupBox_2->raise();
+        lineEdit->raise();
+        pushButtonLogin->raise();
+
+        gridLayout->addWidget(groupBox_3, 2, 1, 1, 1);
+
+        verticalSpacer_3 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_3, 0, 1, 1, 1);
+
+        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
+
+        gridLayout->addItem(verticalSpacer_4, 4, 1, 1, 1);
+
         MainWindow->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(MainWindow);
-        menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 883, 26));
-        MainWindow->setMenuBar(menubar);
-        statusbar = new QStatusBar(MainWindow);
-        statusbar->setObjectName("statusbar");
-        MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
         QObject::connect(pushButtonLogin, SIGNAL(clicked()), MainWindow, SLOT(on_button_clicked()));
@@ -146,14 +187,16 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        groupBox_3->setTitle(QString());
+        label->setText(QString());
         groupBox->setTitle(QString());
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "Username", nullptr));
         pushButtonLogin->setText(QCoreApplication::translate("MainWindow", "Log in", nullptr));
+        groupBox_2->setTitle(QString());
+        labelPlaceholder->setText(QCoreApplication::translate("MainWindow", "Password", nullptr));
         lineEditPassword->setText(QString());
         lineEditPassword->setPlaceholderText(QString());
-        labelPlaceholder->setText(QCoreApplication::translate("MainWindow", "Password", nullptr));
         pushButtonShowPassword->setText(QString());
-        label->setText(QString());
     } // retranslateUi
 
 };

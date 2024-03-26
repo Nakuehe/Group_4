@@ -47,11 +47,12 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "on_lineEditPassword_focusChanged",
     "hasFocus",
     "togglePasswordVisibility",
+    "loadAllUsers",
     "setupPage"
 );
 #else  // !QT_MOC_HAS_STRING_DATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
-    uint offsetsAndSizes[20];
+    uint offsetsAndSizes[22];
     char stringdata0[11];
     char stringdata1[27];
     char stringdata2[1];
@@ -61,7 +62,8 @@ struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {
     char stringdata6[33];
     char stringdata7[9];
     char stringdata8[25];
-    char stringdata9[10];
+    char stringdata9[13];
+    char stringdata10[10];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_CLASSMainWindowENDCLASS_t::offsetsAndSizes) + ofs), len 
@@ -76,7 +78,8 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
         QT_MOC_LITERAL(100, 32),  // "on_lineEditPassword_focusChanged"
         QT_MOC_LITERAL(133, 8),  // "hasFocus"
         QT_MOC_LITERAL(142, 24),  // "togglePasswordVisibility"
-        QT_MOC_LITERAL(167, 9)   // "setupPage"
+        QT_MOC_LITERAL(167, 12),  // "loadAllUsers"
+        QT_MOC_LITERAL(180, 9)   // "setupPage"
     },
     "MainWindow",
     "on_pushButtonLogin_clicked",
@@ -87,6 +90,7 @@ Q_CONSTINIT static const qt_meta_stringdata_CLASSMainWindowENDCLASS_t qt_meta_st
     "on_lineEditPassword_focusChanged",
     "hasFocus",
     "togglePasswordVisibility",
+    "loadAllUsers",
     "setupPage"
 };
 #undef QT_MOC_LITERAL
@@ -99,7 +103,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -107,18 +111,20 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   50,    2, 0x08,    1 /* Private */,
-       3,    1,   51,    2, 0x08,    2 /* Private */,
-       5,    1,   54,    2, 0x08,    4 /* Private */,
-       6,    1,   57,    2, 0x08,    6 /* Private */,
-       8,    0,   60,    2, 0x08,    8 /* Private */,
-       9,    0,   61,    2, 0x08,    9 /* Private */,
+       1,    0,   56,    2, 0x08,    1 /* Private */,
+       3,    1,   57,    2, 0x08,    2 /* Private */,
+       5,    1,   60,    2, 0x08,    4 /* Private */,
+       6,    1,   63,    2, 0x08,    6 /* Private */,
+       8,    0,   66,    2, 0x08,    8 /* Private */,
+       9,    0,   67,    2, 0x08,    9 /* Private */,
+      10,    0,   68,    2, 0x08,   10 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    4,
     QMetaType::Void, QMetaType::QString,    4,
     QMetaType::Void, QMetaType::Bool,    7,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -147,6 +153,8 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'togglePasswordVisibility'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'loadAllUsers'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'setupPage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
@@ -164,7 +172,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 2: _t->on_lineEditPassword_textChanged((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 3: _t->on_lineEditPassword_focusChanged((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         case 4: _t->togglePasswordVisibility(); break;
-        case 5: _t->setupPage(); break;
+        case 5: _t->loadAllUsers(); break;
+        case 6: _t->setupPage(); break;
         default: ;
         }
     }
@@ -189,13 +198,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }
