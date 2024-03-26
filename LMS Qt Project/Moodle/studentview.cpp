@@ -7,17 +7,17 @@
 
 
 
-StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, std::string StudentID)
+StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStudent)
     : QMainWindow(parent)
     , mainWindow(mainWindow)
     , ui(new Ui::StudentView)
-    , StudentID(StudentID)
+    , thisStudent(thisStudent)
 
 {
     ui->setupUi(this);
 
     setupPage();
-    setStudent(StudentID);
+    setStudent(thisStudent.username);
     setUpCourseList();
 
     // for (int i = 0; i < thisStudentCourse.size(); i++) {
@@ -103,6 +103,10 @@ void StudentView::setupPage(){
     //connect exit button with exit action
     connect(ui->exit_btn1, &QPushButton::clicked, this, &StudentView::close);
     ui->exit_btn1->setCursor(QCursor(Qt::PointingHandCursor));
+
+    // Connect changePasswordButton's clicked signal to the slot
+    connect(ui->changePasswordButton, &QPushButton::clicked, this, &StudentView::on_changePasswordButton_clicked);
+    ui->changePasswordButton->setCursor(QCursor(Qt::PointingHandCursor));
 }
 
 QString StudentView::loadFont(const QString &resourcePath) {
@@ -218,4 +222,9 @@ void StudentView::on_grade_btn1_toggled() {
 
 void StudentView::on_grade_btn2_toggled() {
     ui->stackedWidget->setCurrentIndex(2);
+}
+
+void StudentView::on_changePasswordButton_clicked() {
+    ChangePasswordDialog dialog(this, thisStudent, mainWindow->getUserManager());
+    dialog.exec();
 }
