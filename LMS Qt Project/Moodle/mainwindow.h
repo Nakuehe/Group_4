@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCoreApplication>
 #include <QGuiApplication>
 #include <QScreen>
 #include <QGraphicsDropShadowEffect>  
@@ -13,6 +14,7 @@
 #include <QCloseEvent>
 #include "LinkedList.h"
 #include "SchoolYear.h"
+#include "usermanager.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -32,6 +34,7 @@ public:
     //LinkedList<UserInfo> Users;
     ~MainWindow();
     void showCentered();
+    UserManager* getUserManager() {return &m_userManager;}
 
 private slots:
     void on_pushButtonLogin_clicked();
@@ -44,12 +47,11 @@ private slots:
 
     void togglePasswordVisibility();
 
-    void loadAllUsers();
-
-
     void setupPage();
 
+
 private:
+    UserManager m_userManager;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
