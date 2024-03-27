@@ -2,6 +2,8 @@
 #define STUDENTVIEW_H
 
 #include <QMainWindow>
+#include <QStandardItemModel>
+#include <QTableView>
 #include <QCloseEvent>
 #include <QMessageBox>
 #include "changepassworddialog.h"
@@ -28,7 +30,7 @@ public:
     void setStudent(std::string StudentID);  // Method to set the student
     void setupPage();  // Method to set up the page
     QString loadFont(const QString &resourcePath);  // Method to load the font
-    void setUpCourseList();  // Method to set up the course list
+    
     void on_changePasswordButton_clicked();
 
 private slots:
@@ -47,6 +49,10 @@ private:
     MainWindow* mainWindow;
     User thisStudent;  
     LinkedList<Course> thisStudentCourse;
+    LinkedList<Score> thisStudentScore;
+
+    void setUpCourseList();  // Method to set up the course list
+    void setUpGradeView();  // Method to set up the grade view
 
 };
 

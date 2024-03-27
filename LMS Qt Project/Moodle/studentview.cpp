@@ -19,6 +19,7 @@ StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStude
     setupPage();
     setStudent(thisStudent.username);
     setUpCourseList();
+    setUpGradeView();
 
     // for (int i = 0; i < thisStudentCourse.size(); i++) {
     //     ui->courseList->addItem(QString::fromStdString(thisStudentCourse.get(i).courseInfo.courseID));
@@ -41,6 +42,7 @@ void StudentView::closeEvent(QCloseEvent *event)
 }
 
 void StudentView::setStudent(std::string StudentID){
+    // Find courses that the student is in
     LinkedList<SchoolYear> schoolYears = mainWindow->SchoolYears;
     for (int i = 0; i < schoolYears.size(); i++) {
         LinkedList<Semester> semesters = schoolYears.get(i).semesters;
@@ -51,6 +53,13 @@ void StudentView::setStudent(std::string StudentID){
                 for (int h = 0; h < students.size(); h++) {
                     if (students.get(h).studentID == StudentID) {
                         thisStudentCourse.add(courses.get(k));
+                    }
+                }
+
+                LinkedList<Score> scores = courses.get(k).Scoreboard;
+                for (int h = 0; h < scores.size(); h++) {
+                    if (scores.get(h).id_student == StudentID) {
+                        thisStudentScore.add(scores.get(h));
                     }
                 }
             }
@@ -198,6 +207,41 @@ void StudentView::setUpCourseList() {
             row++;
         }
     }
+}
+
+void StudentView::setUpGradeView(){
+    
+    QStandardItemModel *model = new QStandardItemModel(thisStudentScore.size(), 6, this); 
+    for (int row = 0; row < thisStudentScore.size(); ++row) {
+        QString courseID = QString::fromStdString(thisStudentScore.get(row).courseID);
+        QString courseName = QString::fromStdString(thisStudentScore.get(row).courseName);
+        QString midterm = thisStudentScore.get(row).mid_mark == 0 ? "_" : QString::number(thisStudentScore.get(row).mid_mark);
+        QString final = thisStudentScore.get(row).final_mark == 0 ? "_" : QString::number(thisStudentScore.get(row).final_mark);
+        QString bonus = thisStudentScore.get(row).other_mark == 0 ? "_" : QString::number(thisStudentScore.get(row).other_mark);
+        QString total = thisStudentScore.get(row).GPA == 0 ? "_" : QString::number(thisStudentScore.get(row).GPA);
+
+        QStandardItem *item1 = new QStandardItem(QString(courseID));
+        model->setItem(row, 0, item1);
+        QStandardItem *item2 = new QStandardItem(QString(courseName));
+        model->setItem(row, 1, item2);
+        QStandardItem *item3 = new QStandardItem(QString(midterm));
+        model->setItem(row, 2, item3);
+        QStandardItem *item4 = new QStandardItem(QString(final));
+        model->setItem(row, 3, item4);
+        QStandardItem *item5 = new QStandardItem(QString(bonus));
+        model->setItem(row, 4, item5);
+        QStandardItem *item6 = new QStandardItem(QString(total));
+        model->setItem(row, 5, item6);
+    }
+
+    QTableView *tableView = new QTableView;
+    tableView->setModel(model);
+
+    QWidget *page = ui->stackedWidget->widget(2); // Get the page at index 2
+
+    QVBoxLayout *layout = new QVBoxLayout(page); // Create a QVBoxLayout for the page
+    layout->addWidget(tableView); // Add the QTableView to the layout
+    page->setLayout(layout); // Set the layout of the page
 }
 
 void StudentView::on_profile_btn1_toggled() {
