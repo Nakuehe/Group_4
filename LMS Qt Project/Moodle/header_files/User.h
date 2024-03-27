@@ -6,13 +6,15 @@
 struct User {
     std::string username;
     std::string password;
+    std::string role;
 
-    User(const std::string& username, const std::string& password)
-        : username(username), password(password) {}
+
+    User(const std::string& username = "", const std::string& password = "", const std::string& role = "")
+        : username(username), password(password), role(role) {}
 
     bool login(const std::string& username, const std::string& password);
 
-    bool changePassword(const std::string& oldPassword, const std::string& newPassword);
+    void setPassword(const std::string &new_password) { password = new_password; }
     
     bool check(const std::string& username,const std::string& password);
 

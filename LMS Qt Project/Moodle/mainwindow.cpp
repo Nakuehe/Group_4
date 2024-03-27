@@ -15,13 +15,14 @@ QString loadFont(const QString &resourcePath) {
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , m_userManager(QCoreApplication::applicationDirPath() + "/data/users.csv")
     , SchoolYears()
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
     setupPage();
-    loadAllUsers();
+    m_userManager.loadUsers();
     
 
     Student student = Student("23125061", "Pham", "Khoa", "", "", "");
@@ -31,12 +32,23 @@ MainWindow::MainWindow(QWidget *parent)
     Course course3 = Course("BAA00004", "General Law", "23APCS", "Hoang Thanh Tu", "3", 50, "MON", "S3");
     Course course4 = Course("PH212", "General Physic II", "23APCS02", "Do Duc Cuong", "4", 50, "SAT", "S4");
 
+    Score score1 = Score("23125061", "Pham Khoa", "CS162", "Introduction to Programming", 8.5, 9.0, 0, 8.5);
+    Score score2 = Score("23125061", "Pham Khoa", "MTH252", "Calculus II", 8.5, 9.0, 0, 8.5);
+    Score score3 = Score("23125061", "Pham Khoa", "BAA00004", "General Law", 8.5, 0, 8.0, 8.5);
+    Score score4 = Score("23125061", "Pham Khoa", "PH212", "General Physic II", 8.5, 9.0, 0, 8.5);
+
+
     Semester semester = Semester("Fall");
 
     course.addStudent(student);  
     course2.addStudent(student);
     course3.addStudent(student);
     course4.addStudent(student);
+
+    course.addScore(score1);
+    course2.addScore(score2);
+    course3.addScore(score3);
+    course4.addScore(score4);
 
     semester.addCourse(course);  
     semester.addCourse(course2);
@@ -51,31 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     
 }
 
-MainWindow::~MainWindow()
-{
-    // Iterate over all SchoolYear objects in SchoolYears
-    while (!SchoolYears.isEmpty()) {
-        SchoolYear year = SchoolYears.removeFirst();
 
-        // Iterate over all Semester objects in each SchoolYear
-        while (!year.semesters.isEmpty()) {
-            Semester semester = year.semesters.removeFirst();
-
-            // Iterate over all Course objects in each Semester
-            while (!semester.courses.isEmpty()) {
-                Course course = semester.courses.removeFirst();
-
-                // Iterate over all Student objects in each Course
-                while (!course.students.isEmpty()) {
-                    course.students.removeFirst();
-                }
-            }
-        }
-    }
-
-    
-    delete ui;
-}
 
 void MainWindow::setupPage(){
     QString font1Family = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
@@ -133,17 +121,21 @@ void MainWindow::setupPage(){
     //Enter to login
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &MainWindow::on_pushButtonLogin_clicked);
     connect(ui->lineEditPassword, &QLineEdit::returnPressed, this, &MainWindow::on_pushButtonLogin_clicked);
+
+    //press tab to switch between fields
+    QWidget::setTabOrder(ui->lineEdit, ui->lineEditPassword);
 }
 
 void MainWindow::on_pushButtonLogin_clicked()
 {
-    std::string username = ui->lineEdit->text().toStdString();
-    std::string password = ui->lineEditPassword->text().toStdString();
+    QString username = ui->lineEdit->text();
+    QString password = ui->lineEditPassword->text();
 
 
-    if (username == "23125061" && password == "password") {
-        // Login successful
-        StudentView* studentView = new StudentView(nullptr, this, username);
+
+    if (m_userManager.authenticateUser(username, password)){
+        User user = m_userManager.findUser(username, password);
+        StudentView* studentView = new StudentView(nullptr, this, user);
         studentView->show();
         this->hide(); // Hide the MainWindow
     } else {
@@ -176,7 +168,7 @@ void MainWindow::showCentered() {
 
 void MainWindow::on_lineEdit_textChanged(const QString &arg1)
 {
-    ui->lineEdit->setStyleSheet("QLineEdit { border: 1px solid rgb(212, 212, 212); border-radius: 10px; color: black; padding-left: 15px; }");
+    ui->lineEdit->setStyleSheet("QLineEdit { border: 1px solid rgb(212, 212, 212); border-radius: 10px; color: black; padding-left: 15px; } QLineEdit:focus{border: 1px solid blue}" );
 }
 
 
@@ -184,7 +176,7 @@ void MainWindow::on_lineEdit_textChanged(const QString &arg1)
 
 void MainWindow::on_lineEditPassword_textChanged(const QString &arg1)
 {
-    ui->lineEditPassword->setStyleSheet("QLineEdit { border: 1px solid rgb(212, 212, 212); border-radius: 10px; color: black; padding-left: 15px; }");
+    ui->lineEditPassword->setStyleSheet("QLineEdit { border: 1px solid rgb(212, 212, 212); border-radius: 10px; color: black; padding-left: 15px; } QLineEdit:focus{border: 1px solid blue}");
     ui->labelPlaceholder->setVisible(arg1.isEmpty());
 
 }
@@ -211,11 +203,31 @@ void MainWindow::togglePasswordVisibility()
     ui->lineEditPassword->setFont(font); // Apply the font changes
 }
 
-void MainWindow::loadAllUsers(){
-    // read data from user.csv
 
-    // push to user list
-    // for qua tat ca user{
-    //     this->Users.add(User);
-    // }
+MainWindow::~MainWindow()
+{
+    // Iterate over all SchoolYear objects in SchoolYears
+    while (!SchoolYears.isEmpty()) {
+        SchoolYear year = SchoolYears.removeFirst();
+
+        // Iterate over all Semester objects in each SchoolYear
+        while (!year.semesters.isEmpty()) {
+            Semester semester = year.semesters.removeFirst();
+
+            // Iterate over all Course objects in each Semester
+            while (!semester.courses.isEmpty()) {
+                Course course = semester.courses.removeFirst();
+
+                // Iterate over all Student objects in each Course
+                while (!course.students.isEmpty()) {
+                    course.students.removeFirst();
+                }
+            }
+        }
+    }
+
+    // m_userManager.changePassword("23125061", "newpassword");
+    m_userManager.saveUsers();
+
+    delete ui;
 }
