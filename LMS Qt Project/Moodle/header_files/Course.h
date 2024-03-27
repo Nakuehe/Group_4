@@ -37,6 +37,10 @@ struct Course : public CourseInfo {
         students.remove(student); 
     }
 
+    void addScore(const Score& score) {
+        Scoreboard.add(score); 
+    }  
+
     void updateCourseInfo();
 };
 
