@@ -42,6 +42,7 @@ struct Course : public CourseInfo {
     }  
 
     void updateCourseInfo();
+    void ExportStudentCSVFile();
 };
 
 #endif // COURSE_H
