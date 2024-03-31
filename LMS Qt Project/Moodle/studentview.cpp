@@ -259,6 +259,7 @@ void StudentView::setUpGradeView(){
 
     QTableView *tableView = new QTableView;
     tableView->setModel(model);
+    tableView->setEditTriggers(QAbstractItemView::NoEditTriggers); // Make the table view uneditable
 
     QWidget *page = ui->stackedWidget->widget(2); // Get the page at index 2
 
