@@ -4,15 +4,41 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QPainter>
 #include <QCloseEvent>
+#include <QLabel>
 #include <QMessageBox>
-#include "changepassworddialog.h"
+
 #include <QFontDatabase>
+#include "mainwindow.h"
+#include "Student.h"
+#include <QDesktopServices>
 #include "Course.h"
 #include "User.h"
+
 #include <string>
 
 class MainWindow;
+
+class RoundAvatarLabel : public QLabel {
+    Q_OBJECT
+
+public:
+    RoundAvatarLabel(QWidget *parent = nullptr) : QLabel(parent) {}
+
+protected:
+    void paintEvent(QPaintEvent *event) override {
+        QPixmap pixmap(":/Asset/studentviewAsset/profile.png");
+        QPixmap scaled = pixmap.scaled(width(), height(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+        QBrush brush(scaled);
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.setPen(Qt::transparent); // Set the pen to a transparent color
+        painter.setBrush(brush);
+        painter.drawRoundedRect(0, 0, width(), height(), width() / 2, height() / 2);
+        QLabel::paintEvent(event);
+    }
+};
 
 namespace Ui {
 class StudentView;
@@ -24,13 +50,13 @@ class StudentView : public QMainWindow
 
 public:
 
-    explicit StudentView(QWidget *parent = nullptr, MainWindow* mainWindow = nullptr, User thisStudent = User());
+    explicit StudentView(QWidget *parent = nullptr, MainWindow* mainWindow = nullptr, User thisStudentUser = User(), Student thisStudent = Student(), UserManager *s_UserManager = nullptr);
     ~StudentView();
     void closeEvent(QCloseEvent *event);
     void setStudent(std::string StudentID);  // Method to set the student
     void setupPage();  // Method to set up the page
     QString loadFont(const QString &resourcePath);  // Method to load the font
-    
+
     void on_changePasswordButton_clicked();
 
 private slots:
@@ -47,12 +73,15 @@ private slots:
 private:
     Ui::StudentView *ui;
     MainWindow* mainWindow;
-    User thisStudent;  
-    LinkedList<Course> thisStudentCourse;
-    LinkedList<Score> thisStudentScore;
+    UserManager* s_UserManager;
+    User thisStudentUser;
+    Student thisStudent;
+    LinkedList<Course>* thisStudentCourse;
+    LinkedList<Score>* thisStudentScore;
 
     void setUpCourseList();  // Method to set up the course list
     void setUpGradeView();  // Method to set up the grade view
+    void setUpProfile();  // Method to set up the profile
 
 };
 
