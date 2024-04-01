@@ -16,5 +16,10 @@
         <file>../asset/loginpageAsset/menu.png</file>
         <file>../asset/loginpageAsset/course2.png</file>
         <file>../asset/loginpageAsset/course2_toggled.png</file>
+        <file>../Asset/studentviewAsset/profile.png</file>
+        <file>../Asset/studentviewAsset/background1.jpg</file>
+        <file>../Asset/studentviewAsset/background2.jpg</file>
+        <file>../Asset/studentviewAsset/background3.jpg</file>
+        <file>../Asset/studentviewAsset/background4.jpg</file>
     </qresource>
 </RCC>

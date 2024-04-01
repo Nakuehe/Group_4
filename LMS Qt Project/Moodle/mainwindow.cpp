@@ -15,15 +15,16 @@ QString loadFont(const QString &resourcePath) {
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , m_userManager(QCoreApplication::applicationDirPath() + "/data/users.csv")
-    , SchoolYears()
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    m_userManager = new UserManager(QCoreApplication::applicationDirPath() + "/data/users.csv", QCoreApplication::applicationDirPath() + "/data/students.csv");
 
     setupPage();
-    m_userManager.loadUsers();
+    m_userManager->loadUsers();
+    m_userManager->loadStudents();
     
+
 
     Student student = Student("23125061", "Pham", "Khoa", "", "", "");
 
@@ -40,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     Semester semester = Semester("Fall");
 
-    course.addStudent(student);  
+    course.addStudent(student);
     course2.addStudent(student);
     course3.addStudent(student);
     course4.addStudent(student);
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     course3.addScore(score3);
     course4.addScore(score4);
 
-    semester.addCourse(course);  
+    semester.addCourse(course);
     semester.addCourse(course2);
     semester.addCourse(course3);
     semester.addCourse(course4);
@@ -135,9 +136,10 @@ void MainWindow::on_pushButtonLogin_clicked()
 
 
 
-    if (m_userManager.authenticateUser(username, password)){
-        User user = m_userManager.findUser(username, password);
-        StudentView* studentView = new StudentView(nullptr, this, user);
+    if (m_userManager->authenticateUser(username, password)){
+        User user = m_userManager->findUser(username, password);
+        Student student = m_userManager->findStudent(username);
+        StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
         studentView->show();
         this->hide(); // Hide the MainWindow
     } else {
@@ -229,7 +231,14 @@ MainWindow::~MainWindow()
     }
 
     // m_userManager.changePassword("23125061", "newpassword");
-    m_userManager.saveUsers();
+    m_userManager->saveUsers();
+    m_userManager->saveStudents();
+
+    m_userManager->deleteThis();
+
+    delete m_userManager;
+
+
 
     delete ui;
 }
