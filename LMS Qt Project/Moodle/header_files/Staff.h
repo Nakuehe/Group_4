@@ -3,7 +3,6 @@
 
 #include "User.h"
 #include <string>
-#include <vector>
 
 struct Staff : public User {
     std::string staffID;
