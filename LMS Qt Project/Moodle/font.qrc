@@ -4,5 +4,6 @@
         <file>../asset/font/HelveticaWorld-Regular.ttf</file>
         <file>../asset/font/Helvetica Neue/HelveticaNeue-Bold.otf</file>
         <file>../asset/font/Helvetica Neue/helveticaneuemedium.ttf</file>
+        <file>../Asset/font/Helvetica Neue/helveticaneuebold.ttf</file>
     </qresource>
 </RCC>

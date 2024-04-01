@@ -34,7 +34,7 @@ public:
     //LinkedList<UserInfo> Users;
     ~MainWindow();
     void showCentered();
-    UserManager* getUserManager() {return &m_userManager;}
+    UserManager* getUserManager() {return m_userManager;}
 
 private slots:
     void on_pushButtonLogin_clicked();
@@ -51,7 +51,7 @@ private slots:
 
 
 private:
-    UserManager m_userManager;
+    UserManager* m_userManager;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
