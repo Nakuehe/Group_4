@@ -18,6 +18,21 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout">
       <property name="spacing">
@@ -982,23 +997,72 @@ background-color: #FFFFFF</string>
               </layout>
              </widget>
              <widget class="QWidget" name="page_2">
-              <layout class="QGridLayout" name="gridLayout_4">
+              <layout class="QGridLayout" name="gridLayout_4"/>
+             </widget>
+             <widget class="QWidget" name="page_3">
+              <layout class="QGridLayout" name="gridLayout_8">
+               <property name="leftMargin">
+                <number>5</number>
+               </property>
+               <property name="topMargin">
+                <number>5</number>
+               </property>
+               <property name="rightMargin">
+                <number>5</number>
+               </property>
+               <property name="bottomMargin">
+                <number>5</number>
+               </property>
+               <property name="spacing">
+                <number>5</number>
+               </property>
                <item row="0" column="0">
-                <widget class="QLabel" name="label">
-                 <property name="autoFillBackground">
+                <widget class="QTableView" name="grade_view_table">
+                 <property name="styleSheet">
+                  <string notr="true">QHeaderView {
+    font-size: 12pt;
+    font-weight: bold;
+    background-color: #FFFFFF; /* Match the table's background color */
+	gridline-color: #606060;
+}
+
+QTableCornerButton::section {
+	border: 1px solid #606060;
+	 background-color: lightgray;
+ }
+
+QHeaderView::section{
+	border: 1px solid #606060
+}
+
+QTableView {
+    border: 2px solid lightgray;
+    background-color: #FFFFFF;
+}
+
+QTableView::item{
+	border: 1px solid #606060
+}
+
+QTableView::item:selected {
+	background-color: #909090;
+}
+
+</string>
+                 </property>
+                 <property name="autoScrollMargin">
+                  <number>16</number>
+                 </property>
+                 <property name="dragEnabled">
                   <bool>false</bool>
                  </property>
-                 <property name="text">
-                  <string>Course page</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
+                 <property name="sortingEnabled">
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="page_3"/>
             </widget>
            </item>
           </layout>
@@ -1046,38 +1110,6 @@ background-color: #FFFFFF</string>
     <hint type="destinationlabel">
      <x>503</x>
      <y>312</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>menu_btn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>icon_only_widget</receiver>
-   <slot>setHidden(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>283</x>
-     <y>49</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>55</x>
-     <y>341</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>menu_btn</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>full_menu_widget</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>287</x>
-     <y>52</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>187</x>
-     <y>342</y>
     </hint>
    </hints>
   </connection>
