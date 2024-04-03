@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     Course course4 = Course("PH212", "General Physic II", "23APCS02", "Do Duc Cuong", "4", 50, "SAT", "S4");
 
     Score score1 = Score("23125061", "Pham Khoa", "CS162", "Introduction to Programming", 8.5, 9.0, 0, 8.5);
-    Score score2 = Score("23125061", "Pham Khoa", "MTH252", "Calculus II", 8.5, 9.0, 0, 8.5);
+    Score score2 = Score("23125061", "Pham Khoa", "MTH252", "Calculus II", 8.5, 9.0, 10, 10);
     Score score3 = Score("23125061", "Pham Khoa", "BAA00004", "General Law", 8.5, 0, 8.0, 8.5);
     Score score4 = Score("23125061", "Pham Khoa", "PH212", "General Physic II", 8.5, 9.0, 0, 8.5);
 
@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent)
     course2.addStudent(student);
     course3.addStudent(student);
     course4.addStudent(student);
+
+
 
     course.addScore(score1);
     course2.addScore(score2);
