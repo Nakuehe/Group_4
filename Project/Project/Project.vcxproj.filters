@@ -27,6 +27,9 @@
     <ClCompile Include="Course.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SchoolYear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Class.h">
