@@ -52,12 +52,15 @@ public:
 
     explicit StudentView(QWidget *parent = nullptr, MainWindow* mainWindow = nullptr, User thisStudentUser = User(), Student thisStudent = Student(), UserManager *s_UserManager = nullptr);
     ~StudentView();
-    void closeEvent(QCloseEvent *event);
+
     void setStudent(std::string StudentID);  // Method to set the student
     void setupPage();  // Method to set up the page
     QString loadFont(const QString &resourcePath);  // Method to load the font
 
     void on_changePasswordButton_clicked();
+
+public slots:
+    void menu_btn_toggled(bool checked);
 
 private slots:
     void on_actionExit_triggered(QCloseEvent *event);
@@ -68,6 +71,11 @@ private slots:
     void on_course_btn2_toggled();
     void on_grade_btn1_toggled();
     void on_grade_btn2_toggled();
+    void resizeColumns();
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 
 private:
@@ -78,6 +86,7 @@ private:
     Student thisStudent;
     LinkedList<Course>* thisStudentCourse;
     LinkedList<Score>* thisStudentScore;
+    QStandardItemModel *model;
 
     void setUpCourseList();  // Method to set up the course list
     void setUpGradeView();  // Method to set up the grade view
