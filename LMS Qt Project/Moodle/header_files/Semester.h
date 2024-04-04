@@ -20,6 +20,8 @@ struct Semester {
     void addCourse(const Course& course){
         courses.add(course);
     }
+    Node<Course>* Find_Course();
+    void Update_Student_Result();
 };
 
 
