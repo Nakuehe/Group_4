@@ -5,7 +5,7 @@
 #include "LinkedList.h"
 #include "Score.h"
 #include"Student.h"
-
+#include "Semester.h"
 struct CourseInfo {
     std::string courseID;
     std::string courseName;
@@ -37,7 +37,7 @@ struct Course : public CourseInfo {
         students.remove(student); 
     }
 
-    void updateCourseInfo();
+    void updateCourseInfo(Semester& semester, int k);
 };
 
 #endif // COURSE_H
