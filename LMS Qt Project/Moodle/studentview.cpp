@@ -242,8 +242,6 @@ void StudentView::setUpCourseList() {
 
 void StudentView::setUpGradeView(){
 
-    //TODO: set up grade view design
-
     QString fontFamilyRegular = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
     QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
     QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
@@ -331,7 +329,7 @@ void StudentView::setUpGradeView(){
 
 
 
-    // Set the font of the header
+    
 
 }
 

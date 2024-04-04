@@ -3,6 +3,9 @@
 #include "./ui_mainwindow.h"
 #include "Course.h"
 #include "Student.h"
+#include "staffsideview.h"
+#include "testform.h"
+
 
 
 QString loadFont(const QString &resourcePath) {
@@ -136,10 +139,22 @@ void MainWindow::on_pushButtonLogin_clicked()
 
     if (m_userManager->authenticateUser(username, password)){
         User user = m_userManager->findUser(username, password);
-        Student student = m_userManager->findStudent(username);
-        StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
-        studentView->show();
-        this->hide(); // Hide the MainWindow
+        if(user.role == "student"){
+            Student student = m_userManager->findStudent(username);
+            StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
+            studentView->show();
+            this->hide(); // Hide the MainWindow
+        }
+        else{ //staff view
+            // StaffSideView* staffSideView = new StaffSideView(nullptr);
+            // staffSideView->show();
+            // this->hide(); // Hide the MainWindow
+
+            //Test Table
+            TestForm* testForm = new TestForm(nullptr);
+            testForm->show();
+            this->hide();
+        }
     } else {
         // Login failed
         QMessageBox::warning(this, "Login", "Username or password is incorrect.");

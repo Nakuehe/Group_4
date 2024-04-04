@@ -35,6 +35,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         usermanager.h
         changepassworddialog.h changepassworddialog.cpp changepassworddialog.ui
         courseinfowindow.cpp courseinfowindow.h courseinfowindow.ui
+        staffsideview.h staffsideview.cpp staffsideview.ui
+        testform.h testform.cpp testform.ui
 
     )
 
