@@ -35,6 +35,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         usermanager.h
         changepassworddialog.h changepassworddialog.cpp changepassworddialog.ui
 
+        header_files/semestercreator.h header_files/semestercreator.cpp
+        courseinfowindow.cpp courseinfowindow.h courseinfowindow.ui
+
+
     )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/header_files)

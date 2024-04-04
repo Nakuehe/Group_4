@@ -15,15 +15,16 @@ QString loadFont(const QString &resourcePath) {
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , m_userManager(QCoreApplication::applicationDirPath() + "/data/users.csv")
-    , SchoolYears()
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    m_userManager = new UserManager(QCoreApplication::applicationDirPath() + "/data/users.csv", QCoreApplication::applicationDirPath() + "/data/students.csv");
 
     setupPage();
-    m_userManager.loadUsers();
+    m_userManager->loadUsers();
+    m_userManager->loadStudents();
     
+
 
     Student student = Student("23125061", "Pham", "Khoa", "", "", "");
 
@@ -33,24 +34,26 @@ MainWindow::MainWindow(QWidget *parent)
     Course course4 = Course("PH212", "General Physic II", "23APCS02", "Do Duc Cuong", "4", 50, "SAT", "S4");
 
     Score score1 = Score("23125061", "Pham Khoa", "CS162", "Introduction to Programming", 8.5, 9.0, 0, 8.5);
-    Score score2 = Score("23125061", "Pham Khoa", "MTH252", "Calculus II", 8.5, 9.0, 0, 8.5);
+    Score score2 = Score("23125061", "Pham Khoa", "MTH252", "Calculus II", 8.5, 9.0, 10, 10);
     Score score3 = Score("23125061", "Pham Khoa", "BAA00004", "General Law", 8.5, 0, 8.0, 8.5);
     Score score4 = Score("23125061", "Pham Khoa", "PH212", "General Physic II", 8.5, 9.0, 0, 8.5);
 
 
     Semester semester = Semester("Fall");
 
-    course.addStudent(student);  
+    course.addStudent(student);
     course2.addStudent(student);
     course3.addStudent(student);
     course4.addStudent(student);
+
+
 
     course.addScore(score1);
     course2.addScore(score2);
     course3.addScore(score3);
     course4.addScore(score4);
 
-    semester.addCourse(course);  
+    semester.addCourse(course);
     semester.addCourse(course2);
     semester.addCourse(course3);
     semester.addCourse(course4);
@@ -133,9 +136,10 @@ void MainWindow::on_pushButtonLogin_clicked()
 
 
 
-    if (m_userManager.authenticateUser(username, password)){
-        User user = m_userManager.findUser(username, password);
-        StudentView* studentView = new StudentView(nullptr, this, user);
+    if (m_userManager->authenticateUser(username, password)){
+        User user = m_userManager->findUser(username, password);
+        Student student = m_userManager->findStudent(username);
+        StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
         studentView->show();
         this->hide(); // Hide the MainWindow
     } else {
@@ -227,7 +231,14 @@ MainWindow::~MainWindow()
     }
 
     // m_userManager.changePassword("23125061", "newpassword");
-    m_userManager.saveUsers();
+    m_userManager->saveUsers();
+    m_userManager->saveStudents();
+
+    m_userManager->deleteThis();
+
+    delete m_userManager;
+
+
 
     delete ui;
 }

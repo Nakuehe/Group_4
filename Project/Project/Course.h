@@ -26,8 +26,6 @@ struct Course : public CourseInfo {
     LinkedList<Student> students;
     LinkedList<Score> Scoreboard;
 
-    Course() : CourseInfo(){};
-
     Course(const std::string& courseID, const std::string& courseName, const std::string& className, const std::string& teacherName, const std::string& credits, int maxStudent, const std::string& day, const std::string& session)
         : CourseInfo(courseID, courseName, className, teacherName, credits, maxStudent, day, session) {}
 
@@ -39,12 +37,7 @@ struct Course : public CourseInfo {
         students.remove(student); 
     }
 
-    void addScore(const Score& score) {
-        Scoreboard.add(score); 
-    }  
-
     void updateCourseInfo();
-    void ExportStudentCSVFile();
 };
 
 #endif // COURSE_H

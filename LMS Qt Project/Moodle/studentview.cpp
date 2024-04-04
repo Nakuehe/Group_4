@@ -1,25 +1,39 @@
 #include "studentview.h"
 #include "ui_studentview.h"
-#include "mainwindow.h"
+#include "changepassworddialog.h"
+#include "courseinfowindow.h"
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QScrollBar>
+#include <QTimer>
+#include <QDebug>
+#include <QTableView>
+#include <QStandardItemModel>
+#include <QHeaderView>
+#include <QPainterPath>
+#include <QFont>
 
 
 
-
-StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStudent)
+StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStudentUser, Student thisStudent, UserManager* s_UserManager)
     : QMainWindow(parent)
-    , mainWindow(mainWindow)
     , ui(new Ui::StudentView)
+    , mainWindow(mainWindow)
+    , thisStudentUser(thisStudentUser)
     , thisStudent(thisStudent)
+    , s_UserManager(s_UserManager)
 
 {
     ui->setupUi(this);
 
+    thisStudentCourse = new LinkedList<Course>();
+    thisStudentScore = new LinkedList<Score>();
+
     setupPage();
-    setStudent(thisStudent.username);
+    setStudent(thisStudentUser.username);
     setUpCourseList();
     setUpGradeView();
+    setUpProfile();
 
     // for (int i = 0; i < thisStudentCourse.size(); i++) {
     //     ui->courseList->addItem(QString::fromStdString(thisStudentCourse.get(i).courseInfo.courseID));
@@ -52,14 +66,14 @@ void StudentView::setStudent(std::string StudentID){
                 LinkedList<Student> students = courses.get(k).students;
                 for (int h = 0; h < students.size(); h++) {
                     if (students.get(h).studentID == StudentID) {
-                        thisStudentCourse.add(courses.get(k));
+                        thisStudentCourse->add(courses.get(k));
                     }
                 }
 
                 LinkedList<Score> scores = courses.get(k).Scoreboard;
                 for (int h = 0; h < scores.size(); h++) {
                     if (scores.get(h).id_student == StudentID) {
-                        thisStudentScore.add(scores.get(h));
+                        thisStudentScore->add(scores.get(h));
                     }
                 }
             }
@@ -71,6 +85,9 @@ void StudentView::setStudent(std::string StudentID){
 StudentView::~StudentView()
 {
     delete ui;
+    delete thisStudentCourse;
+    delete thisStudentScore;
+    delete model;
 }
 
 
@@ -104,6 +121,8 @@ void StudentView::setupPage(){
 
     //hide full menu widget
     ui->full_menu_widget->hide();
+    connect(ui->menu_btn, &QPushButton::toggled, this, &StudentView::menu_btn_toggled);
+
 
     //initiallize page
     ui->stackedWidget->setCurrentIndex(1);
@@ -116,6 +135,11 @@ void StudentView::setupPage(){
     // Connect changePasswordButton's clicked signal to the slot
     connect(ui->changePasswordButton, &QPushButton::clicked, this, &StudentView::on_changePasswordButton_clicked);
     ui->changePasswordButton->setCursor(QCursor(Qt::PointingHandCursor));
+
+    //round avatar
+
+    RoundAvatarLabel *avatar = new RoundAvatarLabel(ui->avatar);
+    avatar->setGeometry(0, 0, ui->avatar->width(), ui->avatar->height()); // Set the geometry to match the QLabel
 }
 
 QString StudentView::loadFont(const QString &resourcePath) {
@@ -136,7 +160,7 @@ void StudentView::on_stackedWidget_currentChanged(int index) {
 }
 
 void StudentView::setUpCourseList() {
-    LinkedList<Course> curCourses = thisStudentCourse;
+    LinkedList<Course>* curCourses = thisStudentCourse;
     QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
     QString fontFamily2 = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
 
@@ -153,16 +177,18 @@ void StudentView::setUpCourseList() {
         btn_course->setStyleSheet("QPushButton:hover { color: #ff6600; } QPushButton:pressed { background-color: transparent; } QPushButton { text-align: left; font-weight: 500; color: #0D63E6; border: none; }");
         btn_course->setFont(QFont(fontFamily2, 16));
         btn_course->setCursor(QCursor(Qt::PointingHandCursor));
-        
+
         btn_course->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+
+
         label->setTextFormat(Qt::RichText);
         label->setStyleSheet("QWidget { border: none; }");
         widgetLayout->addWidget(btn_course);
         widgetLayout->addWidget(label);
         widgetLayout->setContentsMargins(10, 5, 5, 15);
 
-        if (i < curCourses.size()) { // If there are courses left
-            Course curCourse = curCourses.get(i);
+        if (i < curCourses->size()) { // If there are courses left
+            Course curCourse = curCourses->get(i);
             widget->setStyleSheet("QWidget { border: 2px solid lightgray; border-radius: 10px; background: white; } QWidget:hover { border-color: #0D3ECC; }");
             std::string courseName;
             courseName = courseName + curCourse.courseID + " - " + curCourse.courseName;
@@ -177,7 +203,12 @@ void StudentView::setUpCourseList() {
                 }
             }
             btn_course->setText(qCourseName);
-            
+
+            connect(btn_course, &QPushButton::clicked, this, [=]() {
+                CourseInfoWindow *window = new CourseInfoWindow(this, &curCourse, i);
+                window->show();
+            });
+
             std::string time;
             std::string session = curCourse.session;
             if (session == "S1") {
@@ -210,38 +241,229 @@ void StudentView::setUpCourseList() {
 }
 
 void StudentView::setUpGradeView(){
-    
-    QStandardItemModel *model = new QStandardItemModel(thisStudentScore.size(), 6, this); 
-    for (int row = 0; row < thisStudentScore.size(); ++row) {
-        QString courseID = QString::fromStdString(thisStudentScore.get(row).courseID);
-        QString courseName = QString::fromStdString(thisStudentScore.get(row).courseName);
-        QString midterm = thisStudentScore.get(row).mid_mark == 0 ? "_" : QString::number(thisStudentScore.get(row).mid_mark);
-        QString final = thisStudentScore.get(row).final_mark == 0 ? "_" : QString::number(thisStudentScore.get(row).final_mark);
-        QString bonus = thisStudentScore.get(row).other_mark == 0 ? "_" : QString::number(thisStudentScore.get(row).other_mark);
-        QString total = thisStudentScore.get(row).GPA == 0 ? "_" : QString::number(thisStudentScore.get(row).GPA);
+
+    //TODO: set up grade view design
+
+    QString fontFamilyRegular = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
+    QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
+    QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
+
+    model = new QStandardItemModel(thisStudentScore->size(), 6, this);
+    for (int row = 0; row < thisStudentScore->size(); ++row) {
+        QString courseID = QString::fromStdString(thisStudentScore->get(row).courseID);
+        QString courseName = QString::fromStdString(thisStudentScore->get(row).courseName);
+        QString midterm = thisStudentScore->get(row).mid_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).mid_mark);
+        QString final = thisStudentScore->get(row).final_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).final_mark);
+        QString bonus = thisStudentScore->get(row).other_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).other_mark);
+        QString total = thisStudentScore->get(row).GPA == 0 ? "_" : QString::number(thisStudentScore->get(row).GPA);
 
         QStandardItem *item1 = new QStandardItem(QString(courseID));
         model->setItem(row, 0, item1);
+
         QStandardItem *item2 = new QStandardItem(QString(courseName));
         model->setItem(row, 1, item2);
+
         QStandardItem *item3 = new QStandardItem(QString(midterm));
+        item3->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 2, item3);
+
         QStandardItem *item4 = new QStandardItem(QString(final));
+        item4->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 3, item4);
+
         QStandardItem *item5 = new QStandardItem(QString(bonus));
+        item5->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 4, item5);
+
         QStandardItem *item6 = new QStandardItem(QString(total));
+        item6->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 5, item6);
     }
 
-    QTableView *tableView = new QTableView;
-    tableView->setModel(model);
+    // // Set the stylesheet
+    // ui->grade_view_table->setStyleSheet("QTableView {"
+    //                                     "background-color: #E8E8E8;" // Set the background color
+    //                                     "gridline-color: #606060;" // Set the gridline color
+    //                                     "}"
+    //                                     "QTableView::item {"
+    //                                     "border: 1px solid #606060;" // Set the border of the items
+    //                                     "}"
+    //                                     "QTableView::item:selected {"
+    //                                     "background-color: #909090;" // Set the background color of the selected items
+    //                                     "}");
 
-    QWidget *page = ui->stackedWidget->widget(2); // Get the page at index 2
+    model->setHeaderData(0, Qt::Horizontal, tr("Course ID"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Course Name"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Midterm"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Final"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Bonus"));
+    model->setHeaderData(5, Qt::Horizontal, tr("Total"));
 
-    QVBoxLayout *layout = new QVBoxLayout(page); // Create a QVBoxLayout for the page
-    layout->addWidget(tableView); // Add the QTableView to the layout
-    page->setLayout(layout); // Set the layout of the page
+    ui->grade_view_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->grade_view_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+
+    ui->grade_view_table->setDragEnabled(false);
+    ui->grade_view_table->setDragDropOverwriteMode(false);
+    ui->grade_view_table->setDragDropMode(QAbstractItemView::NoDragDrop);
+    ui->grade_view_table->setSelectionMode(QAbstractItemView::NoSelection);
+
+    // QRect rect = ui->grade_view_table->viewport()->rect();
+    // QPainterPath path;
+    // // Adjust the rect to ensure the mask covers the entire viewport area
+    // rect.adjust(+1, +1, -1, -1);
+    // path.addRoundedRect(rect, 10, 10);
+    // QRegion mask = QRegion(path.toFillPolygon().toPolygon());
+    // ui->grade_view_table->viewport()->setMask(mask);
+
+
+    // Set the model
+    ui->grade_view_table->setModel(model);
+
+    // Make the table view uneditable
+    ui->grade_view_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    // Delay the resizing of the columns
+    QTimer::singleShot(0, this, SLOT(resizeColumns()));
+
+    // Set the font of the table
+    //ui->grade_view_table->horizontalHeader()->setStyleSheet("QHeaderView { font-size: 12pt; font-weight: bold;}");
+    ui->grade_view_table->setFont(QFont(fontFamilyRegular, 12));
+
+
+
+    // Set the font of the header
+
+}
+
+void StudentView::resizeColumns() {
+    ui->grade_view_table->resizeColumnsToContents();
+
+    bool isScrollBarVisible = ui->grade_view_table->verticalScrollBar()->isVisible();
+
+    // Calculate the total content width
+    int totalContentWidth = 0;
+    for (int i = 0; i < model->columnCount(); ++i) {
+        totalContentWidth += ui->grade_view_table->columnWidth(i);
+    }
+
+    //Calculate total width without tab
+    int totalAvailableWidth = ui->stackedWidget->width();
+    // qDebug() << "1. " << totalAvailableWidth;
+    // qDebug() << "2. " << ui->grade_view_table->viewport()->width();
+
+    int usedWidth = 0;
+
+    // Set the width of each column
+    int i;
+
+    for (i = 0; i < model->columnCount() - 1; ++i) {
+        int stretchFactor = ui->grade_view_table->columnWidth(i) * 100 / totalContentWidth;
+        int newWidth = stretchFactor * totalAvailableWidth / 100;
+        ui->grade_view_table->setColumnWidth(i, newWidth);
+        usedWidth += newWidth;
+    }
+
+    if(!isScrollBarVisible)
+        ui->grade_view_table->setColumnWidth(i, totalAvailableWidth - usedWidth - 35); // Set the width of the last column
+    else
+        ui->grade_view_table->setColumnWidth(i, totalAvailableWidth - usedWidth - 35 - ui->grade_view_table->verticalScrollBar()->width()); // Set the width of the last column
+
+}
+
+void StudentView::setUpProfile(){
+    QString fontFamilyRegular = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
+    QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
+    QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
+
+    //GroupBox
+    //--------------START----------------
+
+    // QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
+    // effect->setBlurRadius(60); // Adjust the blur radius
+    // effect->setOffset(0, 0); // Adjust the offset
+    // ui->groupBox->setGraphicsEffect(effect);
+
+    //--------------END----------------
+
+    //Greeting
+    //--------------START----------------
+
+    ui->greeting_label->setStyleSheet("QLabel{ text-align: left; font-weight: 500; color: #0D63E6; border: none; }");
+    ui->greeting_label->setFont(QFont(fontFamilyMedium, 18));
+    ui->greeting_label->setText("Hi, " + QString::fromStdString(thisStudent.getStudentFullName()));
+
+    //--------------END----------------
+
+    //Change password button
+    //--------------START----------------
+
+    ui->changePasswordButton->setFlat(true);
+    ui->changePasswordButton->setStyleSheet("QPushButton:hover { color: #ff6600; text-decoration: underline;} QPushButton:pressed { background-color: transparent; } QPushButton { text-align: center; font-weight: 500; color: #0D63E6; border: none; }");
+    ui->changePasswordButton->setFont(QFont(fontFamilyRegular, 10));
+    ui->changePasswordButton->setCursor(QCursor(Qt::PointingHandCursor));
+
+    //--------------END----------------
+
+    //user details
+    //--------------START----------------
+
+    ui->user_details_label->setStyleSheet("QLabel{ text-align: left; font-weight: 500; color: #0D63E6; border: none; }");
+    ui->user_details_label->setFont(QFont(fontFamilyRegular, 14));
+
+    //--------------END----------------
+
+    //Email address label
+    //--------------START----------------
+
+    ui->email_address_label1->setStyleSheet("QLabel{ text-align: left; font-weight: 500; border: none; }");
+    ui->email_address_label1->setFont(QFont(fontFamilyBold, 11));
+
+    ui->email_address_button1->setFlat(true);
+    ui->email_address_button1->setStyleSheet("QPushButton:hover { color: #ff6600; text-decoration: underline;} QPushButton:pressed { background-color: transparent; } QPushButton { text-align: left; font-weight: 500; color: #0D63E6; border: none; }");
+    ui->email_address_button1->setFont(QFont(fontFamilyRegular, 10));
+    ui->email_address_button1->setText(QString::fromStdString(thisStudent.studentID + "@student.hcmus.edu.vn"));
+    ui->email_address_button1->setCursor(QCursor(Qt::PointingHandCursor));
+
+    connect(ui->email_address_button1, &QPushButton::clicked, this, [=]() {
+    QString recipient = QString::fromStdString(thisStudent.studentID + "@student.hcmus.edu.vn");
+    QDesktopServices::openUrl(QUrl("mailto:" + recipient));
+});
+
+    //--------------END----------------
+
+    //Country label
+    //--------------START----------------
+
+    ui->country_label1->setStyleSheet("QLabel{ text-align: left; font-weight: 500; border: none; }");
+    ui->country_label1->setFont(QFont(fontFamilyBold, 11));
+    ui->country_label1->setText("Country");
+
+    ui->country_label2->setStyleSheet("QLabel{ text-align: left; font-weight: 500; border: none; }");
+    ui->country_label2->setFont(QFont(fontFamilyRegular, 10));
+    ui->country_label2->setText("Viet Nam");
+
+    //--------------END----------------
+
+    //City/town label
+    //--------------START----------------
+
+    ui->city_town_label1->setStyleSheet("QLabel{ text-align: left; font-weight: 500; border: none; }");
+    ui->city_town_label1->setFont(QFont(fontFamilyBold, 11));
+    ui->city_town_label1->setText("City/town");
+
+    ui->city_town_label2->setStyleSheet("QLabel{ text-align: left; font-weight: 500; border: none; }");
+    ui->city_town_label2->setFont(QFont(fontFamilyRegular, 10));
+    ui->city_town_label2->setText("Ho Chi Minh City");
+
+    //--------------END----------------
+
+
+
+}
+
+void StudentView::resizeEvent(QResizeEvent *event) {
+    QMainWindow::resizeEvent(event);  // Call the base class implementation
+    resizeColumns();  // Resize the columns
 }
 
 void StudentView::on_profile_btn1_toggled() {
@@ -269,6 +491,15 @@ void StudentView::on_grade_btn2_toggled() {
 }
 
 void StudentView::on_changePasswordButton_clicked() {
-    ChangePasswordDialog dialog(this, thisStudent, mainWindow->getUserManager());
+    ChangePasswordDialog dialog(this, thisStudentUser, s_UserManager);
     dialog.exec();
+}
+
+void StudentView::menu_btn_toggled(bool checked) {
+    // Show or hide the full_menu_widget and icon_only_widget
+    ui->icon_only_widget->setHidden(checked);
+    ui->full_menu_widget->setVisible(checked);
+
+    // Schedule resizeColumns to be called after the layout has been updated
+    QTimer::singleShot(0, this, &StudentView::resizeColumns);
 }

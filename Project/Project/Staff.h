@@ -3,7 +3,9 @@
 
 #include "User.h"
 #include <string>
-
+#include <vector>
+#include "Semester.h"
+#include "Course.h"
 struct Staff : public User {
     std::string staffID;
     std::string firstName;
@@ -22,7 +24,7 @@ struct Staff : public User {
 
     void viewStudentsInClass();
 
-    void viewCourses();
+    void viewCourses(Semester semester); 
 
     void viewStudentsInCourse();
 
