@@ -102,5 +102,6 @@
     "streambuf": "cpp",
     "typeinfo": "cpp"
   },
-  "cmake.sourceDirectory": "D:/MINH QUAN/Group_4/LMS Qt Project/Moodle"
+  "cmake.sourceDirectory": "D:/MINH QUAN/Group_4/LMS Qt Project/Moodle",
+  "C_Cpp.errorSquiggles": "disabled"
 }
