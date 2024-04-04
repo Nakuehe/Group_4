@@ -12,7 +12,7 @@ struct SchoolYear {
 
 
     void createYear();
-
+    void createSemester();
     void addSemester(const Semester& semester) {
         semesters.add(semester);
     }
