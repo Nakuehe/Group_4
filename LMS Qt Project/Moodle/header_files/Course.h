@@ -45,6 +45,7 @@ struct Course : public CourseInfo {
 
     void updateCourseInfo();
     void ExportStudentCSVFile();
+    void Export_Scoreboard_Form();
 };
 
 #endif // COURSE_H
