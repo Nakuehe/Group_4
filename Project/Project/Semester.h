@@ -10,8 +10,7 @@ struct Semester {
     std::string end_date, start_date;//.
     Semester(const std::string& semester)
         : semester(semester) {}
-
-    void createSemester(SchoolYear& sy(), Semester& s());//.
+    void createCourse(Semester& se());
     void addCourse(const Course& course){
         courses.add(course);
     }
