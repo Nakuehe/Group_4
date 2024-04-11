@@ -1,15 +1,17 @@
-#include <string> 
+
 #include "Course.h"
 #include "Student.h"
 #include "LinkedList.h"
 #include <QFile>
 #include <QTextStream>
 #include <QStringList>
-
+#include <QDebug>
+#include <QString>
 
 void Course::ExportStudentCSVFile()
 {
-    QString fileName = courseName + ".csv";
+    QString fileName = QString::fromStdString(courseName);
+    fileName.append(".csv");
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
@@ -23,12 +25,12 @@ void Course::ExportStudentCSVFile()
     Node<Student>* temp = students.getHead();
     while (temp != nullptr)
     {
-        fout << temp->data.studentID << ",";
-        fout << temp->data.firstName << ",";
-        fout << temp->data.lastName << ",";
-        fout << temp->data.gender << ",";
-        fout << temp->data.dateOfBirth << ",";
-        fout << temp->data.socialID << "\n";
+        fout << QString::fromStdString(temp->data.studentID) << ",";
+        fout << QString::fromStdString(temp->data.firstName) << ",";
+        fout << QString::fromStdString(temp->data.lastName) << ",";
+        fout << QString::fromStdString(temp->data.gender) << ",";
+        fout << QString::fromStdString(temp->data.dateOfBirth) << ",";
+        fout << QString::fromStdString(temp->data.socialID) << "\n";
         temp = temp->next;
     }
 
