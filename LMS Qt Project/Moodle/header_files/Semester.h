@@ -7,12 +7,11 @@ struct Semester {
     std::string semester;
      std::string end_date, start_date;
     LinkedList<Course> courses;
-     //Semester(const std::string& semester, const std::string& start_date, const std::string& end_date)
-         //: semester(semester), start_date(start_date), end_date(end_date){}
-    Semester(const std::string& semester)
-        : semester(semester) {}
-//Semester(const std::string& semester, const std::string& start_date, const std::string& end_date)
-//       : semester(semester), start_date(start_date), end_date(end_date){}
+
+
+    Semester(const std::string& semester = "", const std::string& end_date = "", const std::string& start_date = "")
+        : semester(semester), end_date(end_date), start_date(start_date) {}
+
     void addCourse(const Course& course){
         courses.add(course);
     }

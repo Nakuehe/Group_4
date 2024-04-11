@@ -35,9 +35,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
         usermanager.h
         changepassworddialog.h changepassworddialog.cpp changepassworddialog.ui
+        
+        header_files/semestercreator.h header_files/semestercreator.cpp
+        courseinfowindow.cpp courseinfowindow.h courseinfowindow.ui
+        staffsideview.h staffsideview.cpp staffsideview.ui
+        testform.h testform.cpp testform.ui
+        staffmainview.h staffmainview.cpp staffmainview.ui
 
-       	courseinfowindow.cpp courseinfowindow.h courseinfowindow.ui
-	header_files/semestercreator.h header_files/semestercreator.cpp
+
 
     )
 
