@@ -3,7 +3,9 @@
 
 #include "LinkedList.h"
 #include "Semester.h"
+
 #include "Class.h"
+#include <QInputDialog>
 
 struct SchoolYear {
     std::string year;
@@ -17,7 +19,35 @@ struct SchoolYear {
 
 
     void createYear();
-
+    void createSemester()
+    {
+        if(this->semesters.size()>2) return;
+        else
+        {
+        QString start_date = QInputDialog::getText(nullptr, "Input start date", "Enter start date:");
+        std::string start_date_std = start_date.toStdString();
+        QString end_date = QInputDialog::getText(nullptr, "Input end date", "Enter end date:");
+        std::string end_date_std = end_date.toStdString();
+        if(this->semesters.size()==0) {
+            Semester new_semester("Semester 1");
+            new_semester.start_date = start_date_std;
+            new_semester.end_date = end_date_std;
+            this->addSemester(new_semester);
+        }
+        else if(this->semesters.size()==1) {
+            Semester new_semester("Semester 2");
+            new_semester.start_date = start_date_std;
+            new_semester.end_date = end_date_std;
+            this->addSemester(new_semester);
+        }
+        else if(this->semesters.size()==2) {
+            Semester new_semester("Semester 3");
+            new_semester.start_date = start_date_std;
+            new_semester.end_date = end_date_std;
+            this->addSemester(new_semester);
+        }
+        }
+    }
     void addSemester(const Semester& semester) {
         semesters.add(semester);
     }
@@ -46,3 +76,5 @@ struct SchoolYear {
 };
 
 #endif //SCHOOLYEAR_H
+
+

@@ -112,6 +112,10 @@ public:
     bool isEmpty(){
         return count == 0;
     }
+    Node<T>* getHead()
+    {
+        return head;
+    }
 
     // ~LinkedList(){
     //     Node<LinkedList<T>*>* current = head;
