@@ -39,6 +39,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         courseinfowindow.cpp courseinfowindow.h courseinfowindow.ui
         staffsideview.h staffsideview.cpp staffsideview.ui
         testform.h testform.cpp testform.ui
+        staffmainview.h staffmainview.cpp staffmainview.ui
 
 
     )

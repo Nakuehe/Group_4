@@ -1,11 +1,16 @@
+#ifndef SCHOOLYEAR_H
+#define SCHOOLYEAR_H
+
 #include "LinkedList.h"
 #include "Semester.h"
+#include "Class.h"
 
 struct SchoolYear {
     std::string year;
     std::string start_date; // format: dd/mm/yyyy
     std::string end_date;
     LinkedList<Semester> semesters;
+    LinkedList<Class> classes;
 
     SchoolYear(const std::string& year ="", const std::string &start_date = "", const std::string &end_date = "")
         : year(year), start_date(start_date), end_date(end_date){}
@@ -18,4 +23,26 @@ struct SchoolYear {
     }
 
     void viewSemesters() const;
+
+    bool operator==(const SchoolYear& other) const {
+        return year == other.year;
+    }
+
+    bool operator!=(const SchoolYear& other) const {
+        return !(*this == other);
+    }
+
+    bool operator>(const SchoolYear& other) const {
+        return year > other.year;
+    }
+
+    bool operator<=(const SchoolYear& other) const {
+        return (year < other.year || year == other.year);
+    }
+
+    bool operator<(const SchoolYear& other) const {
+        return year < other.year;
+    }
 };
+
+#endif //SCHOOLYEAR_H
