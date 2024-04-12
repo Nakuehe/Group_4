@@ -85,3 +85,16 @@ void Course::updateCourseInfo(Semester& semester, int k)
 	}
 	}
 }
+void Course::delete_a_Course(Semester& semester)
+{
+	std::cout << "Input course ID you want to delete";
+	std::string s;
+	std::getline(std::cin, s);
+	for (int i = 0; i < semester.courses.size(); ++i)
+	{
+		if (semester.courses.get(i).courseID == s)
+		{
+			semester.courses.remove(semester.courses.get(i));
+		}
+	}
+}

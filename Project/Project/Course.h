@@ -38,6 +38,7 @@ struct Course : public CourseInfo {
     }
 
     void updateCourseInfo(Semester& semester, int k);
+    void delete_a_Course(Semester& semester);
 };
 
 #endif // COURSE_H
