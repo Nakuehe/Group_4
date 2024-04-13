@@ -21,6 +21,7 @@ class LinkedList {
 public:
     LinkedList() : head(nullptr), tail(nullptr), count(0) {}
 
+
     void add(const T& data){
          Node<T>* newNode = new Node<T>(data);
         if (head == nullptr) {
@@ -34,19 +35,19 @@ public:
 
     void addSorted(const T& data) {
         Node<T>* newNode = new Node<T>(data);
-        if (head == nullptr || *data <= *head->data) {
+        if (head == nullptr || data <= head->data) {
             newNode->next = head;
             head = newNode;
         } else {
             Node<T>* current = head;
-            while (current->next != nullptr && *current->next->data < *data) {
+            while (current->next != nullptr && current->next->data < data) {
                 current = current->next;
             }
             newNode->next = current->next;
             current->next = newNode;
         }
         count++;
-   }
+    }
 
     void remove(const T& data){
         Node<T>* current = head;
@@ -110,6 +111,10 @@ public:
 
     bool isEmpty(){
         return count == 0;
+    }
+    Node<T>* getHead()
+    {
+        return head;
     }
 
     // ~LinkedList(){
