@@ -1,5 +1,7 @@
 #include "Course.h"
 #include <iostream>
+#include <fstream>
+#include <string>
 void Course::updateCourseInfo(Semester& semester, int k)
 {
 	std::cout << "1.Course ID:" << semester.courses.get(k).courseID << std::endl; 
@@ -96,5 +98,30 @@ void Course::delete_a_Course(Semester& semester)
 		{
 			semester.courses.remove(semester.courses.get(i));
 		}
+	}
+}
+void Course::read_Students_from_CSV()
+{
+	std::ifstream fin;
+	fin.open("Students in Course.csv");
+	if (!fin.is_open()) return;
+	Student s();
+	std::string l;
+	fin.ignore();
+	while (fin.eof())
+	{
+		std::getline(fin, l, ',');
+		s().studentID = l;
+		std::getline(fin, l, ',');
+		s().firstName = l;
+		std::getline(fin, l, ',');
+		s().lastName = l;
+		std::getline(fin, l, ',');
+		s().gender = l;
+		std::getline(fin, l, ',');
+		s().dateOfBirth = l;
+		std::getline(fin, l, ',');
+		s().socialID = l;
+		students.add(s());
 	}
 }
