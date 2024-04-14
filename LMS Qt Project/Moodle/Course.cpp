@@ -37,3 +37,44 @@ void Course::ExportStudentCSVFile()
     file.close();
     qDebug() << "The Course Student list is exported to " << fileName;
 }
+
+void Course::Import_Scoreboard_To()
+{
+    QString fileName = QString("%1/%2-%3-scoreboard.csv").arg(QString::fromStdString(year)).arg(QString::fromStdString(courseID)).arg(QString::fromStdString(className));
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file for reading:" << file.errorString();
+        return;
+    }
+
+    QTextStream in(&file);
+
+    // Read and discard the title line
+    QString titleLine = in.readLine();// title midterm , final ,other mark
+
+    while (!in.atEnd())
+    {
+        QString line = in.readLine();
+        QStringList fields = line.split(',');
+
+        if (fields.size() < 5)
+        {
+            qDebug() << "Invalid line format, skipping line:" << line;
+            continue;
+        }
+
+        Score data;
+        data.id_student = fields[0].toStdString();
+        data.fullName = fields[1].toStdString();
+        data.mid_mark = fields[2].toFloat();
+        data.final_mark = fields[3].toFloat();
+        data.other_mark = fields[4].toFloat();
+        data.courseID = courseID;
+        data.courseName = courseName;
+        Scoreboard.add(data);
+    }
+
+    file.close();
+    qDebug() << "Import successfully";
+}

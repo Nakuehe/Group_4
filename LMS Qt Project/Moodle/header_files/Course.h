@@ -7,6 +7,8 @@
 #include"Student.h"
 
 struct CourseInfo {
+    std::string year;
+    std::string semester;
     std::string courseID;
     std::string courseName;
     std::string className;
@@ -46,6 +48,7 @@ struct Course : public CourseInfo {
     void updateCourseInfo();
     void ExportStudentCSVFile();
     void Export_Scoreboard_Form();
+    void Import_Scoreboard_To();
 };
 
 #endif // COURSE_H
