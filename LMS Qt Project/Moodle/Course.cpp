@@ -38,6 +38,37 @@ void Course::ExportStudentCSVFile()
     qDebug() << "The Course Student list is exported to " << fileName;
 }
 
+void Course::Export_Scoreboard_Form()
+{
+    Node<Score>* temp = Scoreboard.getHead();
+    if(temp == nullptr)
+    {
+        qDebug()<<"there is no student in a course\n";
+        return;
+    }
+    QString fileName = QString("%1/%2-%3-scoreboard.csv").arg(QString::fromStdString(year)).arg(QString::fromStdString(courseID)).arg(QString::fromStdString(className));
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        qDebug() << "Failed to open file for writing:" << file.errorString();
+        return;
+    }
+    QTextStream fout(&file);
+    fout<<"id,fullname,midterm,final,other\n";
+    while(temp != nullptr)
+    {
+        fout<<QString::fromStdString(temp->data.id_student)<<",";
+        fout<<QString::fromStdString(temp->data.fullName)<<",";
+        fout<<temp->data.mid_mark<<",";
+        fout<<temp->data.final_mark<<",";
+        fout<<temp->data.other_mark<<"\n";
+        temp = temp->next;
+    }
+    file.close();
+    qDebug()<<"Export Successfully\n";
+
+}
+
 void Course::Import_Scoreboard_To()
 {
     QString fileName = QString("%1/%2-%3-scoreboard.csv").arg(QString::fromStdString(year)).arg(QString::fromStdString(courseID)).arg(QString::fromStdString(className));
