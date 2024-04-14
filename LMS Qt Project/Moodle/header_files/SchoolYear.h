@@ -52,6 +52,10 @@ struct SchoolYear {
         semesters.add(semester);
     }
 
+    void addClass(const Class& this_class){
+        classes.add(this_class);
+    }
+
     void viewSemesters() const;
 
     bool operator==(const SchoolYear& other) const {

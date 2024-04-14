@@ -15,6 +15,12 @@
 #include "LinkedList.h"
 #include "SchoolYear.h"
 #include "usermanager.h"
+#include "staffsideview.h"
+
+
+class StudentView;
+class StaffSideView;
+
 
 
 QT_BEGIN_NAMESPACE
@@ -49,9 +55,14 @@ private slots:
 
     void setupPage();
 
+    void deleteStudentView(StudentView* studentView);
+
 
 private:
     UserManager* m_userManager;
     Ui::MainWindow *ui;
+
+    QList<StudentView*> studentViews;
+    QList<StaffSideView*> staffSideViews;
 };
 #endif // MAINWINDOW_H

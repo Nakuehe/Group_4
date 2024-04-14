@@ -45,16 +45,21 @@ StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStude
 
 void StudentView::closeEvent(QCloseEvent *event)
 {
+    
+
     int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to log out?",
                                    QMessageBox::Yes | QMessageBox::No);
 
     if (ret == QMessageBox::Yes) {
         this->close();
         mainWindow->showCentered(); // Show the MainWindow
+        emit closed();
     }
     else{
         event->ignore();
     }
+
+    
 }
 
 void StudentView::setStudent(std::string StudentID){
@@ -195,6 +200,7 @@ void StudentView::setUpCourseList() {
 
             connect(btn_course, &QPushButton::clicked, this, [=]() {
                 CourseInfoWindow *window = new CourseInfoWindow(this, &curCourse, i);
+                window->setAttribute(Qt::WA_DeleteOnClose);
                 window->show();
             });
 

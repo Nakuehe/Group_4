@@ -27,5 +27,6 @@
         <file>../Asset/staffViewAsset/semester1.png</file>
         <file>../Asset/staffViewAsset/semester2.png</file>
         <file>../Asset/staffViewAsset/addButton.png</file>
+        <file>../Asset/staffViewAsset/backButton.png</file>
     </qresource>
 </RCC>

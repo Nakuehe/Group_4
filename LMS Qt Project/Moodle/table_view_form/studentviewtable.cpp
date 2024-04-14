@@ -1,20 +1,21 @@
-#include "testform.h"
-#include "ui_testform.h"
+#include "studentviewtable.h"
+#include "table_view_form/ui_studentviewtable.h"
 #include <QFontDatabase>
 #include <QStandardItem>
 #include <QMainWindow>
 #include <QScrollBar>
 #include <QTimer>
 
-TestForm::TestForm(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::TestForm)
+StudentViewTable::StudentViewTable(QWidget *parent, const LinkedList<Student> *student_list)
+    : QMainWindow(parent)
+    , student_list(student_list)
+    , ui(new Ui::StudentViewTable)
 {
     ui->setupUi(this);
     setUpTableView();
 }
 
-QString TestForm::loadFont(const QString &resourcePath) {
+QString StudentViewTable::loadFont(const QString &resourcePath) {
     int id = QFontDatabase::addApplicationFont(resourcePath);
     if (id != -1) {
         return QFontDatabase::applicationFontFamilies(id).at(0);
@@ -23,42 +24,45 @@ QString TestForm::loadFont(const QString &resourcePath) {
 }
 
 
-void TestForm::setUpTableView(){
+void StudentViewTable::setUpTableView(){
 
     QString fontFamilyRegular = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
 
     // Set the font of the table
 
     // Create the model
-    model = new QStandardItemModel(4, 6, this);
-    for (int row = 0; row < 4; ++row) {
-        QString courseID = "CS162";
-        QString courseName = "Introduction to Computer Science II";
-        QString midterm = "9";
-        QString final = "10";
-        QString bonus = "_";
-        QString total = "10";
+    model = new QStandardItemModel(student_list->size(), 6, this);
+    for (int row = 0; row < student_list->size(); ++row) {
+        Student* this_student = &student_list->get(row);
 
-        QStandardItem *item1 = new QStandardItem(QString(courseID));
+        QString StudentID = QString::fromStdString(this_student->studentID);
+        QString firstName = QString::fromStdString(this_student->firstName);
+        QString lastName = QString::fromStdString(this_student->lastName);
+        QString gender = QString::fromStdString(this_student->gender);
+        QString dateOfBirth = QString::fromStdString(this_student->dateOfBirth);
+        QString socialID = QString::fromStdString(this_student->socialID);
+
+
+        QStandardItem *item1 = new QStandardItem(QString(StudentID));
         model->setItem(row, 0, item1);
 
-        QStandardItem *item2 = new QStandardItem(QString(courseName));
+        QStandardItem *item2 = new QStandardItem(QString(firstName));
         model->setItem(row, 1, item2);
 
-        QStandardItem *item3 = new QStandardItem(QString(midterm));
-        item3->setTextAlignment(Qt::AlignCenter);
+        QStandardItem *item3 = new QStandardItem(QString(lastName));
+        //item3->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 2, item3);
 
-        QStandardItem *item4 = new QStandardItem(QString(final));
+        QStandardItem *item4 = new QStandardItem(QString(gender));
         item4->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 3, item4);
 
-        QStandardItem *item5 = new QStandardItem(QString(bonus));
-        item5->setTextAlignment(Qt::AlignCenter);
+        QStandardItem *item5 = new QStandardItem(QString(dateOfBirth));
+        //item5->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 4, item5);
 
-        QStandardItem *item6 = new QStandardItem(QString(total));
-        item6->setTextAlignment(Qt::AlignCenter);
+        QStandardItem *item6 = new QStandardItem(QString(socialID));
+        //item6->setTextAlignment(Qt::AlignCenter);
         model->setItem(row, 5, item6);
     }
 
@@ -74,12 +78,12 @@ void TestForm::setUpTableView(){
     //                                     "background-color: #909090;" // Set the background color of the selected items
     //                                "}");
 
-    model->setHeaderData(0, Qt::Horizontal, tr("Course ID"));
-    model->setHeaderData(1, Qt::Horizontal, tr("Course Name"));
-    model->setHeaderData(2, Qt::Horizontal, tr("Midterm"));
-    model->setHeaderData(3, Qt::Horizontal, tr("Final"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Bonus"));
-    model->setHeaderData(5, Qt::Horizontal, tr("Total"));
+    model->setHeaderData(0, Qt::Horizontal, tr("Student ID"));
+    model->setHeaderData(1, Qt::Horizontal, tr("First Name"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Last Name"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Gender"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Date of birth"));
+    model->setHeaderData(5, Qt::Horizontal, tr("Social ID"));
 
 
     // set flexible size
@@ -115,7 +119,7 @@ void TestForm::setUpTableView(){
 
 }
 
-void TestForm::resizeColumns() {
+void StudentViewTable::resizeColumns() {
     ui->test_view_table->resizeColumnsToContents();
 
     bool isScrollBarVisible = ui->test_view_table->verticalScrollBar()->isVisible();
@@ -127,7 +131,7 @@ void TestForm::resizeColumns() {
     }
 
     //Calculate total width without tab
-    int totalAvailableWidth = this->width();
+    int totalAvailableWidth = this->width() - 2 * ui->test_view_table->frameWidth();
     // qDebug() << "1. " << totalAvailableWidth;
     // qDebug() << "2. " << ui->grade_view_table->viewport()->width();
 
@@ -143,18 +147,29 @@ void TestForm::resizeColumns() {
         usedWidth += newWidth;
     }
 
-    if(!isScrollBarVisible)
-        ui->test_view_table->setColumnWidth(i, totalAvailableWidth - usedWidth - 35); // Set the width of the last column
-    else
-        ui->test_view_table->setColumnWidth(i, totalAvailableWidth - usedWidth - 35 - ui->test_view_table->verticalScrollBar()->width()); // Set the width of the last colum
+    // Calculate remaining space
+    int remainingSpace = totalAvailableWidth - usedWidth;
+
+    // If scrollbar is visible, adjust the remaining space
+    if(isScrollBarVisible)
+        remainingSpace -= ui->test_view_table->verticalScrollBar()->width();
+
+    // Set the width of the last column based on the remaining space
+    ui->test_view_table->setColumnWidth(i, remainingSpace - 38);
 }
 
-void TestForm::resizeEvent(QResizeEvent *event) {
+void StudentViewTable::updateStudentList(const LinkedList<Student>* student_list) {
+    this->student_list = student_list;
+    // Update the table view with the new student list
+}
+
+void StudentViewTable::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);  // Call the base class implementation
     resizeColumns();  // Resize the columns
 }
 
-TestForm::~TestForm()
+
+StudentViewTable::~StudentViewTable()
 {
     delete ui;
 }
