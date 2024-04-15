@@ -38,6 +38,7 @@ struct Course : public CourseInfo {
     }
     void read_Students_from_CSV();
     void updateCourseInfo(Semester& semester, int k);
+    void add_a_student2Course();
     void delete_a_Course(Semester& semester);
 };
 

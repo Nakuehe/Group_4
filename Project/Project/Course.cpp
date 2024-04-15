@@ -87,6 +87,25 @@ void Course::updateCourseInfo(Semester& semester, int k)
 	}
 	}
 }
+void Course::add_a_student2Course()
+{
+	Student s();
+	std::string l;
+	std::cout << "Input new student information:" << std::endl;
+	std::cout << "Student ID:"; std::getline(std::cin, l);
+	s().studentID = l;
+	std::cout << "First name:"; std::getline(std::cin, l);
+	s().firstName = l;
+	std::cout << "Last name:"; std::getline(std::cin, l);
+	s().lastName = l;
+	std::cout << "Gender:"; std::getline(std::cin, l);
+	s().gender = l;
+	std::cout << "Date of birth:"; std::getline(std::cin, l);
+	s().dateOfBirth = l;
+	std::cout << "Social ID:"; std::getline(std::cin, l);
+	s().socialID = l;
+	students.add(s());
+}
 void Course::delete_a_Course(Semester& semester)
 {
 	std::cout << "Input course ID you want to delete";
