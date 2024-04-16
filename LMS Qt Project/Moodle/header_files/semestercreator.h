@@ -1,6 +1,5 @@
 #ifndef SEMESTERCREATOR_H
 #define SEMESTERCREATOR_H
-
 #include <QApplication>
 #include <QWidget>
 #include <QLabel>
@@ -10,7 +9,6 @@
 #include <QVBoxLayout>
 #include <QString>
 #include <QDebug>
-
 class SemesterCreator : public QWidget {
 public:
     SemesterCreator(QWidget *parent = nullptr) : QWidget(parent) {
@@ -50,7 +48,6 @@ private slots:
         QString schoolYear = schoolYearEdit->text();
         QDate startDate = startDateEdit->date();
         QDate endDate = endDateEdit->date();
-
         // Call function to create semester based on the passed school year
         qDebug() << "Creating semester" << semester << "for school year" << schoolYear
                  << "with start date" << startDate.toString("yyyy-MM-dd")
