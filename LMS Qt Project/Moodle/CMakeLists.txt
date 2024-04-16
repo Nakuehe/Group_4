@@ -43,6 +43,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         staffmainview.h staffmainview.cpp staffmainview.ui
 
         header_files/dateinputdialog.h header_files/dateinputdialog.cpp
+        header_files/courseinputdialog.h header_files/courseinputdialog.cpp
 
 
 
