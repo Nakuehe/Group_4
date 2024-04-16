@@ -36,8 +36,10 @@ struct Course : public CourseInfo {
     void removeStudent(const Student& student) {
         students.remove(student); 
     }
-
+    void read_Students_from_CSV();
     void updateCourseInfo(Semester& semester, int k);
+    void add_a_student2Course();
+    void delete_a_Course(Semester& semester);
 };
 
 #endif // COURSE_H

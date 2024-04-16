@@ -1,5 +1,7 @@
 #include "Course.h"
 #include <iostream>
+#include <fstream>
+#include <string>
 void Course::updateCourseInfo(Semester& semester, int k)
 {
 	std::cout << "1.Course ID:" << semester.courses.get(k).courseID << std::endl; 
@@ -83,5 +85,62 @@ void Course::updateCourseInfo(Semester& semester, int k)
 		std::cout << "Input is false!!";
 		return;
 	}
+	}
+}
+void Course::add_a_student2Course()
+{
+	Student s();
+	std::string l;
+	std::cout << "Input new student information:" << std::endl;
+	std::cout << "Student ID:"; std::getline(std::cin, l);
+	s().studentID = l;
+	std::cout << "First name:"; std::getline(std::cin, l);
+	s().firstName = l;
+	std::cout << "Last name:"; std::getline(std::cin, l);
+	s().lastName = l;
+	std::cout << "Gender:"; std::getline(std::cin, l);
+	s().gender = l;
+	std::cout << "Date of birth:"; std::getline(std::cin, l);
+	s().dateOfBirth = l;
+	std::cout << "Social ID:"; std::getline(std::cin, l);
+	s().socialID = l;
+	students.add(s());
+}
+void Course::delete_a_Course(Semester& semester)
+{
+	std::cout << "Input course ID you want to delete";
+	std::string s;
+	std::getline(std::cin, s);
+	for (int i = 0; i < semester.courses.size(); ++i)
+	{
+		if (semester.courses.get(i).courseID == s)
+		{
+			semester.courses.remove(semester.courses.get(i));
+		}
+	}
+}
+void Course::read_Students_from_CSV()
+{
+	std::ifstream fin;
+	fin.open("Students in Course.csv");
+	if (!fin.is_open()) return;
+	Student s();
+	std::string l;
+	fin.ignore();
+	while (fin.eof())
+	{
+		std::getline(fin, l, ',');
+		s().studentID = l;
+		std::getline(fin, l, ',');
+		s().firstName = l;
+		std::getline(fin, l, ',');
+		s().lastName = l;
+		std::getline(fin, l, ',');
+		s().gender = l;
+		std::getline(fin, l, ',');
+		s().dateOfBirth = l;
+		std::getline(fin, l, ',');
+		s().socialID = l;
+		students.add(s());
 	}
 }

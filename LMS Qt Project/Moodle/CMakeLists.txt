@@ -44,6 +44,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         table_view_form/studentviewtable.h table_view_form/studentviewtable.cpp table_view_form/studentviewtable.ui
 
     )
+        header_files/dateinputdialog.h header_files/dateinputdialog.cpp
+
 
     set_target_properties(Moodle PROPERTIES
         QT_PROPERTY_SOURCES
