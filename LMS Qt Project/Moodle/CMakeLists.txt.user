@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 12.0.2, 2024-04-16T16:06:04. -->
+
+<!-- Written by QtCreator 12.0.2, 2024-04-15T20:16:27. -->
+
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -108,6 +110,9 @@
 -DCMAKE_C_COMPILER:FILEPATH=%{Compiler:Executable:C}
 -DCMAKE_CXX_COMPILER:FILEPATH=%{Compiler:Executable:Cxx}
 -DCMAKE_CXX_FLAGS_INIT:STRING=%{Qt:QML_DEBUG_FLAG}</value>
+
+    <value type="QString" key="CMake.Source.Directory">D:\MINH QUAN\Group_4\LMS Qt Project\Moodle</value>
+
     <value type="int" key="EnableQmlDebugging">0</value>
     <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">D:\Group_4\LMS Qt Project\build-Moodle-Desktop_Qt_6_6_2_MinGW_64_bit-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
@@ -182,7 +187,9 @@
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/Group_4/LMS Qt Project/build-Moodle-Desktop_Qt_6_6_2_MinGW_64_bit-Debug</value>
+
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">D:/MINH QUAN/Group_4/LMS Qt Project/build-Moodle-Desktop_Qt_6_6_2_MinGW_64_bit-Debug</value>
+
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
