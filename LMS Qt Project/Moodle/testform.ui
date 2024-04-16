@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TestForm</class>
+ <widget class="QWidget" name="TestForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QTableView" name="test_view_table">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>256</width>
+     <height>192</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QHeaderView {
+    font-size: 12pt;
+    font-weight: bold;
+    background-color: #FFFFFF; /* Match the table's background color */
+	gridline-color: #606060;
+}
+
+QTableCornerButton::section {
+	border: 1px solid #606060;
+	 background-color: lightgray;
+ }
+
+QHeaderView::section{
+	border: 1px solid #606060
+}
+
+QTableView {
+    border: 2px solid lightgray;
+    background-color: #FFFFFF;
+}
+
+QTableView::item{
+	border: 1px solid #606060
+}
+
+QTableView::item:selected {
+	background-color: #909090;
+}
+
+</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="student_list_box">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>230</y>
+     <width>211</width>
+     <height>51</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -34,11 +34,18 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         data.qrc
         data/user.csv header_files/Class.h header_files/Course.h header_files/LinkedList.h header_files/SchoolYear.h header_files/Score.h header_files/Semester.h header_files/Staff.h header_files/Student.h header_files/User.h CMakeLists.txt data.qrc font.qrc images.qrc main.cpp mainwindow.cpp mainwindow.h mainwindow.ui studentview.cpp studentview.h studentview.ui
         header_files/Class.h header_files/Course.h header_files/LinkedList.h header_files/SchoolYear.h header_files/Score.h header_files/Semester.h header_files/Staff.h header_files/Student.h header_files/User.h
+
         usermanager.h
         changepassworddialog.h changepassworddialog.cpp changepassworddialog.ui
-
+        
         header_files/semestercreator.h header_files/semestercreator.cpp
         courseinfowindow.cpp courseinfowindow.h courseinfowindow.ui
+        staffsideview.h staffsideview.cpp staffsideview.ui
+        testform.h testform.cpp testform.ui
+        staffmainview.h staffmainview.cpp staffmainview.ui
+
+        header_files/dateinputdialog.h header_files/dateinputdialog.cpp
+
 
 
     )

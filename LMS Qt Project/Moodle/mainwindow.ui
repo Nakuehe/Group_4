@@ -115,7 +115,7 @@ border: 0px
         <pixmap resource="images.qrc">:/asset/loginpageAsset/FITLogo.png</pixmap>
        </property>
        <property name="scaledContents">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QGroupBox" name="groupBox">

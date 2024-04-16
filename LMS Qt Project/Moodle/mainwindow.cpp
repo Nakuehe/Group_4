@@ -3,6 +3,9 @@
 #include "./ui_mainwindow.h"
 #include "Course.h"
 #include "Student.h"
+#include "staffsideview.h"
+#include "testform.h"
+
 
 
 QString loadFont(const QString &resourcePath) {
@@ -39,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     Score score4 = Score("23125061", "Pham Khoa", "PH212", "General Physic II", 8.5, 9.0, 0, 8.5);
 
 
-    Semester semester = Semester("Fall");
+    Semester semester = Semester("Semester 1");
 
     course.addStudent(student);
     course2.addStudent(student);
@@ -58,10 +61,13 @@ MainWindow::MainWindow(QWidget *parent)
     semester.addCourse(course3);
     semester.addCourse(course4);
 
-    SchoolYear year = SchoolYear("2023-2024");
+    SchoolYear year = SchoolYear("2023-2024", "01/09/2023", "01/06/2024");
     year.addSemester(semester);
 
-    this->SchoolYears.add(year);
+    SchoolYear year2 = SchoolYear("2022-2023", "01/09/2022", "01/06/2023");
+
+    this->SchoolYears.addSorted(year);
+    this->SchoolYears.addSorted(year2);
 
     
 }
@@ -111,7 +117,6 @@ void MainWindow::setupPage(){
 
     // Connect the clicked signal to a slot
     connect(ui->pushButtonShowPassword, &QPushButton::clicked, this, &MainWindow::togglePasswordVisibility);
-    connect(ui->lineEditPassword, &QLineEdit::returnPressed, this, &MainWindow::on_pushButtonLogin_clicked);
 
     // for placeholder Qlabel
     font2.setPointSize(15);
@@ -138,10 +143,22 @@ void MainWindow::on_pushButtonLogin_clicked()
 
     if (m_userManager->authenticateUser(username, password)){
         User user = m_userManager->findUser(username, password);
-        Student student = m_userManager->findStudent(username);
-        StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
-        studentView->show();
-        this->hide(); // Hide the MainWindow
+        if(user.role == "student"){
+            Student student = m_userManager->findStudent(username);
+            StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
+            studentView->show();
+            this->hide(); // Hide the MainWindow
+        }
+        else{ //staff view
+            StaffSideView* staffSideView = new StaffSideView(nullptr, this, &SchoolYears);
+            staffSideView->show();
+            this->hide(); // Hide the MainWindow
+
+            // //Test Table
+            // TestForm* testForm = new TestForm(nullptr);
+            // testForm->show();
+            // this->hide();
+        }
     } else {
         // Login failed
         QMessageBox::warning(this, "Login", "Username or password is incorrect.");

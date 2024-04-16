@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>956</width>
+    <width>1134</width>
     <height>614</height>
    </rect>
   </property>
@@ -550,8 +550,8 @@ QPushButton{
        <widget class="QWidget" name="main_view" native="true">
         <property name="minimumSize">
          <size>
-          <width>690</width>
-          <height>590</height>
+          <width>900</width>
+          <height>612</height>
          </size>
         </property>
         <layout class="QGridLayout" name="gridLayout_3">
@@ -648,12 +648,12 @@ QPushButton:hover{
              </property>
              <property name="minimumSize">
               <size>
-               <width>500</width>
-               <height>400</height>
+               <width>720</width>
+               <height>560</height>
               </size>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="page">
               <layout class="QGridLayout" name="gridLayout_7">
@@ -1021,6 +1021,12 @@ background-color: #FFFFFF</string>
                </property>
                <item row="0" column="0">
                 <widget class="QTableView" name="grade_view_table">
+                 <property name="minimumSize">
+                  <size>
+                   <width>800</width>
+                   <height>550</height>
+                  </size>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true">QHeaderView {
     font-size: 12pt;

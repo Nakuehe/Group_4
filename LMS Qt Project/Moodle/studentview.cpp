@@ -35,6 +35,8 @@ StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStude
     setUpGradeView();
     setUpProfile();
 
+    this->adjustSize();
+
     // for (int i = 0; i < thisStudentCourse.size(); i++) {
     //     ui->courseList->addItem(QString::fromStdString(thisStudentCourse.get(i).courseInfo.courseID));
     // }
@@ -90,20 +92,6 @@ StudentView::~StudentView()
     delete model;
 }
 
-
-
-void StudentView::on_actionExit_triggered(QCloseEvent *event)
-{
-    int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to log out?",
-                                   QMessageBox::Yes | QMessageBox::No);
-
-    if (ret == QMessageBox::Yes) {
-        QMainWindow::closeEvent(event);
-        parentWidget()->show(); // Show the MainWindow
-    } else if (ret == QMessageBox::No) {
-        event->ignore(); // Ignore the close event
-    }
-}
 
 
 
@@ -169,6 +157,7 @@ void StudentView::setUpCourseList() {
     int row = 0, col = 0;
     for (int i = 0; i < 9; i++) { // Loop 9 times for 9 slots
         QWidget *widget = new QWidget(this);
+        widget->setFixedSize(280, 170);
         QVBoxLayout *widgetLayout = new QVBoxLayout(this);
         widget->setLayout(widgetLayout);
         QLabel *label = new QLabel(this);
@@ -241,8 +230,6 @@ void StudentView::setUpCourseList() {
 }
 
 void StudentView::setUpGradeView(){
-
-    //TODO: set up grade view design
 
     QString fontFamilyRegular = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
     QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
@@ -331,7 +318,7 @@ void StudentView::setUpGradeView(){
 
 
 
-    // Set the font of the header
+    
 
 }
 
@@ -499,6 +486,7 @@ void StudentView::menu_btn_toggled(bool checked) {
     // Show or hide the full_menu_widget and icon_only_widget
     ui->icon_only_widget->setHidden(checked);
     ui->full_menu_widget->setVisible(checked);
+    this->adjustSize();
 
     // Schedule resizeColumns to be called after the layout has been updated
     QTimer::singleShot(0, this, &StudentView::resizeColumns);

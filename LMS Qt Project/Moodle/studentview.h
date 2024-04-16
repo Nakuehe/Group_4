@@ -49,7 +49,7 @@ class StudentView : public QMainWindow
     Q_OBJECT
 
 public:
-
+    //(nullptr, this, user, student, this->m_userManager)
     explicit StudentView(QWidget *parent = nullptr, MainWindow* mainWindow = nullptr, User thisStudentUser = User(), Student thisStudent = Student(), UserManager *s_UserManager = nullptr);
     ~StudentView();
 
@@ -63,7 +63,7 @@ public slots:
     void menu_btn_toggled(bool checked);
 
 private slots:
-    void on_actionExit_triggered(QCloseEvent *event);
+
     void on_stackedWidget_currentChanged(int index);
     void on_profile_btn1_toggled();
     void on_profile_btn2_toggled();
