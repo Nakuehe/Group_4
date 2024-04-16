@@ -109,3 +109,8 @@ void Course::Import_Scoreboard_To()
     file.close();
     qDebug() << "Import successfully";
 }
+
+void Course::updateStudentResult()
+{
+    
+}

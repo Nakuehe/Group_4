@@ -10,6 +10,7 @@ struct Score{
    float mid_mark{-1};
    float final_mark{-1};
    float other_mark{-1};
+   float total_mark{-1};
    float GPA{-1}; 
 
    //build constructor
