@@ -1,10 +1,12 @@
 #include "staffmainview.h"
 #include "staffsideview.h"
 #include "ui_staffmainview.h"
+#include "Semester.h"
 #include "table_view_form/studentviewtable.h"
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QLabel>
+#include <QFileDialog>
 
 StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, SchoolYear* this_year)
     : QMainWindow(parent)
@@ -154,6 +156,7 @@ void StaffMainView::setUpSemesters(){
             btn_semester->setText(QString::fromStdString(curSemester->semester));
 
             connect(btn_semester, &QPushButton::clicked, this, [=]() {
+                this_semester = curSemester;
                 setUpCourses(&(curSemester->courses));
                 ui->stackedWidget->setCurrentIndex(2);
             });
@@ -230,6 +233,7 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
 
             //course function implementation
             connect(btn_course, &QPushButton::clicked, this, [this, i, curCourse]() {
+                this_course = curCourse;
                 courseViewSetUp(*curCourse);
                 ui->stackedWidget->setCurrentIndex(3);
             });
@@ -250,7 +254,7 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
             text = text + "<p style=\"color:#0D63E6;\">" + time + " " + curCourse->day + "</p>";
             text = text + "<p>Teacher: " + "<font color=#0D63E6>" + curCourse->teacherName + "</font></p>";
             label->setText(QString::fromStdString(text));
-        } else if (i == curCourses->size()) { // If this is the "Back" button
+        } else if (i == curCourses->size() + 1) { // If this is the "Back" button
             widget->setStyleSheet("QWidget { border: 2px solid lightgray; border-radius: 10px; background: white; } QWidget:hover { border-color: #0D3ECC; }");
             btn_course->setIcon(QIcon(":/Asset/staffViewAsset/backButton.png"));    
             btn_course->setIconSize(QSize(48, 48)); // Adjust size as needed
@@ -263,7 +267,24 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
             connect(btn_course, &QPushButton::clicked, this, [=]() {
                 ui->stackedWidget->setCurrentIndex(0);
             });
-        } else { // If there are no courses left
+        }
+
+        else if(i == curCourses->size()){
+            widget->setStyleSheet("QWidget { border: 2px solid lightgray; border-radius: 10px; background: white; } QWidget:hover { border-color: #0D3ECC; }");
+            btn_course->setIcon(QIcon(":/Asset/staffViewAsset/addButton.png"));
+            btn_course->setIconSize(QSize(48, 48)); // Adjust size as needed
+
+            widgetLayout->removeWidget(label); // Remove the label from the layout
+            label->deleteLater(); // Schedule the label for deletion
+            btn_course->setStyleSheet("QPushButton:hover { color: #ff6600; } QPushButton:pressed { background-color: transparent; } QPushButton { text-align: center; font-weight: 500; color: #0D63E6; border: none; }");
+            //widgetLayout->setAlignment(btn_course, Qt::AlignCenter); // Center the button
+
+            connect(btn_course, &QPushButton::clicked, this, [=]() {
+                //to be implemented
+            });
+        }
+
+        else { // If there are no courses left
             widget->setStyleSheet("QWidget { border: none; }"); // Set the style to invisible
             btn_course->hide(); // Hide the button
             label->hide(); // Hide the label
@@ -339,6 +360,33 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
     {
         StudentViewTable* studentViewTable = new StudentViewTable(this, student_list);
         studentViewTable->show();
+        }
+
+        if(ui->course_function_list->row(item) == 6) // if the sixth item was clicked
+        {
+        QString filename = QFileDialog::getOpenFileName(
+            this,
+            "Open CSV file",
+            "data", // Start in the 'data' directory
+            "CSV Files (*.csv);;All Files (*)" // Filter for .csv files
+            );
+
+        if (!filename.isEmpty()) {
+            this->this_course->read_students_from_CSV(filename);
+        }
+        }
+
+        if(ui->course_function_list->row(item) == 8) // if the sixth item was clicked
+    {
+        int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to delete this course?",
+                                    QMessageBox::Yes | QMessageBox::No);
+
+        if (ret == QMessageBox::Yes) {
+            this_semester->removeCourse(*this_course);
+            this_course = nullptr;
+            setUpCourses(&(this_semester->courses));
+            ui->stackedWidget->setCurrentIndex(2);
+        }
     }
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)

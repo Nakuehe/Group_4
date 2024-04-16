@@ -13,6 +13,7 @@
 class StaffSideView;
 class SchoolYear;
 class StudentViewTable;
+class Semester;
 
 namespace Ui {
 class StaffMainView;
@@ -44,6 +45,8 @@ private:
     Ui::StaffMainView *ui;
     StaffSideView* staffSideView;
     SchoolYear* this_year;
+    Semester* this_semester;
+    Course* this_course;
     LinkedList<Student>* student_list = nullptr;
 
     QList<Course> courses;

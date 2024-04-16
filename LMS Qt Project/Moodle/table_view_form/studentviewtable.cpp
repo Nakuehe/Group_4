@@ -117,6 +117,7 @@ void StudentViewTable::setUpTableView(){
 
     // Set the font of the header
 
+    resizeColumns();
 }
 
 void StudentViewTable::resizeColumns() {
@@ -152,7 +153,7 @@ void StudentViewTable::resizeColumns() {
 
     // If scrollbar is visible, adjust the remaining space
     if(isScrollBarVisible)
-        remainingSpace -= ui->test_view_table->verticalScrollBar()->width();
+        remainingSpace -= (ui->test_view_table->verticalScrollBar()->width());
 
     // Set the width of the last column based on the remaining space
     ui->test_view_table->setColumnWidth(i, remainingSpace - 38);
