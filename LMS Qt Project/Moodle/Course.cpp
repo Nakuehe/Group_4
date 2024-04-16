@@ -101,6 +101,7 @@ void Course::Import_Scoreboard_To()
         data.mid_mark = fields[2].toFloat();
         data.final_mark = fields[3].toFloat();
         data.other_mark = fields[4].toFloat();
+        data.total_mark  = 0.4*data.final_mark + 0.25*data.mid_mark + 0.35*data.other_mark;
         data.courseID = courseID;
         data.courseName = courseName;
         Scoreboard.add(data);
@@ -112,5 +113,5 @@ void Course::Import_Scoreboard_To()
 
 void Course::updateStudentResult()
 {
-    
+
 }
