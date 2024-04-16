@@ -77,9 +77,11 @@ struct Semester {
     void addCourse(const Course& course){
         courses.add(course);
     }
-    void removeCourse(const Course& course) {
+
+    void removeCourse(const Course& course){
         courses.remove(course);
     }
+
     Node<Course>* Find_Course();
     void Update_Student_Result();
 };
