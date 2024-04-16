@@ -8,6 +8,8 @@
 #include "QInputDialog"
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QFile>
+#include <QTextStream>
 struct CourseInfo {
     std::string courseID;
     std::string courseName;
@@ -32,7 +34,44 @@ struct Course : public CourseInfo {
 
     Course(const std::string& courseID, const std::string& courseName, const std::string& className, const std::string& teacherName, const std::string& credits, int maxStudent, const std::string& day, const std::string& session)
         : CourseInfo(courseID, courseName, className, teacherName, credits, maxStudent, day, session) {}
+    void read_students_from_CSV(const QString& filename)
+    {
+        QFile file(filename);
+        if (!file.open(QIODevice::ReadOnly)) {
+            qWarning() << "Error opening file:" << filename;
+            return;
+        }
+        QTextStream in(&file);
+        //in.setCodec("UTF-8");
+        in.readLine();
 
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            QStringList studentData = line.split(',');
+
+            if (studentData.size() != 6) {
+                qWarning() << "Invalid data format in line:" << line;
+                continue;
+            }
+            std::string studentID_std = studentData[0].toStdString();
+            std::string firstName_std = studentData[1].toStdString();
+            std::string lastName_std = studentData[2].toStdString();
+            std::string gender_std = studentData[3].toStdString();
+            std::string dateOfBirth_std = studentData[4].toStdString();
+            std::string socialID_std = studentData[5].toStdString();
+            Student student;
+            student.studentID = studentID_std;
+            student.firstName = firstName_std;
+            student.lastName = lastName_std;
+            student.gender = gender_std;
+            student.dateOfBirth = dateOfBirth_std;
+            student.socialID = socialID_std;
+
+            students.add(student);
+        }
+
+        file.close();
+    }
     void addStudent(const Student& student) {
         students.add(student); 
     }
