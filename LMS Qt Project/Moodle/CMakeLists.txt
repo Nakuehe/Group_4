@@ -47,6 +47,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         header_files/dateinputdialog.h header_files/dateinputdialog.cpp
         scoreboarddialog.h scoreboarddialog.cpp scoreboarddialog.ui
         updateStudentResult.h updateStudentResult.cpp updateStudentResult.ui
+        scoreboradclass.h scoreboradclass.cpp scoreboradclass.ui
 
 
 
