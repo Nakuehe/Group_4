@@ -106,6 +106,19 @@ void Course::add_a_student2Course()
 	s().socialID = l;
 	students.add(s());
 }
+void Course::remove_a_studentFromCourse()
+{
+	std::string l;
+	std::cout << "Input student ID removed:";
+	std::getline(std::cin, l);
+	for (int i = 0; i < students.size(); ++i)
+	{
+		if (students.get(i).studentID == l)
+		{
+			students.remove(students.get(i));
+		}
+	}
+}
 void Course::delete_a_Course(Semester& semester)
 {
 	std::cout << "Input course ID you want to delete";
