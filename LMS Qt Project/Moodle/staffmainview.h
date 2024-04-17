@@ -3,11 +3,17 @@
 
 #include <QMainWindow>
 #include <QFontDatabase>
+#include "Course.h"
+#include "Class.h"
+#include "LinkedList.h"
+#include <QListWidgetItem>
 
 
 
 class StaffSideView;
 class SchoolYear;
+class StudentViewTable;
+class Semester;
 
 namespace Ui {
 class StaffMainView;
@@ -39,9 +45,22 @@ private:
     Ui::StaffMainView *ui;
     StaffSideView* staffSideView;
     SchoolYear* this_year;
+    Semester* this_semester;
+    Course* this_course;
+    LinkedList<Student>* student_list = nullptr;
+
+    QList<Course> courses;
+    QList<Class> classes;
 
     void setUpPage();
     void setUpSemesters();
+    void setUpClasses();
+    void setUpCourses(LinkedList<Course>* curCourses);
+    void courseViewSetUp(Course& this_course);
+    void classViewSetup(Class& this_class);
+
+    void onCourseListItemClicked(QListWidgetItem* item);
+    void onClassListItemClicked(QListWidgetItem* item);
 
 };
 

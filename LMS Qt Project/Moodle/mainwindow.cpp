@@ -1,10 +1,11 @@
 #include "mainwindow.h"
-#include "studentview.h"
 #include "./ui_mainwindow.h"
 #include "Course.h"
 #include "Student.h"
-#include "staffsideview.h"
 #include "testform.h"
+#include "studentview.h"
+#include "staffsideview.h"
+#include "Class.h"
 
 
 
@@ -29,7 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
     
 
 
-    Student student = Student("23125061", "Pham", "Khoa", "", "", "");
+    Student student = Student("23125061", "Pham", "Gia Hung Khoa", "Male", "09/05/2005", "049205000001");
+    Student student2 = Student("23125093", "Le", "Thi Tuyet Tram", "Female", "14/04/2005", "0xx105xxxxxx");
 
     Course course = Course("CS162", "Introduction to Programming", "23APCS02", "Dinh Ba Tien", "4", 50, "WED", "S3");
     Course course2 = Course("MTH252", "Calculus II", "23APCS02", "Phan Thi My Duyen", "4", 50, "FRI", "S1");
@@ -41,14 +43,22 @@ MainWindow::MainWindow(QWidget *parent)
     Score score3 = Score("23125061", "Pham Khoa", "BAA00004", "General Law", 8.5, 0, 8.0, 8.5);
     Score score4 = Score("23125061", "Pham Khoa", "PH212", "General Physic II", 8.5, 9.0, 0, 8.5);
 
+    Class class1 = Class("23APCS02");
+    Class class2 = Class("23CLC03");
+
+
 
     Semester semester = Semester("Semester 1");
 
     course.addStudent(student);
+    course.addStudent(student2);
+
     course2.addStudent(student);
     course3.addStudent(student);
     course4.addStudent(student);
 
+    class1.addStudent(student);
+    // class2.addStudent(student);
 
 
     course.addScore(score1);
@@ -63,6 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     SchoolYear year = SchoolYear("2023-2024", "01/09/2023", "01/06/2024");
     year.addSemester(semester);
+    year.addClass(class1);
+    year.addClass(class2);
 
     SchoolYear year2 = SchoolYear("2022-2023", "01/09/2022", "01/06/2023");
 
@@ -145,12 +157,25 @@ void MainWindow::on_pushButtonLogin_clicked()
         User user = m_userManager->findUser(username, password);
         if(user.role == "student"){
             Student student = m_userManager->findStudent(username);
-            StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
-            studentView->show();
-            this->hide(); // Hide the MainWindow
-        }
+        StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
+        studentViews.append(studentView);
+        connect(studentView, &QObject::destroyed, this, [=]() {
+            studentViews.removeOne(studentView);
+        });
+        connect(studentView, &StudentView::closed, this, [=]() {
+            deleteStudentView(studentView);
+        });
+
+        studentView->show();
+        this->hide(); // Hide the MainWindow
+    }
         else{ //staff view
             StaffSideView* staffSideView = new StaffSideView(nullptr, this, &SchoolYears);
+            staffSideViews.append(staffSideView);
+            connect(staffSideView, &QObject::destroyed, this, [=]() {
+                staffSideViews.removeOne(staffSideView);
+            });
+            staffSideView->setAttribute(Qt::WA_DeleteOnClose);
             staffSideView->show();
             this->hide(); // Hide the MainWindow
 
@@ -224,6 +249,9 @@ void MainWindow::togglePasswordVisibility()
     ui->lineEditPassword->setFont(font); // Apply the font changes
 }
 
+void MainWindow::deleteStudentView(StudentView* studentView) {
+    delete studentView;
+}
 
 MainWindow::~MainWindow()
 {
@@ -243,6 +271,18 @@ MainWindow::~MainWindow()
                 while (!course.students.isEmpty()) {
                     course.students.removeFirst();
                 }
+
+                while(!course.Scoreboard.isEmpty()){
+                    course.Scoreboard.removeFirst();
+                }
+            }
+        }
+
+        while(!year.classes.isEmpty()){
+            Class this_class = year.classes.removeFirst();
+
+            while(!this_class.students.isEmpty()){
+                this_class.students.removeFirst();
             }
         }
     }

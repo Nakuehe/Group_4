@@ -73,6 +73,9 @@ private slots:
     void on_grade_btn2_toggled();
     void resizeColumns();
 
+signals:
+    void closed();
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
     void closeEvent(QCloseEvent *event) override;
