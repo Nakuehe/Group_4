@@ -4,6 +4,7 @@
 #include "Semester.h"
 #include "table_view_form/studentviewtable.h"
 #include "scoreboarddialog.h"
+#include "updateStudentResult.h"
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QLabel>
@@ -363,7 +364,7 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
         studentViewTable->show();
         }
 
-        if(ui->course_function_list->row(item) == 6) // if the sixth item was clicked
+    if(ui->course_function_list->row(item) == 6) // if the sixth item was clicked
         {
         QString filename = QFileDialog::getOpenFileName(
             this,
@@ -377,7 +378,7 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
         }
         }
 
-        if(ui->course_function_list->row(item) == 8) // if the sixth item was clicked
+    if(ui->course_function_list->row(item) == 8) // if the sixth item was clicked
     {
         int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to delete this course?",
                                     QMessageBox::Yes | QMessageBox::No);
@@ -393,6 +394,11 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
     {
         ScoreboardDialog* dialog = new ScoreboardDialog(this,this_course,0);
         dialog->show();
+    }
+    if(ui->course_function_list->row(item) == 3) // update student result
+    {
+        updateStudentResult* dialog_up = new updateStudentResult(this,this_course);
+        dialog_up->show();
     }
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
