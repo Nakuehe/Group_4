@@ -45,21 +45,24 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
     Node<Student>* temp = students->getHead();
 
 
-    qDebug()<<"-1";
+    if(thisSemester == nullptr)
+    {
+        qDebug()<<"No Semester";
+        return;
+    }
     ui->tableWidget_Scoreboard->clear();
+
     ui->tableWidget_Scoreboard->setRowCount(students->size());
-    qDebug()<<"-2";
-    ui->tableWidget_Scoreboard->setColumnCount(thisSemester->courses.size());
+
+    ui->tableWidget_Scoreboard->setColumnCount(thisSemester->courses.size()+4);
     int i = 0;
-    qDebug()<<"0";
+    Node<Course>* tempCourse = nullptr;
     while(temp != nullptr)
     {
-        qDebug()<<"1st";
+
         ui->tableWidget_Scoreboard->setItem(i,0,new QTableWidgetItem(QString::fromStdString(temp->data.studentID)));
         ui->tableWidget_Scoreboard->setItem(i,1,new QTableWidgetItem(QString::fromStdString(temp->data.getStudentFullName())));
-        qDebug()<<"1";
-        Node<Course>* tempCourse = thisSemester->courses.getHead();
-        qDebug()<<"2";
+        tempCourse = thisSemester->courses.getHead();
         for(int j = 0;j<thisSemester->courses.size();j++)
         {
             Node<Score>* it = tempCourse->data.Scoreboard.getHead();
@@ -84,41 +87,44 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
             tempCourse = tempCourse->next;
         }
         float GPA = semesterGPA(temp);
+        qDebug()<<GPA;
         if(GPA == -1)
         {
             QTableWidgetItem* mark = new QTableWidgetItem(QString("N/A"));
             mark->setTextAlignment(Qt::AlignCenter);
-            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-2,mark);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()+2,mark);
         }
         else
         {
             QTableWidgetItem* mark = new QTableWidgetItem(QString::number(GPA,'f',2));
             mark->setTextAlignment(Qt::AlignCenter);
-            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-2,mark);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()+2,mark);
         }
         float mGPA = overallGPA(temp);
         if(mGPA == -1)
         {
             QTableWidgetItem* mark = new QTableWidgetItem(QString("N/A"));
             mark->setTextAlignment(Qt::AlignCenter);
-            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-1,mark);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()+3,mark);
         }
         else
         {
             QTableWidgetItem* mark = new QTableWidgetItem(QString::number(mGPA,'f',2));
             mark->setTextAlignment(Qt::AlignCenter);
-            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-1,mark);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()+3,mark);
         }
         i++;
         temp = temp->next;
     }
     QStringList headerLabels;
+    headerLabels << "ID"<<"Full Name";
     Node<Course>* ourse = thisSemester->courses.getHead();
     for(int k = 0;k<thisSemester->courses.size();k++)
     {
         headerLabels<<QString::fromStdString(ourse->data.courseID);
         ourse = ourse->next;
     }
+    headerLabels << "GPA"<<"OverallGPA";
     ui->tableWidget_Scoreboard->setHorizontalHeaderLabels(headerLabels);
     ui->tableWidget_Scoreboard->horizontalHeader()->setStyleSheet("QHeaderView { font-size: 12pt; font-weight: bold; }");
 
@@ -207,11 +213,13 @@ float ScoreboardClass::semesterGPA(Node<Student>* st)
         }
         if(it != nullptr)
         {
+            it->data.total_mark = it->data.final_mark*0.4 + it->data.mid_mark*0.25 + it->data.other_mark*0.35;
             sumMark += (it->data.total_mark)*std::stoi(temp->data.credits);
             sumCredit += std::stoi(temp->data.credits);
         }
         temp = temp->next;
     }
+    qDebug()<<"I am here";
     return sumMark/sumCredit;
 }
 
@@ -238,6 +246,7 @@ float ScoreboardClass::overallGPA(Node<Student>* st)
                 }
                 if(it != nullptr)
                 {
+                     it->data.total_mark = it->data.final_mark*0.4 + it->data.mid_mark*0.25 + it->data.other_mark*0.35;
                     sumMark += (it->data.total_mark)*std::stoi(temp->data.credits);
                     sumCredit += std::stoi(temp->data.credits);
                 }
