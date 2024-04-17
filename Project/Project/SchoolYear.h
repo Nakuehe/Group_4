@@ -10,12 +10,12 @@ struct SchoolYear {
     SchoolYear(const std::string& year)
         : year(year) {}
 
-    void createYear(SchoolYear& sy());
+    void createYear();
 
     void addSemester(const Semester& semester) {
         semesters.add(semester);
     }
-
+    void createSemester(SchoolYear& sy());
     void viewSemesters() const;
 };
 #endif
