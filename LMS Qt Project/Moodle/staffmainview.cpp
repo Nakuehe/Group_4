@@ -10,11 +10,13 @@
 #include <QCloseEvent>
 #include <QLabel>
 #include <QFileDialog>
+#include <QDebug>
 
-StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, SchoolYear* this_year)
+StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, SchoolYear* this_year,LinkedList<SchoolYear>* SchoolYears)
     : QMainWindow(parent)
     , staffSideView(staffSideView)
     , this_year(this_year)
+    , SchoolYears(SchoolYears)
     , ui(new Ui::StaffMainView)
 {
     ui->setupUi(this);
@@ -408,6 +410,12 @@ void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
     {
         StudentViewTable* studentViewTable = new StudentViewTable(this, student_list);
         studentViewTable->show();
+    }
+    if(ui->class_function_list->row(item) == 3) // view scoreboard of class
+    {
+
+        ScoreboardClass* scoreboardClass = new ScoreboardClass(this,student_list,SchoolYears,this_semester);
+        scoreboardClass->show();
     }
 }
 

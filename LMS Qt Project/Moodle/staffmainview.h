@@ -24,7 +24,7 @@ class StaffMainView : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit StaffMainView(QWidget *parent = nullptr, StaffSideView* staffSideView = nullptr, SchoolYear* this_year = nullptr);
+    explicit StaffMainView(QWidget *parent = nullptr, StaffSideView* staffSideView = nullptr, SchoolYear* this_year = nullptr,LinkedList<SchoolYear>* SchoolYears = nullptr);
     ~StaffMainView();
 
     QString loadFont(const QString &resourcePath);
@@ -48,7 +48,7 @@ private:
     Semester* this_semester;
     Course* this_course;
     LinkedList<Student>* student_list = nullptr;
-
+    LinkedList<SchoolYear>* SchoolYears;
     QList<Course> courses;
     QList<Class> classes;
 

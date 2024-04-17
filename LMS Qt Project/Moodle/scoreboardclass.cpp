@@ -1,6 +1,7 @@
 #include "scoreboardclass.h"
 #include "ui_scoreboardclass.h"
 #include "LinkedList.h"
+#include "Course.h"
 //#include "Score.h"
 #include <QMessageBox>
 #include <QCloseEvent>
@@ -15,14 +16,16 @@
 #include <QFontDatabase>
 #include <QString>
 #include <string>
+#include <QStringList>
 
-ScoreboardClass::ScoreboardClass(QWidget *parent, Class* thisClass, LinkedList<SchoolYear>* SchoolYears,Semester* thisSemester)
+ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students , LinkedList<SchoolYear>* SchoolYears,Semester* thisSemester )
     : QDialog(parent)
-    , thisClass(thisClass)
+    , students(students)
     , SchoolYears(SchoolYears)
     , thisSemester(thisSemester)
     , ui(new Ui::ScoreboardClass)
 {
+
     ui->setupUi(this);
     // Set fixed size
     this->setFixedSize(this->size());
@@ -39,7 +42,88 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, Class* thisClass, LinkedList<S
     QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
     QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
 
+    Node<Student>* temp = students->getHead();
 
+
+    qDebug()<<"-1";
+    ui->tableWidget_Scoreboard->clear();
+    ui->tableWidget_Scoreboard->setRowCount(students->size());
+    qDebug()<<"-2";
+    ui->tableWidget_Scoreboard->setColumnCount(thisSemester->courses.size());
+    int i = 0;
+    qDebug()<<"0";
+    while(temp != nullptr)
+    {
+        qDebug()<<"1st";
+        ui->tableWidget_Scoreboard->setItem(i,0,new QTableWidgetItem(QString::fromStdString(temp->data.studentID)));
+        ui->tableWidget_Scoreboard->setItem(i,1,new QTableWidgetItem(QString::fromStdString(temp->data.getStudentFullName())));
+        qDebug()<<"1";
+        Node<Course>* tempCourse = thisSemester->courses.getHead();
+        qDebug()<<"2";
+        for(int j = 0;j<thisSemester->courses.size();j++)
+        {
+            Node<Score>* it = tempCourse->data.Scoreboard.getHead();
+            while(it != nullptr)
+            {
+                if(it->data.id_student == temp->data.studentID)
+                    break;
+                it = it->next;
+            }
+            if(it != nullptr)
+            {
+                QTableWidgetItem* mark = new QTableWidgetItem(QString::number(it->data.final_mark,'f',2));
+                mark->setTextAlignment(Qt::AlignCenter);
+                ui->tableWidget_Scoreboard->setItem(i,2+j,mark);
+            }
+            else
+            {
+                QTableWidgetItem* mark = new QTableWidgetItem(QString("N/A"));
+                mark->setTextAlignment(Qt::AlignCenter);
+                ui->tableWidget_Scoreboard->setItem(i,2+j,mark);
+            }
+            tempCourse = tempCourse->next;
+        }
+        float GPA = semesterGPA(temp);
+        if(GPA == -1)
+        {
+            QTableWidgetItem* mark = new QTableWidgetItem(QString("N/A"));
+            mark->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-2,mark);
+        }
+        else
+        {
+            QTableWidgetItem* mark = new QTableWidgetItem(QString::number(GPA,'f',2));
+            mark->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-2,mark);
+        }
+        float mGPA = overallGPA(temp);
+        if(mGPA == -1)
+        {
+            QTableWidgetItem* mark = new QTableWidgetItem(QString("N/A"));
+            mark->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-1,mark);
+        }
+        else
+        {
+            QTableWidgetItem* mark = new QTableWidgetItem(QString::number(mGPA,'f',2));
+            mark->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidget_Scoreboard->setItem(i,thisSemester->courses.size()-1,mark);
+        }
+        i++;
+        temp = temp->next;
+    }
+    QStringList headerLabels;
+    Node<Course>* ourse = thisSemester->courses.getHead();
+    for(int k = 0;k<thisSemester->courses.size();k++)
+    {
+        headerLabels<<QString::fromStdString(ourse->data.courseID);
+        ourse = ourse->next;
+    }
+    ui->tableWidget_Scoreboard->setHorizontalHeaderLabels(headerLabels);
+    ui->tableWidget_Scoreboard->horizontalHeader()->setStyleSheet("QHeaderView { font-size: 12pt; font-weight: bold; }");
+
+    ui->tableWidget_Scoreboard->setFont(QFont(fontFamilyRegular, 12));
+    resizeColumns();
 
 }
 void ScoreboardClass::resizeColumns() {
@@ -106,7 +190,7 @@ ScoreboardClass::~ScoreboardClass()
     delete ui;
 }
 
-float ScoreboardClass::semesterGPA(Student *st)
+float ScoreboardClass::semesterGPA(Node<Student>* st)
 {
     Node<Course>* temp = thisSemester->courses.getHead();
     float sumMark = 0;
@@ -117,7 +201,7 @@ float ScoreboardClass::semesterGPA(Student *st)
 
         while(it != nullptr)
         {
-            if(it->data.id_student == st->studentID)
+            if(it->data.id_student == st->data.studentID)
                 break;
             it = it->next;
         }
@@ -131,7 +215,7 @@ float ScoreboardClass::semesterGPA(Student *st)
     return sumMark/sumCredit;
 }
 
-float ScoreboardClass::overallGPA(Student *st)
+float ScoreboardClass::overallGPA(Node<Student>* st)
 {
     Node<SchoolYear>* cur_year = SchoolYears->getHead();
     float sumMark = 0;
@@ -148,7 +232,7 @@ float ScoreboardClass::overallGPA(Student *st)
 
                 while(it != nullptr)
                 {
-                    if(it->data.id_student == st->studentID)
+                    if(it->data.id_student == st->data.studentID)
                         break;
                     it = it->next;
                 }

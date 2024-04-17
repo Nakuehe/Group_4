@@ -71,10 +71,9 @@ ScoreboardDialog::ScoreboardDialog(QWidget *parent, Course* thisCourse, int inde
            QTableWidgetItem* other_mark = new QTableWidgetItem(QString::number(temp->data.other_mark,'f',2));
            other_mark->setTextAlignment(Qt::AlignCenter);
            ui->tableWidget_Scoreboard->setItem(i,4,other_mark);
-           if(temp->data.total_mark == -1)
-           {
-               temp->data.total_mark = temp->data.mid_mark*0.25 + temp->data.final_mark*0.40 + temp->data.other_mark*0.35;
-           }
+
+           temp->data.total_mark = temp->data.mid_mark*0.25 + temp->data.final_mark*0.40 + temp->data.other_mark*0.35;
+
            QTableWidgetItem* total_mark = new QTableWidgetItem(QString::number(temp->data.total_mark,'f',2));
            total_mark->setTextAlignment(Qt::AlignCenter);
            ui->tableWidget_Scoreboard->setItem(i,5,total_mark);

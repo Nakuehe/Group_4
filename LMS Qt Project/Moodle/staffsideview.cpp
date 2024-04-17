@@ -92,7 +92,7 @@ void StaffSideView::onConfirmButtonClicked()
         QString check_name = QString::fromStdString(schoolYear->year);
 
         if (check_name == selectedSchoolYear) {
-            StaffMainView* staffMainView = new StaffMainView(nullptr, this, schoolYear);
+            StaffMainView* staffMainView = new StaffMainView(nullptr, this, schoolYear,SchoolYears);
             staffMainView->show();
             this->hide(); // Hide the MainWindow
             break;

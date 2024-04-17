@@ -19,11 +19,11 @@ class ScoreboardClass : public QDialog
 {
     Q_OBJECT
 public:
-    explicit ScoreboardClass(QWidget *parent = nullptr, Class* thisClass = nullptr, LinkedList<SchoolYear>* SchoolYears = nullptr,Semester* thisSemester = nullptr);
+    explicit ScoreboardClass(QWidget *parent = nullptr, LinkedList<Student>* students = nullptr, LinkedList<SchoolYear>* SchoolYears = nullptr,Semester* thisSemester = nullptr);
     ~ScoreboardClass();
     QString loadFont(const QString &resourcePath);
-    float semesterGPA(Student* st);
-    float overallGPA(Student* st);
+    float semesterGPA(Node<Student>* st);
+    float overallGPA(Node<Student>* st);
 signals:
     void shown();
     void hidden();
@@ -36,8 +36,9 @@ protected:
     void hideEvent(QHideEvent *event) override;
 private:
     Ui::ScoreboardClass *ui;
-    Class* thisClass;
+   // Class* thisClass;
     Semester* thisSemester;
+    LinkedList<Student>* students ;
     LinkedList<SchoolYear>* SchoolYears;
 
 };
