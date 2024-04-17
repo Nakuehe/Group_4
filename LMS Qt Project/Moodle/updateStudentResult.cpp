@@ -124,7 +124,7 @@ void updateStudentResult::on_pushButton_Accept_clicked()
     QString mid_mark = ui->lineEdit_mid->text();
     QString final_mark = ui->lineEdit_final->text();
     QString other_mark = ui->lineEdit_other->text();
-    while(mid_mark == QString("") || final_mark == QString("") || other_mark == QString(""))
+    if(mid_mark == QString("") || final_mark == QString("") || other_mark == QString(""))
     {
         QMessageBox::warning(this, "Error", "Please fill all column update");
     }
