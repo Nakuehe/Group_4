@@ -100,7 +100,18 @@ struct Course : public CourseInfo {
     void removeStudent(const Student& student) {
         students.remove(student); 
     }
-
+    void remove_a_studentFromCourse()
+    {
+        QString studentID = QInputDialog::getText(nullptr, "Input student ID removed", "Enter student ID:");
+        std::string studentID_std = studentID.toStdString();
+        for(int i=0;i<this->students.size();i++)
+        {
+            if(this->students.get(i).studentID==studentID_std)
+            {
+                this->students.remove(this->students.get(i));
+            }
+        }
+    }
     void addScore(const Score& score) {
         Scoreboard.add(score); 
     }  
