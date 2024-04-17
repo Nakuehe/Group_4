@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QString>
 #include "QComboBox"
+
 class COURSEINPUTDIALOG: public QDialog {
     Q_OBJECT
 public:
