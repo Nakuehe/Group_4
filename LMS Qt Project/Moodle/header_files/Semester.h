@@ -10,7 +10,6 @@
 #include <QPushButton>
 #include "LinkedList.h"
 #include "QInputDialog"
-#include "Course.h"
 #include "QFormLayout"
 #include "LinkedList.h"
 #include "Course.h"

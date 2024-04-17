@@ -15,6 +15,7 @@
 #include <QComboBox>
 #include <QDialog>
 
+#include "courseinputdialog.h"
 struct CourseInfo {
     std::string year;
     std::string semester;
@@ -103,7 +104,36 @@ struct Course : public CourseInfo {
             this->students.add(new_stu);
         }
     }
+    void updateCourseInfo()
+    {
+        COURSEINPUTDIALOG dialog;
+        dialog.courseIDEdit->setText(QString::fromStdString(this->courseID));
+        dialog.courseNameEdit->setText(QString::fromStdString(this->courseName));
+        dialog.classNameEdit->setText(QString::fromStdString(this->className));
+        dialog.teacherNameEdit->setText(QString::fromStdString(this->teacherName));
+        dialog.creditsEdit->setText(QString::fromStdString(this->credits));
+        dialog.maxStudentsEdit->setText(QString::number(this->maxStudent));
+        dialog.DayComboBox->setCurrentText(QString::fromStdString(this->day));
+        //int index = dialog.DayComboBox->findText(QString::fromStdString(this->day), Qt::MatchExactly);
+        //if (index != -1)
 
+        //    dialog.DayComboBox->setCurrentIndex(index);
+        dialog.SessionComboBox->setCurrentText(QString::fromStdString(this->session));
+        //    int rindex = dialog.SessionComboBox->findText(QString::fromStdString(this->session), Qt::MatchExactly);
+        //    if (rindex != -1)
+        //        dialog.SessionComboBox->setCurrentIndex(rindex);
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            this->courseID = dialog.getCourseID().toStdString();
+            this->courseName = dialog.getCourseName().toStdString();
+            this->className = dialog.getClassName().toStdString();
+            this->teacherName = dialog.getTeacherName().toStdString();
+            this->credits = dialog.getcredits().toStdString();
+            this->maxStudent = dialog.getMaxStudent().toInt();
+            this->day = dialog.getDay().toStdString();
+            this->session = dialog.getSession().toStdString();
+        }
+    }
     bool operator==(const Course&other) const{
         return courseID == other.courseID;
     }
@@ -159,7 +189,6 @@ struct Course : public CourseInfo {
         Scoreboard.add(score);
     }
 
-    void updateCourseInfo();
     void ExportStudentCSVFile();
     void Export_Scoreboard_Form();
     void Import_Scoreboard_To();
