@@ -10,10 +10,11 @@
 
 
 
-class StaffSideView;
+
 class SchoolYear;
-class StudentViewTable;
 class Semester;
+class StudentViewTable;
+class StaffSideView;
 
 namespace Ui {
 class StaffMainView;
