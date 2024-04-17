@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>956</width>
+    <width>1134</width>
     <height>614</height>
    </rect>
   </property>
@@ -541,7 +541,7 @@ QPushButton:hover{
               </size>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>3</number>
              </property>
              <widget class="QWidget" name="page_1">
               <layout class="QGridLayout" name="gridLayout_4"/>
@@ -563,12 +563,195 @@ QPushButton:hover{
                <property name="spacing">
                 <number>5</number>
                </property>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_3">
+              <layout class="QGridLayout" name="gridLayout_5"/>
+             </widget>
+             <widget class="QWidget" name="page">
+              <layout class="QGridLayout" name="gridLayout_6">
                <item row="0" column="0">
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string/>
-                 </property>
-                </widget>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <item>
+                    <widget class="QLabel" name="course_label">
+                     <property name="styleSheet">
+                      <string notr="true">text-align: center; font-weight: 500; color: #0D63E6; border: none;</string>
+                     </property>
+                     <property name="text">
+                      <string>TextLabel</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_2">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="backButton">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>27</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton { text-align: center; font-weight: 500; color: #0D63E6; border: 1px solid gray; background-color: white; border-radius: 5px;  }
+
+QPushButton::hover{color: #ff6600; text-decoration: underline;}</string>
+                     </property>
+                     <property name="text">
+                      <string>Back</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QListWidget" name="course_function_list">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: white;
+border: 1px solid lightgray</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>View lists of students in this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>View scoreboard of this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Update course infomation</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Update a student's result</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Add a student to this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Remove a student from this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Import list of students to this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Export list of students from this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Delete this course</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_4">
+              <layout class="QGridLayout" name="gridLayout_9">
+               <item row="0" column="0">
+                <layout class="QGridLayout" name="gridLayout_7">
+                 <item row="0" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_3">
+                   <item>
+                    <widget class="QLabel" name="class_name">
+                     <property name="styleSheet">
+                      <string notr="true">text-align: center; font-weight: 500; color: #0D63E6; border: none;</string>
+                     </property>
+                     <property name="text">
+                      <string>TextLabel</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_3">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="backButton2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>80</width>
+                       <height>27</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton { text-align: center; font-weight: 500; color: #0D63E6; border: 1px solid gray; background-color: white; border-radius: 5px;  }
+
+QPushButton::hover{color: #ff6600; text-decoration: underline;}</string>
+                     </property>
+                     <property name="text">
+                      <string>Back</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QListWidget" name="class_function_list">
+                   <property name="styleSheet">
+                    <string notr="true">background-color: white;
+border: 1px solid lightgray</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Add a student to this class (first year student)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Import a list of student to this class</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>View list of students in this class</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>View the scoreboard of this class</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>

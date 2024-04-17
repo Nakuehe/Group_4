@@ -100,7 +100,10 @@
     "sstream": "cpp",
     "stdexcept": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "optional": "cpp",
+    "string_view": "cpp",
+    "iomanip": "cpp"
   },
   "cmake.sourceDirectory": "D:/MINH QUAN/Group_4/LMS Qt Project/Moodle",
   "C_Cpp.errorSquiggles": "disabled"

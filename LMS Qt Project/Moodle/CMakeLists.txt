@@ -43,7 +43,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         staffsideview.h staffsideview.cpp staffsideview.ui
         testform.h testform.cpp testform.ui
         staffmainview.h staffmainview.cpp staffmainview.ui
-
+        table_view_form/studentviewtable.h table_view_form/studentviewtable.cpp table_view_form/studentviewtable.ui
         header_files/dateinputdialog.h header_files/dateinputdialog.cpp
         scoreboarddialog.h scoreboarddialog.cpp scoreboarddialog.ui
 
@@ -52,8 +52,18 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 
 
 
+    )
 
 
+    set_target_properties(Moodle PROPERTIES
+        QT_PROPERTY_SOURCES
+            studentview.ui
+            changepassworddialog.ui
+            courseinfowindow.ui
+            staffsideview.ui
+            testform.ui
+            staffmainview.ui
+            table_view_form/studentcoursetable.ui
     )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/header_files)

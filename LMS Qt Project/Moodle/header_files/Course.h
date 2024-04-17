@@ -122,8 +122,16 @@ struct Course : public CourseInfo {
     }
 
     void addScore(const Score& score) {
-        Scoreboard.add(score); 
-    }  
+        Scoreboard.add(score);
+    }
+
+    bool operator==(const Course& other) const {
+        return courseID == other.courseID;
+    }
+
+    bool operator!=(const Course& other) const {
+        return !(*this == other);
+    }
 
     void updateCourseInfo();
     void ExportStudentCSVFile();
