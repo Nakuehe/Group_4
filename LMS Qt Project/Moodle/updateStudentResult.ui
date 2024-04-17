@@ -6,13 +6,152 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1234</width>
+    <width>937</width>
     <height>636</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <widget class="QLineEdit" name="lineEdit_idStudent">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="placeholderText">
+    <string>Enter ID Student</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_Search">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>10</y>
+     <width>93</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+    border : none;
+   color : white;
+   background-color : blue;
+	font: 700 14pt &quot;Arial&quot;;
+   border-radius : 30px;
+}
+QPushButton::Hover
+{
+  background-color : green;
+}</string>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>250</y>
+     <width>941</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border : none;
+   color : white;
+   background-color : blue;
+	font: 700 14pt &quot;Arial&quot;;
+   border-radius : 30px;</string>
+   </property>
+   <property name="text">
+    <string>Update result</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_mid">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>350</y>
+     <width>161</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Enter update midterm</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_final">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>350</y>
+     <width>171</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Enter update final</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_other">
+   <property name="geometry">
+    <rect>
+     <x>720</x>
+     <y>350</y>
+     <width>151</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Enter update other </string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_Accept">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>470</y>
+     <width>93</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+    border : none;
+   color : white;
+   background-color : blue;
+	font: 700 14pt &quot;Arial&quot;;
+   border-radius : 30px;
+}
+QPushButton::Hover
+{
+  background-color : green;
+}</string>
+   </property>
+   <property name="text">
+    <string>Accept</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>70</y>
+     <width>931</width>
+     <height>101</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

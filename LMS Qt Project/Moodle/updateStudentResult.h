@@ -22,11 +22,16 @@ public:
 signals:
     void shown();
     void hidden();
+
 protected:
+    void resizeEvent(QResizeEvent *event) override;
     void showEvent(QShowEvent *event) override;
     void hideEvent(QHideEvent *event) override;
 private slots:
+    void resizeColumns();
     void on_pushButton_Search_clicked();
+
+    void on_pushButton_Accept_clicked();
 
 private:
     Ui::updateStudentResult *ui;
