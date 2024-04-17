@@ -4,6 +4,7 @@
 #include "Semester.h"
 #include "table_view_form/studentviewtable.h"
 #include "scoreboarddialog.h"
+#include "scoreboardclass.h"
 #include "updateStudentResult.h"
 #include <QMessageBox>
 #include <QCloseEvent>
