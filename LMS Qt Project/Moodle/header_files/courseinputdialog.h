@@ -16,6 +16,7 @@ public:
     QLineEdit *classNameEdit;
     QLineEdit *teacherNameEdit;
     QLineEdit *creditsEdit;
+    QLineEdit *maxStudentsEdit;
     QComboBox *DayComboBox;
     QComboBox *SessionComboBox;
 
@@ -26,6 +27,9 @@ public:
         classNameEdit = new QLineEdit(this);
         teacherNameEdit = new QLineEdit(this);
         creditsEdit = new QLineEdit(this);
+        maxStudentsEdit = new QLineEdit(this);
+        maxStudentsEdit->setValidator(new QIntValidator(1, 100, this));
+        maxStudentsEdit->setText("50");
         DayComboBox = new QComboBox(this);
         DayComboBox->addItems({"MON", "TUE", "WED", "THU", "FRI", "SAT"});
         SessionComboBox = new QComboBox(this);
@@ -37,6 +41,7 @@ public:
         formLayout->addRow("Class Name:", classNameEdit);
         formLayout->addRow("Teacher Name:", teacherNameEdit);
         formLayout->addRow("Credits:", creditsEdit);
+        formLayout->addRow("Max Students:", maxStudentsEdit);
         formLayout->addRow("Day:", DayComboBox);
         formLayout->addRow("Session:", SessionComboBox);
 
@@ -63,6 +68,9 @@ public:
     }
     QString getcredits() {
         return creditsEdit->text();
+    }
+    QString getMaxStudent() {
+        return maxStudentsEdit->text();
     }
     QString getDay() {
         return DayComboBox->currentText();

@@ -37,6 +37,7 @@ struct Semester {
             new_course.className = dialog.getClassName().toStdString();
             new_course.teacherName = dialog.getTeacherName().toStdString();
             new_course.credits = dialog.getcredits().toStdString();
+            new_course.maxStudent = dialog.getMaxStudent().toInt();
             new_course.day = dialog.getDay().toStdString();
             new_course.session = dialog.getSession().toStdString();
             new_course.maxStudent = 50;
