@@ -7,6 +7,7 @@
 #include "Class.h"
 #include <QInputDialog>
 #include "dateinputdialog.h"
+
 struct SchoolYear {
     std::string year;
     std::string start_date; // format: dd/mm/yyyy

@@ -12,6 +12,7 @@
 #include <QHeaderView>
 #include <QPainterPath>
 #include <QFont>
+#include "fontloader.h"
 
 
 
@@ -133,14 +134,6 @@ void StudentView::setupPage(){
 
     RoundAvatarLabel *avatar = new RoundAvatarLabel(ui->avatar);
     avatar->setGeometry(0, 0, ui->avatar->width(), ui->avatar->height()); // Set the geometry to match the QLabel
-}
-
-QString StudentView::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
 }
 
 void StudentView::on_stackedWidget_currentChanged(int index) {

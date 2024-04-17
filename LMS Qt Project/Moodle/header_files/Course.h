@@ -10,6 +10,11 @@
 #include <QLabel>
 #include <QFile>
 #include <QTextStream>
+#include "fontloader.h"
+#include <QMessageBox>
+#include <QComboBox>
+#include <QDialog>
+
 struct CourseInfo {
     std::string year;
     std::string semester;
@@ -77,9 +82,14 @@ struct Course : public CourseInfo {
     void addStudent(const Student& student) {
         students.add(student); 
     }
+
     void add_a_student2Course()
     {
-        if(this->students.size()>=this->maxStudent) return;
+        if(this->students.size()>=this->maxStudent){
+            QMessageBox::warning(nullptr, "Warning", "The course is full.");
+            return;
+        }
+
         STUDENTINPUTDIALOG dialog;
         if (dialog.exec() == QDialog::Accepted)
         {
@@ -93,6 +103,7 @@ struct Course : public CourseInfo {
             this->students.add(new_stu);
         }
     }
+
     bool operator==(const Course&other) const{
         return courseID == other.courseID;
     }
@@ -102,18 +113,48 @@ struct Course : public CourseInfo {
     void removeStudent(const Student& student) {
         students.remove(student); 
     }
+
     void remove_a_studentFromCourse()
     {
-        QString studentID = QInputDialog::getText(nullptr, "Input student ID removed", "Enter student ID:");
-        std::string studentID_std = studentID.toStdString();
-        for(int i=0;i<this->students.size();i++)
-        {
-            if(this->students.get(i).studentID==studentID_std)
-            {
-                this->students.remove(this->students.get(i));
+        QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
+        QFont font(fontFamily1, 14);
+
+
+        QComboBox* studentComboBox = new QComboBox();
+        for (int i = 0; i < this->students.size(); i++) {
+            Student& student = this->students.get(i);
+            QString studentInfo = QString::fromStdString(student.studentID + " - " + student.getStudentFullName());
+            studentComboBox->addItem(studentInfo, QString::fromStdString(student.studentID));
+        }
+    
+        QDialog dialog;
+        dialog.setFont(font);
+        QVBoxLayout layout(&dialog);
+        layout.addWidget(studentComboBox);
+        QPushButton okButton("OK");
+        layout.addWidget(&okButton);
+        QObject::connect(&okButton, &QPushButton::clicked, &dialog, &QDialog::accept);
+    
+        if (dialog.exec() == QDialog::Accepted) {
+            QString selectedStudentID = studentComboBox->currentData().toString();
+            std::string selectedStudentID_std = selectedStudentID.toStdString();
+            for (int i = 0; i < this->students.size(); i++) {
+                Student student = this->students.get(i);
+                if (student.studentID == selectedStudentID_std) {
+                    QMessageBox::StandardButton reply;
+                    reply = QMessageBox::warning(nullptr, "Confirmation", "Are you sure you want to remove this student?", QMessageBox::Yes|QMessageBox::No);
+                    if (reply == QMessageBox::Yes) {
+                        this->students.remove(student);
+                        break;
+                    }
+                }
             }
         }
+    
+        delete studentComboBox;
     }
+
+
     void addScore(const Score& score) {
         Scoreboard.add(score);
     }

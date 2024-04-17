@@ -7,6 +7,7 @@
 #include <QCloseEvent>
 #include <QLabel>
 #include <QFileDialog>
+#include "fontloader.h"
 
 StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, SchoolYear* this_year)
     : QMainWindow(parent)
@@ -23,14 +24,6 @@ StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, Scho
 StaffMainView::~StaffMainView()
 {
     delete ui;
-}
-
-QString StaffMainView::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
 }
 
 void StaffMainView::on_stackedWidget_currentChanged(int index) {
@@ -269,7 +262,8 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
             });
         }
 
-        else if(i == curCourses->size()){
+        else if(i == curCourses->size()){ //Add course function
+
             widget->setStyleSheet("QWidget { border: 2px solid lightgray; border-radius: 10px; background: white; } QWidget:hover { border-color: #0D3ECC; }");
             btn_course->setIcon(QIcon(":/Asset/staffViewAsset/addButton.png"));
             btn_course->setIconSize(QSize(48, 48)); // Adjust size as needed
@@ -280,7 +274,9 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
             //widgetLayout->setAlignment(btn_course, Qt::AlignCenter); // Center the button
 
             connect(btn_course, &QPushButton::clicked, this, [=]() {
-                //to be implemented
+                this_semester->createCourse();
+                setUpCourses(&(this_semester->courses));
+                ui->stackedWidget->setCurrentIndex(2);
             });
         }
 
@@ -377,17 +373,26 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
         }
 
         if(ui->course_function_list->row(item) == 8) // if the sixth item was clicked
-    {
-        int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to delete this course?",
-                                    QMessageBox::Yes | QMessageBox::No);
+        {
+            int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to delete this course?",
+                                        QMessageBox::Yes | QMessageBox::No);
 
-        if (ret == QMessageBox::Yes) {
-            this_semester->removeCourse(*this_course);
-            this_course = nullptr;
-            setUpCourses(&(this_semester->courses));
-            ui->stackedWidget->setCurrentIndex(2);
+            if (ret == QMessageBox::Yes) {
+                this_semester->removeCourse(*this_course);
+                this_course = nullptr;
+                setUpCourses(&(this_semester->courses));
+                ui->stackedWidget->setCurrentIndex(2);
+            }
         }
-    }
+
+        if(ui->course_function_list->row(item) == 4)
+        {
+            this_course->add_a_student2Course();
+        }
+
+        if(ui->course_function_list->row(item) == 5){
+            this_course->remove_a_studentFromCourse();
+        }
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
 {

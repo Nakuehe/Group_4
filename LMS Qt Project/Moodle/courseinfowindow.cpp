@@ -1,5 +1,7 @@
 #include "courseinfowindow.h"
 #include "ui_courseinfowindow.h"
+#include "fontloader.h"
+
 
 CourseInfoWindow::CourseInfoWindow(QWidget *parent, const Course* thisCourse, int index)
     : QDialog(parent)
@@ -194,14 +196,6 @@ void CourseInfoWindow::showEvent(QShowEvent *event) {
 void CourseInfoWindow::hideEvent(QHideEvent *event) {
     emit hidden();
     QDialog::hideEvent(event);
-}
-
-QString CourseInfoWindow::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
 }
 
 CourseInfoWindow::~CourseInfoWindow()

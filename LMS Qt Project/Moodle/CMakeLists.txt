@@ -46,8 +46,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         table_view_form/studentviewtable.h table_view_form/studentviewtable.cpp table_view_form/studentviewtable.ui
         header_files/dateinputdialog.h header_files/dateinputdialog.cpp
         header_files/csvhandler.h header_files/csvhandler.cpp
-`       header_files/courseinputdialog.h header_files/courseinputdialog.cpp
+        header_files/courseinputdialog.h header_files/courseinputdialog.cpp
         header_files/studentinputdialog.h header_files/studentinputdialog.cpp
+        header_files/fontloader.h
+        header_files/fontloader.cpp
+
+
+
     )
         
 

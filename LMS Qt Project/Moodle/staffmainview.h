@@ -28,7 +28,6 @@ public:
     explicit StaffMainView(QWidget *parent = nullptr, StaffSideView* staffSideView = nullptr, SchoolYear* this_year = nullptr);
     ~StaffMainView();
 
-    QString loadFont(const QString &resourcePath);
 
 protected:
     void closeEvent(QCloseEvent *event) override;
