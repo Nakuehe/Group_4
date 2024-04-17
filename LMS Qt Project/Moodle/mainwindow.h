@@ -50,6 +50,8 @@ private slots:
     void setupPage();
 
 
+    void on_labelPlaceholder_linkActivated(const QString &link);
+
 private:
     UserManager* m_userManager;
     Ui::MainWindow *ui;
