@@ -3,6 +3,7 @@
 #include "ui_staffmainview.h"
 #include "Semester.h"
 #include "table_view_form/studentviewtable.h"
+#include "scoreboarddialog.h"
 #include <QMessageBox>
 #include <QCloseEvent>
 #include <QLabel>
@@ -387,6 +388,11 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
             setUpCourses(&(this_semester->courses));
             ui->stackedWidget->setCurrentIndex(2);
         }
+    }
+    if(ui->course_function_list->row(item) == 1) // view scoreboard
+    {
+        ScoreboardDialog* dialog = new ScoreboardDialog(this,this_course,0);
+        dialog->show();
     }
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)

@@ -111,14 +111,14 @@ struct Course : public CourseInfo {
         widget->setLayout(layout);
         widget->show();
     }
-    bool operator==(const Course&other) const{
-        return courseID == other.courseID;
-    }
-    bool operator!=(const Course&other) const{
-        return !(*this==other);
-    }
+   //bool operator==(const Course&other) const{
+     //   return courseID == other.courseID;
+    //}
+    //bool operator!=(const Course&other) const{
+       // return !(*this==other);
+    //}
     void removeStudent(const Student& student) {
-        students.remove(student); 
+        students.remove(student);
     }
 
     void addScore(const Score& score) {
