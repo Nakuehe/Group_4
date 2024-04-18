@@ -121,7 +121,7 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
     Node<Course>* ourse = thisSemester->courses.getHead();
     for(int k = 0;k<thisSemester->courses.size();k++)
     {
-        headerLabels<<QString::fromStdString(ourse->data.courseID);
+        headerLabels<<QString::fromStdString(ourse->data.courseID)+ "-" + QString::fromStdString(ourse->data.className);
         ourse = ourse->next;
     }
     headerLabels << "GPA"<<"OverallGPA";
