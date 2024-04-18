@@ -50,6 +50,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         header_files/studentinputdialog.h header_files/studentinputdialog.cpp
         header_files/fontloader.h
         header_files/fontloader.cpp
+        filemanager.h filemanager.cpp
 
 
 

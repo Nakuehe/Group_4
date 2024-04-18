@@ -238,10 +238,10 @@ void StudentView::setUpGradeView(){
     for (int row = 0; row < thisStudentScore->size(); ++row) {
         QString courseID = QString::fromStdString(thisStudentScore->get(row).courseID);
         QString courseName = QString::fromStdString(thisStudentScore->get(row).courseName);
-        QString midterm = thisStudentScore->get(row).mid_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).mid_mark);
-        QString final = thisStudentScore->get(row).final_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).final_mark);
-        QString bonus = thisStudentScore->get(row).other_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).other_mark);
-        QString total = thisStudentScore->get(row).GPA == 0 ? "_" : QString::number(thisStudentScore->get(row).GPA);
+        QString midterm = thisStudentScore->get(row).mid_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).mid_mark);
+        QString final = thisStudentScore->get(row).final_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).final_mark);
+        QString bonus = thisStudentScore->get(row).other_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).other_mark);
+        QString total = thisStudentScore->get(row).total_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).total_mark);
 
         QStandardItem *item1 = new QStandardItem(QString(courseID));
         model->setItem(row, 0, item1);
@@ -282,7 +282,7 @@ void StudentView::setUpGradeView(){
     model->setHeaderData(1, Qt::Horizontal, tr("Course Name"));
     model->setHeaderData(2, Qt::Horizontal, tr("Midterm"));
     model->setHeaderData(3, Qt::Horizontal, tr("Final"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Bonus"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Other"));
     model->setHeaderData(5, Qt::Horizontal, tr("Total"));
 
     ui->grade_view_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);

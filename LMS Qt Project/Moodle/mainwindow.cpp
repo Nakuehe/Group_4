@@ -15,65 +15,67 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     m_userManager = new UserManager(QCoreApplication::applicationDirPath() + "/data/users.csv", QCoreApplication::applicationDirPath() + "/data/students.csv");
-
+    m_fileManager = new FileManager(QCoreApplication::applicationDirPath().toStdString() + "/core_data", &(this->SchoolYears));
     setupPage();
     m_userManager->loadUsers();
     m_userManager->loadStudents();
+
+    m_fileManager->loadData();
+
+
     
 
 
-    Student student = Student("23125061", "Pham", "Gia Hung Khoa", "Male", "09/05/2005", "049205000001");
-    Student student2 = Student("23125093", "Le", "Thi Tuyet Tram", "Female", "14/04/2005", "0xx105xxxxxx");
+    // Student student = Student("23125061", "Pham", "Gia Hung Khoa", "Male", "09/05/2005", "049205000001");
+    // Student student2 = Student("23125093", "Le", "Thi Tuyet Tram", "Female", "14/04/2005", "0xx105xxxxxx");
 
-    Course course = Course("CS162", "Introduction to Programming", "23APCS02", "Dinh Ba Tien", "4", 50, "WED", "S3");
-    Course course2 = Course("MTH252", "Calculus II", "23APCS02", "Phan Thi My Duyen", "4", 50, "FRI", "S1");
-    Course course3 = Course("BAA00004", "General Law", "23APCS", "Hoang Thanh Tu", "3", 50, "MON", "S3");
-    Course course4 = Course("PH212", "General Physic II", "23APCS02", "Do Duc Cuong", "4", 50, "SAT", "S4");
+    // Course course = Course("CS162", "Introduction to Programming", "23APCS02", "Dinh Ba Tien", "4", 50, "WED", "S3");
+    // Course course2 = Course("MTH252", "Calculus II", "23APCS02", "Phan Thi My Duyen", "4", 50, "FRI", "S1");
+    // Course course3 = Course("BAA00004", "General Law", "23APCS", "Hoang Thanh Tu", "3", 50, "MON", "S3");
+    // Course course4 = Course("PH212", "General Physic II", "23APCS02", "Do Duc Cuong", "4", 50, "SAT", "S4");
 
-    Score score1 = Score("23125061", "Pham Khoa", "CS162", "Introduction to Programming", 8.5, 9.0, 0, 8.5);
-    Score score2 = Score("23125061", "Pham Khoa", "MTH252", "Calculus II", 8.5, 9.0, 10, 10);
-    Score score3 = Score("23125061", "Pham Khoa", "BAA00004", "General Law", 8.5, 0, 8.0, 8.5);
-    Score score4 = Score("23125061", "Pham Khoa", "PH212", "General Physic II", 8.5, 9.0, 0, 8.5);
+    // Score score1 = Score("23125061", "Pham Gia Hung Khoa", "CS162", "Introduction to Programming", 8.5, 9.0, 0);
+    // Score score2 = Score("23125061", "Pham Gia Hung Khoa", "MTH252", "Calculus II", 8.5, 9.0, 10);
+    // Score score3 = Score("23125061", "Pham Gia Hung Khoa", "BAA00004", "General Law", 8.5, 0, 8.0);
+    // Score score4 = Score("23125061", "Pham Gia Hung Khoa", "PH212", "General Physic II", 8.5, 9.0, 0);
 
-    Class class1 = Class("23APCS02");
-    Class class2 = Class("23CLC03");
-
-
-
-    Semester semester = Semester("Semester 1");
-
-    course.addStudent(student);
-    course.addStudent(student2);
-
-    course2.addStudent(student);
-    course3.addStudent(student);
-    course4.addStudent(student);
-
-    class1.addStudent(student);
-    // class2.addStudent(student);
+    // Class class1 = Class("23APCS02");
+    // Class class2 = Class("23CLC03");
 
 
-    course.addScore(score1);
-    course2.addScore(score2);
-    course3.addScore(score3);
-    course4.addScore(score4);
 
-    semester.addCourse(course);
-    semester.addCourse(course2);
-    semester.addCourse(course3);
-    semester.addCourse(course4);
+    // Semester semester = Semester("Semester 1", "5/9/2023", "5/1/2024");
 
-    SchoolYear year = SchoolYear("2023-2024", "01/09/2023", "01/06/2024");
-    year.addSemester(semester);
-    year.addClass(class1);
-    year.addClass(class2);
+    // course.addStudent(student);
+    // course.addStudent(student2);
 
-    SchoolYear year2 = SchoolYear("2022-2023", "01/09/2022", "01/06/2023");
+    // course2.addStudent(student);
+    // course3.addStudent(student);
+    // course4.addStudent(student);
 
-    this->SchoolYears.addSorted(year);
-    this->SchoolYears.addSorted(year2);
+    // class1.addStudent(student);
+    // // class2.addStudent(student);
 
-    
+
+    // course.addScore(score1);
+    // course2.addScore(score2);
+    // course3.addScore(score3);
+    // course4.addScore(score4);
+
+    // semester.addCourse(course);
+    // semester.addCourse(course2);
+    // semester.addCourse(course3);
+    // semester.addCourse(course4);
+
+    // SchoolYear year = SchoolYear("2023-2024", "01/09/2023", "01/06/2024");
+    // year.addSemester(semester);
+    // year.addClass(class1);
+    // year.addClass(class2);
+
+    // SchoolYear year2 = SchoolYear("2022-2023", "01/09/2022", "01/06/2023");
+
+    // this->SchoolYears.addSorted(year);
+    // this->SchoolYears.addSorted(year2);
 }
 
 
@@ -247,6 +249,8 @@ void MainWindow::deleteStudentView(StudentView* studentView) {
 
 MainWindow::~MainWindow()
 {
+    m_fileManager->saveData();
+    
     // Iterate over all SchoolYear objects in SchoolYears
     while (!SchoolYears.isEmpty()) {
         SchoolYear year = SchoolYears.removeFirst();
@@ -286,6 +290,7 @@ MainWindow::~MainWindow()
     m_userManager->deleteThis();
 
     delete m_userManager;
+    delete m_fileManager;
 
 
 

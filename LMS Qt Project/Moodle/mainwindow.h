@@ -16,6 +16,7 @@
 #include "SchoolYear.h"
 #include "usermanager.h"
 #include "staffsideview.h"
+#include "filemanager.h"
 
 
 class StudentView;
@@ -60,7 +61,9 @@ private slots:
 
 private:
     UserManager* m_userManager;
+    FileManager* m_fileManager;
     Ui::MainWindow *ui;
+
 
     QList<StudentView*> studentViews;
     QList<StaffSideView*> staffSideViews;

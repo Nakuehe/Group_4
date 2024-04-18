@@ -49,6 +49,8 @@ struct Course : public CourseInfo {
             qWarning() << "Error opening file:" << filename;
             return;
         }
+
+        this->deleteThisStudentList();
         QTextStream in(&file);
         //in.setCodec("UTF-8");
         in.readLine();
@@ -106,7 +108,9 @@ struct Course : public CourseInfo {
     }
     void updateCourseInfo()
     {
+
         COURSEINPUTDIALOG dialog;
+        dialog.setWindowTitle("Update Course Information");
         dialog.courseIDEdit->setText(QString::fromStdString(this->courseID));
         dialog.courseNameEdit->setText(QString::fromStdString(this->courseName));
         dialog.classNameEdit->setText(QString::fromStdString(this->className));
@@ -124,14 +128,20 @@ struct Course : public CourseInfo {
         //        dialog.SessionComboBox->setCurrentIndex(rindex);
         if (dialog.exec() == QDialog::Accepted)
         {
-            this->courseID = dialog.getCourseID().toStdString();
-            this->courseName = dialog.getCourseName().toStdString();
-            this->className = dialog.getClassName().toStdString();
-            this->teacherName = dialog.getTeacherName().toStdString();
-            this->credits = dialog.getcredits().toStdString();
-            this->maxStudent = dialog.getMaxStudent().toInt();
-            this->day = dialog.getDay().toStdString();
-            this->session = dialog.getSession().toStdString();
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(nullptr, "Confirmation", "Are you sure you want to update this course?", QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::Yes) {
+                this->courseID = dialog.getCourseID().toStdString();
+                this->courseName = dialog.getCourseName().toStdString();
+                this->className = dialog.getClassName().toStdString();
+                this->teacherName = dialog.getTeacherName().toStdString();
+                this->credits = dialog.getcredits().toStdString();
+                this->maxStudent = dialog.getMaxStudent().toInt();
+                this->day = dialog.getDay().toStdString();
+                this->session = dialog.getSession().left(2).toStdString();
+
+                QMessageBox::information(nullptr, "Confirmation", "Course information updated successfully.");
+            }
         }
     }
     bool operator==(const Course&other) const{
@@ -189,7 +199,9 @@ struct Course : public CourseInfo {
         Scoreboard.add(score);
     }
 
+    void deleteThisStudentList();
     void ExportStudentCSVFile();
+
     void Export_Scoreboard_Form();
     void Import_Scoreboard_To();
     void updateStudentResult();

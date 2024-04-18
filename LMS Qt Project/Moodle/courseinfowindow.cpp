@@ -66,7 +66,7 @@ CourseInfoWindow::CourseInfoWindow(QWidget *parent, const Course* thisCourse, in
 
     ui->full_course_name->setStyleSheet("QLabel{ text-align: left; font-weight: 500; color: #0D63E6; border: none; }");
     ui->full_course_name->setFont(QFont(fontFamilyMedium, 20));
-    //ui->ful;l_course_name->setText(qCourseName);
+    ui->full_course_name->setText(qCourseName);
 
     //--------------END----------------
 

@@ -356,10 +356,25 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
     {
         StudentViewTable* studentViewTable = new StudentViewTable(this, student_list);
         studentViewTable->show();
-        }
+    }
 
-        if(ui->course_function_list->row(item) == 6) // if the sixth item was clicked
-        {
+    if(ui->course_function_list->row(item) == 2){
+        this_course->updateCourseInfo();
+        setUpCourses(&(this_semester->courses));
+    }
+
+    if(ui->course_function_list->row(item) == 4)
+    {
+        this_course->add_a_student2Course();
+    }
+
+    if(ui->course_function_list->row(item) == 5){
+        this_course->remove_a_studentFromCourse();
+    }
+
+
+    if(ui->course_function_list->row(item) == 6) // if the sixth item was clicked
+    {
         QString filename = QFileDialog::getOpenFileName(
             this,
             "Open CSV file",
@@ -370,29 +385,26 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
         if (!filename.isEmpty()) {
             this->this_course->read_students_from_CSV(filename);
         }
-        }
+    }
 
-        if(ui->course_function_list->row(item) == 8) // if the sixth item was clicked
-        {
-            int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to delete this course?",
-                                        QMessageBox::Yes | QMessageBox::No);
+    if(ui->course_function_list->row(item) == 7){
+        this_course->ExportStudentCSVFile();
+    }
 
-            if (ret == QMessageBox::Yes) {
-                this_semester->removeCourse(*this_course);
-                this_course = nullptr;
-                setUpCourses(&(this_semester->courses));
-                ui->stackedWidget->setCurrentIndex(2);
-            }
-        }
 
-        if(ui->course_function_list->row(item) == 4)
-        {
-            this_course->add_a_student2Course();
-        }
 
-        if(ui->course_function_list->row(item) == 5){
-            this_course->remove_a_studentFromCourse();
+    if(ui->course_function_list->row(item) == 10) // if the sixth item was clicked
+    {
+        int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to delete this course?",
+                                       QMessageBox::Yes | QMessageBox::No);
+
+        if (ret == QMessageBox::Yes) {
+            this_semester->removeCourse(*this_course);
+            this_course = nullptr;
+            setUpCourses(&(this_semester->courses));
+            ui->stackedWidget->setCurrentIndex(2);
         }
+    }
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
 {
