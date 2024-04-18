@@ -7,15 +7,25 @@
 #include <QStringList>
 #include <QDebug>
 #include <QString>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QInputDialog>
+
 
 void Course::ExportStudentCSVFile()
 {
-    QString fileName = QString::fromStdString(courseName);
-    fileName.append(".csv");
+    // QString fileName = QString::fromStdString(courseName);
+    // fileName.append(".csv");
+
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Export CSV", "", "CSV files (*.csv)");
+    if (fileName.isEmpty()) {
+        return; // User canceled the dialog
+    }
+
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        qDebug() << "Failed to open file for writing.";
+        QMessageBox::critical(nullptr, "Error", "Failed to open file for writing.");
         return;
     }
 
@@ -35,7 +45,7 @@ void Course::ExportStudentCSVFile()
     }
 
     file.close();
-    qDebug() << "The Course Student list is exported to " << fileName;
+    QMessageBox::information(nullptr, "Success", "The Course Student list is exported successfully.");
 }
 
 void Course::Export_Scoreboard_Form()
@@ -114,4 +124,10 @@ void Course::Import_Scoreboard_To()
 void Course::updateStudentResult()
 {
 
+}
+
+void Course::deleteThisStudentList(){
+    while(!students.isEmpty()){
+        students.removeFirst();
+    }
 }

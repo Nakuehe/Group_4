@@ -1,6 +1,6 @@
 #include "SchoolYear.h"
 #include <iostream>
-void SchoolYear::createYear(SchoolYear& sy())
+void SchoolYear::createSemester(SchoolYear& sy())
 {
     Semester news();
     std::string s;
@@ -13,3 +13,4 @@ void SchoolYear::createYear(SchoolYear& sy())
     news().end_date = s;
     sy().addSemester(news());
 }
+

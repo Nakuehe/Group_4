@@ -665,6 +665,16 @@ border: 1px solid lightgray</string>
                    </item>
                    <item>
                     <property name="text">
+                     <string>Import scoreboard for this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Export scoreboard for this course</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
                      <string>Delete this course</string>
                     </property>
                    </item>

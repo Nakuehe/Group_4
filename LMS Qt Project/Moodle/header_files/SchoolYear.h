@@ -7,6 +7,7 @@
 #include "Class.h"
 #include <QInputDialog>
 #include "dateinputdialog.h"
+
 struct SchoolYear {
     std::string year;
     std::string start_date; // format: dd/mm/yyyy
@@ -56,9 +57,8 @@ struct SchoolYear {
             std::string end_date_std = dialog.getEndDate().toStdString();
 
             std::string semesterName = "Semester " + std::to_string(this->semesters.size() + 1);
-            Semester new_semester(semesterName);
-            new_semester.start_date = start_date_std;
-            new_semester.end_date = end_date_std;
+
+            Semester new_semester(semesterName, start_date_std, end_date_std);
             this->addSemester(new_semester);
     }
     }

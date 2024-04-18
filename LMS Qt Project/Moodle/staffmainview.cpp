@@ -10,6 +10,7 @@
 #include <QCloseEvent>
 #include <QLabel>
 #include <QFileDialog>
+#include "fontloader.h"
 #include <QDebug>
 
 StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, SchoolYear* this_year,LinkedList<SchoolYear>* SchoolYears)
@@ -28,14 +29,6 @@ StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, Scho
 StaffMainView::~StaffMainView()
 {
     delete ui;
-}
-
-QString StaffMainView::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
 }
 
 void StaffMainView::on_stackedWidget_currentChanged(int index) {
@@ -274,7 +267,8 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
             });
         }
 
-        else if(i == curCourses->size()){
+        else if(i == curCourses->size()){ //Add course function
+
             widget->setStyleSheet("QWidget { border: 2px solid lightgray; border-radius: 10px; background: white; } QWidget:hover { border-color: #0D3ECC; }");
             btn_course->setIcon(QIcon(":/Asset/staffViewAsset/addButton.png"));
             btn_course->setIconSize(QSize(48, 48)); // Adjust size as needed
@@ -285,7 +279,9 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
             //widgetLayout->setAlignment(btn_course, Qt::AlignCenter); // Center the button
 
             connect(btn_course, &QPushButton::clicked, this, [=]() {
-                //to be implemented
+                this_semester->createCourse();
+                setUpCourses(&(this_semester->courses));
+                ui->stackedWidget->setCurrentIndex(2);
             });
         }
 
@@ -365,10 +361,37 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
     {
         StudentViewTable* studentViewTable = new StudentViewTable(this, student_list);
         studentViewTable->show();
-        }
+    }
+
+    if(ui->course_function_list->row(item) == 1) // view scoreboard
+    {
+        ScoreboardDialog* dialog = new ScoreboardDialog(this,this_course,0);
+        dialog->show();
+    }
+
+    if(ui->course_function_list->row(item) == 2){
+        this_course->updateCourseInfo();
+        setUpCourses(&(this_semester->courses));
+    }
+
+    if(ui->course_function_list->row(item) == 3) // update student result
+    {
+        updateStudentResult* dialog_up = new updateStudentResult(this,this_course);
+        dialog_up->show();
+    }
+
+    if(ui->course_function_list->row(item) == 4)
+    {
+        this_course->add_a_student2Course();
+    }
+
+    if(ui->course_function_list->row(item) == 5){
+        this_course->remove_a_studentFromCourse();
+    }
+
 
     if(ui->course_function_list->row(item) == 6) // if the sixth item was clicked
-        {
+    {
         QString filename = QFileDialog::getOpenFileName(
             this,
             "Open CSV file",
@@ -379,12 +402,18 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
         if (!filename.isEmpty()) {
             this->this_course->read_students_from_CSV(filename);
         }
-        }
+    }
 
-    if(ui->course_function_list->row(item) == 8) // if the sixth item was clicked
+    if(ui->course_function_list->row(item) == 7){
+        this_course->ExportStudentCSVFile();
+    }
+
+
+
+    if(ui->course_function_list->row(item) == 10) // if the sixth item was clicked
     {
         int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to delete this course?",
-                                    QMessageBox::Yes | QMessageBox::No);
+                                       QMessageBox::Yes | QMessageBox::No);
 
         if (ret == QMessageBox::Yes) {
             this_semester->removeCourse(*this_course);
@@ -393,16 +422,8 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
             ui->stackedWidget->setCurrentIndex(2);
         }
     }
-    if(ui->course_function_list->row(item) == 1) // view scoreboard
-    {
-        ScoreboardDialog* dialog = new ScoreboardDialog(this,this_course,0);
-        dialog->show();
-    }
-    if(ui->course_function_list->row(item) == 3) // update student result
-    {
-        updateStudentResult* dialog_up = new updateStudentResult(this,this_course);
-        dialog_up->show();
-    }
+    
+    
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
 {

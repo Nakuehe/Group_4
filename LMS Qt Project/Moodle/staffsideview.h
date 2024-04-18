@@ -32,7 +32,6 @@ private:
 
     void onConfirmButtonClicked();
     void onAddSchoolYearButtonClicked();
-    QString loadFont(const QString &resourcePath);
 };
 
 #endif // STAFFSIDEVIEW_H

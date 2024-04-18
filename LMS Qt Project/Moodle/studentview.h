@@ -55,7 +55,6 @@ public:
 
     void setStudent(std::string StudentID);  // Method to set the student
     void setupPage();  // Method to set up the page
-    QString loadFont(const QString &resourcePath);  // Method to load the font
 
     void on_changePasswordButton_clicked();
 

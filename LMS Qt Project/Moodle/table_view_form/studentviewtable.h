@@ -26,7 +26,7 @@ private:
     QStandardItemModel *model;
     const LinkedList<Student>* student_list;
 
-    QString loadFont(const QString &resourcePath);
+
     void setUpTableView();
 
 private slots:
