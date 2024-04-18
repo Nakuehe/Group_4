@@ -144,14 +144,14 @@ struct Course : public CourseInfo {
             }
         }
     }
-    bool operator==(const Course&other) const{
-        return courseID == other.courseID;
-    }
-    bool operator!=(const Course&other) const{
-        return !(*this==other);
-    }
+   //bool operator==(const Course&other) const{
+     //   return courseID == other.courseID;
+    //}
+    //bool operator!=(const Course&other) const{
+       // return !(*this==other);
+    //}
     void removeStudent(const Student& student) {
-        students.remove(student); 
+        students.remove(student);
     }
 
     void remove_a_studentFromCourse()

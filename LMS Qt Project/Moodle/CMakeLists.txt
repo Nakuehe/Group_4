@@ -51,6 +51,12 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         header_files/fontloader.h
         header_files/fontloader.cpp
         filemanager.h filemanager.cpp
+        scoreboarddialog.h scoreboarddialog.cpp scoreboarddialog.ui
+        updateStudentResult.h updateStudentResult.cpp updateStudentResult.ui
+        scoreboardclass.h scoreboardclass.cpp scoreboardclass.ui
+
+
+
 
 
 

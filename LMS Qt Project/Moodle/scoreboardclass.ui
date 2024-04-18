@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ScoreboardClass</class>
+ <widget class="QDialog" name="ScoreboardClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1198</width>
+    <height>671</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1201</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+    border : none;
+   color : white;
+   background-color : blue;
+	font: 700 14pt &quot;Arial&quot;;
+   border-radius : 30px;
+}</string>
+   </property>
+   <property name="text">
+    <string>Class Scoreboard</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget_Scoreboard">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>30</y>
+     <width>1201</width>
+     <height>641</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

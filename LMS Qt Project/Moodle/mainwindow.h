@@ -59,6 +59,8 @@ private slots:
     void deleteStudentView(StudentView* studentView);
 
 
+    void on_labelPlaceholder_linkActivated(const QString &link);
+
 private:
     UserManager* m_userManager;
     FileManager* m_fileManager;
