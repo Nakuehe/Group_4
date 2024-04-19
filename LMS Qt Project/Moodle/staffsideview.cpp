@@ -10,6 +10,7 @@
 #include <QInputDialog>
 #include "dateinputdialog.h"
 #include <QDebug>
+#include "Semester.h"
 StaffSideView::StaffSideView(QWidget *parent, MainWindow* mainWindow, User thisStaffUser, UserManager* s_UserManager,LinkedList<SchoolYear>* SchoolYears)
     : QDialog(parent)
     , SchoolYears(SchoolYears)
@@ -198,13 +199,34 @@ StaffSideView::~StaffSideView()
 
 void StaffSideView::createYear()
 {
+    Node<SchoolYear>* cur = SchoolYears->getHead();
+    if(cur != nullptr)
+    {
+        while(cur->next != nullptr)
+        {
+            cur = cur->next;
+        }
+        Node<Semester>* curSemester = cur->data.semesters.getHead();
+        if(curSemester == nullptr)
+            {
+                QMessageBox::warning(this, "Error", "semester of old yearis not 3 , we can not create new School Year");
+                return;
+            }
+        while(curSemester->next != nullptr)
+            curSemester = curSemester->next;
+        if(curSemester->data.semester != "Semester 3")
+        {
+            QMessageBox::warning(this, "Error", "semester of old year is not fully , we can not create new School Year");
+            return;
+        }
+    }
     DateInputDialog dialog;
     if (dialog.exec() == QDialog::Accepted)
     {
         std::string start_date_std = dialog.getStartDate().toStdString();
         std::string end_date_std = dialog.getEndDate().toStdString();
         std::string yearName;
-        Node<SchoolYear>* cur = SchoolYears->getHead();
+        cur = SchoolYears->getHead();
         if(cur == nullptr)
         {
             QDate currentDate = QDate::currentDate();
