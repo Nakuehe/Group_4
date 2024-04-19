@@ -6,6 +6,8 @@
 #include <QFontDatabase>
 #include <QCloseEvent>
 #include "staffmainview.h"
+#include "User.h"
+#include "usermanager.h"
 
 class MainWindow;
 
@@ -18,7 +20,7 @@ class StaffSideView : public QDialog
     Q_OBJECT
 
 public:
-    explicit StaffSideView(QWidget *parent = nullptr, MainWindow* mainWindow = nullptr, LinkedList<SchoolYear>* SchoolYears = nullptr);
+    explicit StaffSideView(QWidget *parent = nullptr, MainWindow* mainWindow = nullptr, User thisStaffUser = User(), UserManager *s_UserManager = nullptr, LinkedList<SchoolYear>* SchoolYears = nullptr);
     ~StaffSideView();
 
 protected:
@@ -29,10 +31,12 @@ private:
     Ui::StaffSideView *ui;
     LinkedList<SchoolYear>* SchoolYears;
     MainWindow* mainWindow;
+    User thisStaffUser;
+    UserManager *s_UserManager;
 
     void onConfirmButtonClicked();
+    void on_changePasswordButton_clicked();
     void onAddSchoolYearButtonClicked();
-    QString loadFont(const QString &resourcePath);
 };
 
 #endif // STAFFSIDEVIEW_H

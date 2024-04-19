@@ -40,6 +40,10 @@ struct Student{
     bool operator<(const Student& other) const {
         return studentID < other.studentID;
     }
+
+    bool operator<=(const Student& other) const {
+        return studentID < other.studentID || studentID == other.studentID;
+    }
 };
 
 #endif // STUDENT_H
