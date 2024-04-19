@@ -43,16 +43,16 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
     QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
     QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
 
+    if(thisSemester == nullptr)
+    {
+        QMessageBox::warning(this, "Error", "Please fill all column update");
+        return;
+    }
     ui->pushButton->setText(QString::fromStdString(className) + " Scoreboard " + QString::fromStdString(thisSemester->semester));
 
     Node<Student>* temp = students->getHead();
 
 
-    if(thisSemester == nullptr)
-    {
-        //qDebug()<<"No Semester";
-        return;
-    }
     ui->tableWidget_Scoreboard->clear();
 
     ui->tableWidget_Scoreboard->setRowCount(students->size());

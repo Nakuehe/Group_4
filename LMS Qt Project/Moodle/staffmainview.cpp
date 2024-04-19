@@ -443,7 +443,9 @@ void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
     if(ui->class_function_list->row(item) == 3) // view scoreboard of class
     {
 
+
         ScoreboardClass* scoreboardClass = new ScoreboardClass(this,student_list,SchoolYears,this_semester, this_class->classID);
+
         scoreboardClass->show();
     }
 }
