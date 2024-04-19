@@ -22,6 +22,7 @@ class StaffSideView : public QDialog
 public:
     explicit StaffSideView(QWidget *parent = nullptr, MainWindow* mainWindow = nullptr, User thisStaffUser = User(), UserManager *s_UserManager = nullptr, LinkedList<SchoolYear>* SchoolYears = nullptr);
     ~StaffSideView();
+    void createYear();
 
 protected:
     void closeEvent(QCloseEvent *event) override;
