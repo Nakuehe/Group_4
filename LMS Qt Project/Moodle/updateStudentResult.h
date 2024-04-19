@@ -18,7 +18,6 @@ class updateStudentResult : public QDialog
 public:
     explicit updateStudentResult(QWidget *parent = nullptr, Course* thisCourse = nullptr);
     ~updateStudentResult();
-     QString loadFont(const QString &resourcePath);
 signals:
     void shown();
     void hidden();

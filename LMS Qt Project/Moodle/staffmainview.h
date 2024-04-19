@@ -47,6 +47,7 @@ private:
     SchoolYear* this_year;
     Semester* this_semester;
     Course* this_course;
+    Class* this_class = nullptr;
     LinkedList<Student>* student_list = nullptr;
     LinkedList<SchoolYear>* SchoolYears;
     QList<Course> courses;

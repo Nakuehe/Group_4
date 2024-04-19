@@ -216,9 +216,9 @@ void StaffMainView::setUpCourses(LinkedList<Course>* curCourses){
 
             widget->setStyleSheet("QWidget { border: 2px solid lightgray; border-radius: 10px; background: white; } QWidget:hover { border-color: #0D3ECC; }");
             std::string courseName;
-            courseName = courseName + curCourse->courseID + " - " + curCourse->courseName;
+            courseName = courseName + curCourse->courseID + " - " + curCourse->className;
             QString qCourseName = QString::fromStdString(courseName);
-            int wrapLen = 30;
+            int wrapLen = 25;
             if (qCourseName.length() > wrapLen) {
                 int lastSpace = qCourseName.lastIndexOf(' ', wrapLen);
                 if (lastSpace != -1) {
@@ -305,7 +305,7 @@ void StaffMainView::courseViewSetUp(Course& this_course){
     QString fontFamily2 = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
 
     std::string courseName;
-    courseName = courseName + this_course.courseID + " - " + this_course.courseName;
+    courseName = courseName + this_course.courseID + " - " + this_course.courseName + " - " + this_course.className;
 
     ui->course_label->setText(QString::fromStdString(courseName));
     ui->course_label->setFont(QFont(fontFamily2, 15));
@@ -329,11 +329,11 @@ void StaffMainView::courseViewSetUp(Course& this_course){
     connect(ui->course_function_list, &QListWidget::itemClicked, this, &StaffMainView::onCourseListItemClicked);
 }
 
-void StaffMainView::classViewSetup(Class& this_class){
+void StaffMainView::classViewSetup(Class& this_class1){
     QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
     QString fontFamily2 = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
 
-    ui->class_name->setText(QString::fromStdString(this_class.classID));
+    ui->class_name->setText(QString::fromStdString(this_class1.classID));
     ui->class_name->setFont(QFont(fontFamily2, 15));
 
     ui->backButton2->setFont(QFont(fontFamily1, 12));
@@ -345,7 +345,8 @@ void StaffMainView::classViewSetup(Class& this_class){
         ui->stackedWidget->setCurrentIndex(1);
     });
 
-    student_list = &this_class.students;
+    student_list = &this_class1.students;
+    this_class = &this_class1;
 
 
     ui->class_function_list->setFont(QFont(fontFamily1, 12));
@@ -408,6 +409,13 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
         this_course->ExportStudentCSVFile();
     }
 
+    if(ui->course_function_list->row(item) == 8){
+        this_course->Import_Scoreboard_To();
+    }
+
+    if(ui->course_function_list->row(item) == 9){
+        this_course->Export_Scoreboard_Form();
+    }
 
 
     if(ui->course_function_list->row(item) == 10) // if the sixth item was clicked
@@ -435,7 +443,7 @@ void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
     if(ui->class_function_list->row(item) == 3) // view scoreboard of class
     {
 
-        ScoreboardClass* scoreboardClass = new ScoreboardClass(this,student_list,SchoolYears,this_semester);
+        ScoreboardClass* scoreboardClass = new ScoreboardClass(this,student_list,SchoolYears,this_semester, this_class->classID);
         scoreboardClass->show();
     }
 }

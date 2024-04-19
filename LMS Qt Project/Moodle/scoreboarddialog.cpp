@@ -40,7 +40,7 @@ ScoreboardDialog::ScoreboardDialog(QWidget *parent, Course* thisCourse, int inde
     if(temp == nullptr)
     {
         QMessageBox::warning(this, "Error", "there is no student in this course");
-        qDebug() << "there is no student in this course";
+        //qDebug() << "there is no student in this course";
         return;
     }
     else
@@ -60,7 +60,7 @@ ScoreboardDialog::ScoreboardDialog(QWidget *parent, Course* thisCourse, int inde
        while(temp != nullptr)
        {
            ui->tableWidget_Scoreboard->setItem(i,0,new QTableWidgetItem(QString::fromStdString(temp->data.id_student)));
-           qDebug()<< QString::fromStdString(temp->data.fullName);
+           //qDebug()<< QString::fromStdString(temp->data.fullName);
            ui->tableWidget_Scoreboard->setItem(i,1,new QTableWidgetItem(QString::fromStdString(temp->data.fullName)));
            QTableWidgetItem* mid_mark = new QTableWidgetItem(QString::number(temp->data.mid_mark,'f',2));
            mid_mark->setTextAlignment(Qt::AlignCenter);

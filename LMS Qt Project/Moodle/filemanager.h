@@ -345,9 +345,9 @@ public:
                 readCourseToSemester(fileName, &temp2->data);
                 Node<Course>* temp3 = temp2->data.courses.getHead();
                 while(temp3 != nullptr){
-                    fileName = QString("%1/%2-%3-Students.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID));
+                    fileName = QString("%1/%2-%3-%4-Students.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID)).arg(QString::fromStdString(temp3->data.className));
                     readStudentToCourse(fileName, &temp3->data);
-                    fileName = QString("%1/%2-%3-Scoreboard.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID));
+                    fileName = QString("%1/%2-%3-%4-Scoreboard.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID)).arg(QString::fromStdString(temp3->data.className));
                     readScoreboardToCourse(fileName, &temp3->data);
                     temp3 = temp3->next;
                 }
@@ -378,9 +378,9 @@ public:
                 writeCourseToSemester(fileName, &temp2->data);
                 Node<Course>* temp3 = temp2->data.courses.getHead();
                 while(temp3 != nullptr){
-                    fileName = QString("%1/%2-%3-Students.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID));
+                    fileName = QString("%1/%2-%3-%4-Students.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID)).arg(QString::fromStdString(temp3->data.className));
                     writeStudentsToCourse(fileName, &temp3->data);
-                    fileName = QString("%1/%2-%3-Scoreboard.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID));
+                    fileName = QString("%1/%2-%3-%4-Scoreboard.csv").arg(QString::fromStdString(prefix_filename)).arg(QString::fromStdString(temp->data.year)).arg(QString::fromStdString(temp3->data.courseID)).arg(QString::fromStdString(temp3->data.className));
                     writeScoreboardToCourse(fileName, &temp3->data);
                     temp3 = temp3->next;
                 }
@@ -390,13 +390,42 @@ public:
         }
     }
 
-    FileManager(const std::string& prefix_filename, LinkedList<SchoolYear>* SchoolYears) : prefix_filename(prefix_filename), SchoolYears(SchoolYears){
-        SchoolYears = new LinkedList<SchoolYear>();
-    }
+    FileManager(const std::string& prefix_filename, LinkedList<SchoolYear>* SchoolYears) : prefix_filename(prefix_filename), SchoolYears(SchoolYears){}
 
-    ~FileManager() {
-        delete SchoolYears;
+    void deleteData(){
+        // Iterate over all SchoolYear objects in SchoolYears
+        while (!SchoolYears->isEmpty()) {
+            SchoolYear year = SchoolYears->removeFirst();
+
+            // Iterate over all Semester objects in each SchoolYear
+            while (!year.semesters.isEmpty()) {
+                Semester semester = year.semesters.removeFirst();
+
+                // Iterate over all Course objects in each Semester
+                while (!semester.courses.isEmpty()) {
+                    Course course = semester.courses.removeFirst();
+
+                    // Iterate over all Student objects in each Course
+                    while (!course.students.isEmpty()) {
+                        course.students.removeFirst();
+                    }
+
+                    while(!course.Scoreboard.isEmpty()){
+                        course.Scoreboard.removeFirst();
+                    }
+                }
+            }
+
+            while(!year.classes.isEmpty()){
+                Class this_class = year.classes.removeFirst();
+
+                while(!this_class.students.isEmpty()){
+                    this_class.students.removeFirst();
+                }
+            }
+        }
     }
+    
 
     // Similar methods can be implemented for Course, Score, Class, Semester, SchoolYear
 

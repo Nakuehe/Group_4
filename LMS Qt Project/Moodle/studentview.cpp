@@ -65,9 +65,9 @@ void StudentView::closeEvent(QCloseEvent *event)
 
 void StudentView::setStudent(std::string StudentID){
     // Find courses that the student is in
-    LinkedList<SchoolYear> schoolYears = mainWindow->SchoolYears;
-    for (int i = 0; i < schoolYears.size(); i++) {
-        LinkedList<Semester> semesters = schoolYears.get(i).semesters;
+    LinkedList<SchoolYear>* schoolYears = mainWindow->SchoolYears;
+    for (int i = 0; i < schoolYears->size(); i++) {
+        LinkedList<Semester> semesters = schoolYears->get(i).semesters;
         for(int j = 0; j < semesters.size(); j++){
             LinkedList<Course> courses = semesters.get(j).courses;
             for (int k = 0; k < courses.size(); k++) {
@@ -180,7 +180,7 @@ void StudentView::setUpCourseList() {
             std::string courseName;
             courseName = courseName + curCourse.courseID + " - " + curCourse.courseName;
             QString qCourseName = QString::fromStdString(courseName);
-            int wrapLen = 30;
+            int wrapLen = 25;
             if (qCourseName.length() > wrapLen) {
                 int lastSpace = qCourseName.lastIndexOf(' ', wrapLen);
                 if (lastSpace != -1) {
@@ -241,7 +241,7 @@ void StudentView::setUpGradeView(){
         QString midterm = thisStudentScore->get(row).mid_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).mid_mark);
         QString final = thisStudentScore->get(row).final_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).final_mark);
         QString bonus = thisStudentScore->get(row).other_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).other_mark);
-        QString total = thisStudentScore->get(row).total_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).total_mark);
+        QString total = thisStudentScore->get(row).total_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).total_mark, 'f', 1);
 
         QStandardItem *item1 = new QStandardItem(QString(courseID));
         model->setItem(row, 0, item1);

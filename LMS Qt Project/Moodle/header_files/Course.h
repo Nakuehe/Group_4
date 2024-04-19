@@ -50,7 +50,7 @@ struct Course : public CourseInfo {
             return;
         }
 
-        this->deleteThisStudentList();
+        //this->deleteThisStudentList();
         QTextStream in(&file);
         //in.setCodec("UTF-8");
         in.readLine();
@@ -77,7 +77,7 @@ struct Course : public CourseInfo {
             student.dateOfBirth = dateOfBirth_std;
             student.socialID = socialID_std;
 
-            students.add(student);
+            students.addSorted(student);
         }
 
         file.close();
@@ -103,7 +103,7 @@ struct Course : public CourseInfo {
             new_stu.gender = dialog.getGender().toStdString();
             new_stu.dateOfBirth = dialog.getDateofBirth().toStdString();
             new_stu.socialID = dialog.getsocialID().toStdString();
-            this->students.add(new_stu);
+            this->students.addSorted(new_stu);
         }
     }
     void updateCourseInfo()
@@ -144,12 +144,12 @@ struct Course : public CourseInfo {
             }
         }
     }
-   //bool operator==(const Course&other) const{
-     //   return courseID == other.courseID;
-    //}
-    //bool operator!=(const Course&other) const{
-       // return !(*this==other);
-    //}
+   bool operator==(const Course&other) const{
+       return courseID == other.courseID;
+    }
+    bool operator!=(const Course&other) const{
+       return !(*this==other);
+    }
     void removeStudent(const Student& student) {
         students.remove(student);
     }

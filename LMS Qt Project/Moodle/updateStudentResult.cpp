@@ -14,6 +14,7 @@
 #include <QFont>
 #include <QString>
 #include <string>
+#include "fontloader.h"
 
 updateStudentResult::updateStudentResult(QWidget *parent, Course* thisCourse)
     : QDialog(parent)
@@ -24,14 +25,29 @@ updateStudentResult::updateStudentResult(QWidget *parent, Course* thisCourse)
     // Set fixed size
     this->setFixedSize(this->size());
 
+    QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
+    QFont font(fontFamily1, 14);
+
+
+
     QWidget *darkenWidget = new QWidget(parent);
     darkenWidget->setStyleSheet("background-color: rgba(0, 0, 0, 0.7);");
     darkenWidget->resize(parent->size());
     darkenWidget->show();
 
+    ui->comboBox_idstudent->setFont(font);
+    ui->lineEdit_final->setFont(font);
+    ui->lineEdit_mid->setFont(font);
+    ui->lineEdit_other->setFont(font);
+
     connect(this, &updateStudentResult::shown, darkenWidget, &QWidget::show);
     connect(this, &updateStudentResult::hidden, darkenWidget, &QWidget::hide);
 
+    for (int i = 0; i < thisCourse->Scoreboard.size(); i++) {
+        Score& record = thisCourse->Scoreboard.get(i);
+        QString studentInfo = QString::fromStdString(record.id_student + " - " + record.fullName);
+        ui->comboBox_idstudent->addItem(studentInfo, QString::fromStdString(record.id_student));
+    }
 
 
 }
@@ -47,14 +63,6 @@ void updateStudentResult::hideEvent(QHideEvent *event) {
     QDialog::hideEvent(event);
 }
 
-QString updateStudentResult::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
-}
-
 updateStudentResult::~updateStudentResult()
 {
     delete ui;
@@ -63,7 +71,10 @@ updateStudentResult::~updateStudentResult()
 
 void updateStudentResult::on_pushButton_Search_clicked()
 {
-    QString ID = ui->lineEdit_idStudent->text();
+    QString ID = ui->comboBox_idstudent->currentText().left(8);
+
+
+
     ui->tableWidget->clear();
     ui->tableWidget->setRowCount(1);
     ui->tableWidget->setColumnCount(5);
@@ -71,10 +82,10 @@ void updateStudentResult::on_pushButton_Search_clicked()
     QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
     QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
     std::string id_student = ID.toStdString();
-    Node<Student>* temp = thisCourse->students.getHead();
+    Node<Score>* temp = thisCourse->Scoreboard.getHead();
     while(temp != nullptr)
     {
-        if(id_student == temp->data.studentID)
+        if(id_student == temp->data.id_student)
             break;
         temp = temp->next;
     }
@@ -87,13 +98,13 @@ void updateStudentResult::on_pushButton_Search_clicked()
         Node<Score>* it = thisCourse->Scoreboard.getHead();
         while(it != nullptr)
         {
-            if(it->data.id_student == temp->data.studentID)
+            if(it->data.id_student == temp->data.id_student)
                 break;
             it = it->next;
         }
 
-        ui->tableWidget->setItem(0,0,new QTableWidgetItem(QString::fromStdString(temp->data.studentID)));
-        ui->tableWidget->setItem(0,1,new QTableWidgetItem(QString::fromStdString(temp->data.getStudentFullName())));
+        ui->tableWidget->setItem(0,0,new QTableWidgetItem(QString::fromStdString(temp->data.id_student)));
+        ui->tableWidget->setItem(0,1,new QTableWidgetItem(QString::fromStdString(temp->data.fullName)));
         if(it == nullptr)
         {
             ui->tableWidget->setItem(0,2,new QTableWidgetItem(QString("")));
@@ -119,7 +130,7 @@ void updateStudentResult::on_pushButton_Search_clicked()
 
 void updateStudentResult::on_pushButton_Accept_clicked()
 {
-     QString ID = ui->lineEdit_idStudent->text();
+    QString ID = ui->comboBox_idstudent->currentText().left(8);
     std::string id_student = ID.toStdString();
     QString mid_mark = ui->lineEdit_mid->text();
     QString final_mark = ui->lineEdit_final->text();
@@ -127,17 +138,28 @@ void updateStudentResult::on_pushButton_Accept_clicked()
     if(mid_mark == QString("") || final_mark == QString("") || other_mark == QString(""))
     {
         QMessageBox::warning(this, "Error", "Please fill all column update");
+        return;
     }
     Node<Score>* it = thisCourse->Scoreboard.getHead();
+    // qDebug() << "ID: " << ID << '\n';
+
     while(it != nullptr)
     {
+        // qDebug() << it->data.id_student << '\n';
         if(it->data.id_student == id_student)
             break;
         it = it->next;
     }
+
+    if(it == nullptr){
+        QMessageBox::warning(this, "Error", "Please choose exist student");
+        return;
+    }
+
     it->data.mid_mark = mid_mark.toFloat();
     it->data.final_mark = final_mark.toFloat();
     it->data.other_mark = other_mark.toFloat();
+    it->data.total_mark = it->data.mid_mark*0.25 + it->data.final_mark*0.4 + it->data.other_mark*0.35;
     ui->tableWidget->setItem(0,2,new QTableWidgetItem(QString::number(it->data.mid_mark,'f',2)));// check update
     ui->tableWidget->setItem(0,3,new QTableWidgetItem(QString::number(it->data.final_mark,'f',2)));
     ui->tableWidget->setItem(0,4,new QTableWidgetItem(QString::number(it->data.other_mark,'f',2)));

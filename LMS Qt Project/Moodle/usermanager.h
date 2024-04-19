@@ -17,12 +17,14 @@ public:
     explicit UserManager(const QString &userFilename, const QString &studentFilename, QObject *parent = nullptr)
         : QObject(parent), m_user_filename(userFilename), m_student_filename(studentFilename) {}
 
+   
     void loadUsers() {
         QFile file(m_user_filename);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
 
         QTextStream in(&file);
+        in.readLine();
         while (!in.atEnd()) {
             QStringList fields = in.readLine().split(",");
             if (fields.size() == 3){
@@ -43,12 +45,15 @@ public:
             return;
 
         QTextStream out(&file);
+        out << "username,password,role\n";
         for (int i = 0; i < m_users.size(); i++){
             User cur_user = m_users.get(i);
 
             QString username = QString::fromStdString(cur_user.username);
             QString password = QString::fromStdString(cur_user.password);
             QString role = QString::fromStdString(cur_user.role);
+            
+
 
             out << username << "," << password << "," << role << "\n";
         }
@@ -103,7 +108,10 @@ public:
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
             return;
 
+
+
         QTextStream in(&file);
+        in.readLine();
         while (!in.atEnd()) {
             QStringList fields = in.readLine().split(",");
             if (fields.size() == 6){
@@ -125,6 +133,7 @@ public:
             return;
 
         QTextStream out(&file);
+        out << "StudentID,FirstName,LastName,Gender,DateOfBirth,SocialID\n";
         for (int i = 0; i < m_students.size(); i++){
             Student cur_student = m_students.get(i);
 

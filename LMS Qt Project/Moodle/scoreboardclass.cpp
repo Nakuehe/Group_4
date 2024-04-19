@@ -18,11 +18,12 @@
 #include <string>
 #include <QStringList>
 
-ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students , LinkedList<SchoolYear>* SchoolYears,Semester* thisSemester )
+ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students , LinkedList<SchoolYear>* SchoolYears,Semester* thisSemester, const std::string& className)
     : QDialog(parent)
     , students(students)
     , SchoolYears(SchoolYears)
     , thisSemester(thisSemester)
+    , className(className)
     , ui(new Ui::ScoreboardClass)
 {
 
@@ -42,12 +43,14 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
     QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
     QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
 
+    ui->pushButton->setText(QString::fromStdString(className) + " Scoreboard " + QString::fromStdString(thisSemester->semester));
+
     Node<Student>* temp = students->getHead();
 
 
     if(thisSemester == nullptr)
     {
-        qDebug()<<"No Semester";
+        //qDebug()<<"No Semester";
         return;
     }
     ui->tableWidget_Scoreboard->clear();
@@ -74,7 +77,7 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
             }
             if(it != nullptr)
             {
-                QTableWidgetItem* mark = new QTableWidgetItem(QString::number(it->data.final_mark,'f',2));
+                QTableWidgetItem* mark = new QTableWidgetItem(QString::number(it->data.total_mark,'f',2));
                 mark->setTextAlignment(Qt::AlignCenter);
                 ui->tableWidget_Scoreboard->setItem(i,2+j,mark);
             }
@@ -87,7 +90,7 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
             tempCourse = tempCourse->next;
         }
         float GPA = semesterGPA(temp);
-        qDebug()<<GPA;
+        //qDebug()<<GPA;
         if(GPA == -1)
         {
             QTableWidgetItem* mark = new QTableWidgetItem(QString("N/A"));
@@ -165,7 +168,7 @@ void ScoreboardClass::resizeColumns() {
         remainingSpace -= (ui->tableWidget_Scoreboard->verticalScrollBar()->width());
 
     // Set the width of the last column based on the remaining space
-    ui->tableWidget_Scoreboard->setColumnWidth(i, remainingSpace);
+    ui->tableWidget_Scoreboard->setColumnWidth(i, remainingSpace - 30);
 }
 void ScoreboardClass::resizeEvent(QResizeEvent *event)
 {
@@ -219,7 +222,7 @@ float ScoreboardClass::semesterGPA(Node<Student>* st)
         }
         temp = temp->next;
     }
-    qDebug()<<"I am here";
+    //qDebug()<<"I am here";
     return sumMark/sumCredit;
 }
 

@@ -45,6 +45,36 @@
      <height>641</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QHeaderView {
+    font-size: 12pt;
+    font-weight: bold;
+    background-color: #FFFFFF; /* Match the table's background color */
+	gridline-color: #606060;
+}
+
+QTableCornerButton::section {
+	border: 1px solid #606060;
+	 background-color: lightgray;
+ }
+
+QHeaderView::section{
+	border: 1px solid #606060
+}
+
+QTableView {
+    border: 2px solid lightgray;
+    background-color: #FFFFFF;
+}
+
+QTableView::item{
+	border: 1px solid #606060
+}
+
+QTableView::item:selected {
+	background-color: #909090;
+}</string>
+   </property>
   </widget>
  </widget>
  <resources/>
