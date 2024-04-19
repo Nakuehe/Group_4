@@ -6,6 +6,7 @@
 #include "studentview.h"
 #include "staffsideview.h"
 #include "Class.h"
+#include "LinkedList.h"
 #include "fontloader.h"
 
 
@@ -14,8 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    SchoolYears = new LinkedList<SchoolYear>();
     m_userManager = new UserManager(QCoreApplication::applicationDirPath() + "/data/users.csv", QCoreApplication::applicationDirPath() + "/data/students.csv");
-    m_fileManager = new FileManager(QCoreApplication::applicationDirPath().toStdString() + "/core_data", &(this->SchoolYears));
+    m_fileManager = new FileManager(QCoreApplication::applicationDirPath().toStdString() + "/core_data", this->SchoolYears);
     setupPage();
     m_userManager->loadUsers();
     m_userManager->loadStudents();
@@ -164,7 +166,9 @@ void MainWindow::on_pushButtonLogin_clicked()
         this->hide(); // Hide the MainWindow
     }
         else{ //staff view
-            StaffSideView* staffSideView = new StaffSideView(nullptr, this, &SchoolYears);
+            User user = m_userManager->findUser(username, password);
+
+            StaffSideView* staffSideView = new StaffSideView(nullptr, this, user, this->m_userManager, SchoolYears);
             staffSideViews.append(staffSideView);
             connect(staffSideView, &QObject::destroyed, this, [=]() {
                 staffSideViews.removeOne(staffSideView);
@@ -251,47 +255,19 @@ MainWindow::~MainWindow()
 {
     m_fileManager->saveData();
     
-    // Iterate over all SchoolYear objects in SchoolYears
-    while (!SchoolYears.isEmpty()) {
-        SchoolYear year = SchoolYears.removeFirst();
 
-        // Iterate over all Semester objects in each SchoolYear
-        while (!year.semesters.isEmpty()) {
-            Semester semester = year.semesters.removeFirst();
-
-            // Iterate over all Course objects in each Semester
-            while (!semester.courses.isEmpty()) {
-                Course course = semester.courses.removeFirst();
-
-                // Iterate over all Student objects in each Course
-                while (!course.students.isEmpty()) {
-                    course.students.removeFirst();
-                }
-
-                while(!course.Scoreboard.isEmpty()){
-                    course.Scoreboard.removeFirst();
-                }
-            }
-        }
-
-        while(!year.classes.isEmpty()){
-            Class this_class = year.classes.removeFirst();
-
-            while(!this_class.students.isEmpty()){
-                this_class.students.removeFirst();
-            }
-        }
-    }
 
     // m_userManager.changePassword("23125061", "newpassword");
     m_userManager->saveUsers();
     m_userManager->saveStudents();
 
     m_userManager->deleteThis();
+    m_fileManager->deleteData();
 
     delete m_userManager;
     delete m_fileManager;
 
+    delete SchoolYears;
 
 
     delete ui;

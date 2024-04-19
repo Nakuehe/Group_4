@@ -36,7 +36,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    LinkedList<SchoolYear> SchoolYears;
+    LinkedList<SchoolYear>* SchoolYears;
 
     //LinkedList<UserInfo> Users;
     ~MainWindow();
@@ -58,8 +58,7 @@ private slots:
 
     void deleteStudentView(StudentView* studentView);
 
-
-    void on_labelPlaceholder_linkActivated(const QString &link);
+    //void on_labelPlaceholder_linkActivated(const QString &link);
 
 private:
     UserManager* m_userManager;

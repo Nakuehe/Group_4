@@ -2,6 +2,7 @@
 #define SCOREBOARDCLASS_H
 
 #include <QDialog>
+#include <string>
 #include "SchoolYear.h"
 #include "Semester.h"
 #include "Class.h"
@@ -19,7 +20,7 @@ class ScoreboardClass : public QDialog
 {
     Q_OBJECT
 public:
-    explicit ScoreboardClass(QWidget *parent = nullptr, LinkedList<Student>* students = nullptr, LinkedList<SchoolYear>* SchoolYears = nullptr,Semester* thisSemester = nullptr);
+    explicit ScoreboardClass(QWidget *parent = nullptr, LinkedList<Student>* students = nullptr, LinkedList<SchoolYear>* SchoolYears = nullptr,Semester* thisSemester = nullptr, const std::string& className = "");
     ~ScoreboardClass();
     QString loadFont(const QString &resourcePath);
     float semesterGPA(Node<Student>* st);
@@ -40,6 +41,7 @@ private:
     Semester* thisSemester;
     LinkedList<Student>* students ;
     LinkedList<SchoolYear>* SchoolYears;
+    std::string className;
 
 };
 
