@@ -3,10 +3,11 @@
 
 #include "LinkedList.h"
 #include "Semester.h"
-
+#include "./classdialog.h"
 #include "Class.h"
 #include <QInputDialog>
 #include "dateinputdialog.h"
+
 
 struct SchoolYear {
     std::string year;
@@ -77,8 +78,41 @@ struct SchoolYear {
             this->addSemester(new_semester);
         }
     }
+<<<<<<< HEAD
     void createClass();
 
+=======
+    void createClass()
+    {
+        ClassDialog dialog;
+        if (dialog.exec() == QDialog::Accepted)
+        {
+            std::string tempClass = dialog.getClassName().toStdString();
+            for (int i = 0; i < tempClass.length(); ++i)
+            {
+                if (!tempClass.at(i).isLetterOrNumber())
+                {
+                    QMessageBox::warning(nullptr,"Invalid Format", "Invalid format. Class name should contain letters or numbers only.");
+                    return;
+                }
+                Class* curr = this->classes;
+                while (curr)
+                {
+                    if (curr->classname == tempClass)
+                    {
+                        QMessageBox::warning(nullptr, "Class Exists", "Class '" + tempClass + "' already exists.");
+                        return;
+                    }
+                    if (curr->next == nullptr)
+                        break;
+                    curr = curr->next;
+                }
+                Class new_class(tempClass,this->year);
+                this->addClass(new_class);
+
+            }
+        }
+>>>>>>> c630bc6b24309bed5d01e2579239f107165f9c14
     void addSemester(const Semester& semester) {
         semesters.add(semester);
     }
