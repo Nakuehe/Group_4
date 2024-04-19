@@ -39,6 +39,7 @@ struct Semester {
             new_course.maxStudent = dialog.getMaxStudent().toInt();
             new_course.day = dialog.getDay().toStdString();
             new_course.session = dialog.getSession().left(2).toStdString();
+            new_course.isPublic = dialog.isCoursePublic();
 
             this->addCourse(new_course);
         }

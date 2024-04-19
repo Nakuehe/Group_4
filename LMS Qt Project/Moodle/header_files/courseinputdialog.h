@@ -11,6 +11,7 @@
 #include <QFontDatabase>
 #include <QLabel>
 #include "fontloader.h"
+#include <QCheckBox>
 
 
 
@@ -45,14 +46,19 @@ public:
     QLineEdit *maxStudentsEdit;
     QComboBox *DayComboBox;
     QComboBox *SessionComboBox;
+    QCheckBox *publicCheckBox;
 
 
 
     COURSEINPUTDIALOG(QWidget *parent = nullptr) : QDialog(parent)
     {
         
+        
         QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
         QFont font(fontFamily1, 14);
+
+        this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+        this->setWindowTitle("Info");
 
         courseIDEdit = new QLineEdit(this);
         courseIDEdit->setFont(font);
@@ -74,6 +80,12 @@ public:
         SessionComboBox = new QComboBox(this);
         SessionComboBox->setFont(font);
         SessionComboBox->addItems({"S1(07:30)", "S2(09:30)", "S3(13:30)", "S4(15:30)"});
+        SessionComboBox->setFont(font);
+
+        publicCheckBox = new QCheckBox(this);
+        publicCheckBox->setStyleSheet("QCheckBox::indicator { width: 20px; height: 20px; }");  // Adjust the size of the checkbox
+
+        
 
         QFormLayout *formLayout = new QFormLayout;
         QLabel *courseIDLabel = new QLabel("Course ID:", this);
@@ -108,6 +120,18 @@ public:
         sessionLabel->setFont(font);
         formLayout->addRow(sessionLabel, SessionComboBox);
 
+        QLabel *checkBoxLabel = new QLabel("Public:", this);
+        checkBoxLabel->setFont(font);
+
+        QHBoxLayout *Hlayout = new QHBoxLayout;
+        Hlayout->addWidget(publicCheckBox);
+        Hlayout->addStretch();  // Add a spacer at the bottom
+
+        QWidget *widget = new QWidget;
+        widget->setLayout(Hlayout);
+
+        formLayout->addRow(checkBoxLabel, widget);
+
         QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
         connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
         connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
@@ -140,6 +164,9 @@ public:
     }
     QString getSession() {
         return SessionComboBox->currentText();
+    }
+    bool isCoursePublic() {
+        return publicCheckBox->isChecked();
     }
 };
 #endif // COURSEINPUTDIALOG_H

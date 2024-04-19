@@ -27,6 +27,9 @@ StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStude
 {
     ui->setupUi(this);
 
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Course");
+
     thisStudentCourse = new LinkedList<Course>();
     thisStudentScore = new LinkedList<Score>();
 
@@ -67,21 +70,26 @@ void StudentView::setStudent(std::string StudentID){
     // Find courses that the student is in
     LinkedList<SchoolYear>* schoolYears = mainWindow->SchoolYears;
     for (int i = 0; i < schoolYears->size(); i++) {
-        LinkedList<Semester> semesters = schoolYears->get(i).semesters;
-        for(int j = 0; j < semesters.size(); j++){
-            LinkedList<Course> courses = semesters.get(j).courses;
-            for (int k = 0; k < courses.size(); k++) {
-                LinkedList<Student> students = courses.get(k).students;
-                for (int h = 0; h < students.size(); h++) {
-                    if (students.get(h).studentID == StudentID) {
-                        thisStudentCourse->add(courses.get(k));
+        LinkedList<Semester>* semesters = &schoolYears->get(i).semesters;
+        for(int j = 0; j < semesters->size(); j++){
+            LinkedList<Course>* courses = &semesters->get(j).courses;
+            for (int k = 0; k < courses->size(); k++) {
+                Course* this_course = &courses->get(k);
+                if(this_course->isPublic == false){
+                    continue;
+                }
+
+                LinkedList<Student>* students = &this_course->students;
+                for (int h = 0; h < students->size(); h++) {
+                    if (students->get(h).studentID == StudentID) {
+                        thisStudentCourse->add(courses->get(k));
                     }
                 }
 
-                LinkedList<Score> scores = courses.get(k).Scoreboard;
-                for (int h = 0; h < scores.size(); h++) {
-                    if (scores.get(h).id_student == StudentID) {
-                        thisStudentScore->add(scores.get(h));
+                LinkedList<Score>* scores = &this_course->Scoreboard;
+                for (int h = 0; h < scores->size(); h++) {
+                    if (scores->get(h).id_student == StudentID) {
+                        thisStudentScore->add(scores->get(h));
                     }
                 }
             }
@@ -93,7 +101,15 @@ void StudentView::setStudent(std::string StudentID){
 StudentView::~StudentView()
 {
     delete ui;
+    while(!thisStudentCourse->isEmpty()){
+        thisStudentCourse->removeFirst();
+    }
     delete thisStudentCourse;
+
+    while(!thisStudentScore->isEmpty()){
+        thisStudentScore->removeFirst();
+    }
+
     delete thisStudentScore;
     delete model;
 }

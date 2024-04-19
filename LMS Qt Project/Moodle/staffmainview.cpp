@@ -21,6 +21,9 @@ StaffMainView::StaffMainView(QWidget *parent, StaffSideView* staffSideView, Scho
     , ui(new Ui::StaffMainView)
 {
     ui->setupUi(this);
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Course");
+
     setUpPage();
     setUpSemesters();
     setUpClasses();
@@ -435,6 +438,11 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
 {
+    if(ui->class_function_list->row(item) == 1) // if the third item was clicked
+    {
+        this_class->readStudentToClass();
+    }
+
     if(ui->class_function_list->row(item) == 2) // if the third item was clicked
     {
         StudentViewTable* studentViewTable = new StudentViewTable(this, student_list);

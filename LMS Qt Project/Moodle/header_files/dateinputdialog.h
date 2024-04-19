@@ -34,6 +34,9 @@ public:
 
         this->setFont(font);
 
+        this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+        this->setWindowTitle("Info");
+
         startDayComboBox = new QComboBox(this);
         startMonthComboBox = new QComboBox(this);
         startYearComboBox = new QComboBox(this);
