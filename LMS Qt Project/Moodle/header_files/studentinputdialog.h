@@ -32,6 +32,9 @@ public:
         QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
         QFont font(fontFamily1, 14);
 
+        this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+        this->setWindowTitle("Info");
+
         this->setFont(font);
 
         studentIDEdit = new QLineEdit(this);

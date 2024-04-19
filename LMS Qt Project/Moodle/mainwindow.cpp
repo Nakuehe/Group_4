@@ -15,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Login");
+
     SchoolYears = new LinkedList<SchoolYear>();
     m_userManager = new UserManager(QCoreApplication::applicationDirPath() + "/data/users.csv", QCoreApplication::applicationDirPath() + "/data/students.csv");
     m_fileManager = new FileManager(QCoreApplication::applicationDirPath().toStdString() + "/core_data", this->SchoolYears);
@@ -154,14 +158,7 @@ void MainWindow::on_pushButtonLogin_clicked()
         if(user.role == "student"){
             Student student = m_userManager->findStudent(username);
         StudentView* studentView = new StudentView(nullptr, this, user, student, this->m_userManager);
-        studentViews.append(studentView);
-        connect(studentView, &QObject::destroyed, this, [=]() {
-            studentViews.removeOne(studentView);
-        });
-        connect(studentView, &StudentView::closed, this, [=]() {
-            deleteStudentView(studentView);
-        });
-
+        studentView->setAttribute(Qt::WA_DeleteOnClose);
         studentView->show();
         this->hide(); // Hide the MainWindow
     }
@@ -169,10 +166,6 @@ void MainWindow::on_pushButtonLogin_clicked()
             User user = m_userManager->findUser(username, password);
 
             StaffSideView* staffSideView = new StaffSideView(nullptr, this, user, this->m_userManager, SchoolYears);
-            staffSideViews.append(staffSideView);
-            connect(staffSideView, &QObject::destroyed, this, [=]() {
-                staffSideViews.removeOne(staffSideView);
-            });
             staffSideView->setAttribute(Qt::WA_DeleteOnClose);
             staffSideView->show();
             this->hide(); // Hide the MainWindow

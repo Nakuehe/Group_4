@@ -21,6 +21,9 @@ StaffSideView::StaffSideView(QWidget *parent, MainWindow* mainWindow, User thisS
 {
     ui->setupUi(this);
 
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Course");
+
     // Set the font for this page
 
     QString fontFamilyRegular = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
@@ -104,6 +107,7 @@ void StaffSideView::onConfirmButtonClicked()
 
         if (check_name == selectedSchoolYear) {
             StaffMainView* staffMainView = new StaffMainView(nullptr, this, schoolYear,SchoolYears);
+            staffMainView->setAttribute(Qt::WA_DeleteOnClose);
             staffMainView->show();
             this->hide(); // Hide the MainWindow
             break;

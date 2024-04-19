@@ -50,7 +50,7 @@ public:
 
         while (!in.atEnd()) {
             QStringList fields = in.readLine().split(",");
-            if (fields.size() == 8){
+            if (fields.size() == 9){
                 std::string courseID = fields[0].toStdString();
                 std::string courseName = fields[1].toStdString();
                 std::string classID = fields[2].toStdString();
@@ -59,8 +59,9 @@ public:
                 int maxNumberOfStudents = fields[5].toInt();
                 std::string dayOfWeek = fields[6].toStdString();
                 std::string session = fields[7].toStdString();
+                bool isPublic = fields[8].toInt() == 1;
 
-                Course course = Course(courseID, courseName, classID, lecturerName, creditNumber, maxNumberOfStudents, dayOfWeek, session);
+                Course course = Course(courseID, courseName, classID, lecturerName, creditNumber, maxNumberOfStudents, dayOfWeek, session, isPublic);
                 this_semester->addCourse(course);
             }
         }
@@ -210,7 +211,7 @@ public:
             return;
 
         QTextStream out(&file);
-        out << "CourseID,CourseName,ClassID,LecturerName,CreditNumber,MaxNumberOfStudents,DayOfWeek,Session\n";
+        out << "CourseID,CourseName,ClassID,LecturerName,CreditNumber,MaxNumberOfStudents,DayOfWeek,Session,IsPublic\n";
 
         Node<Course>* temp = this_semester->courses.getHead();
         while (temp != nullptr)
@@ -222,7 +223,9 @@ public:
             out << QString::fromStdString(temp->data.credits) << ",";
             out << temp->data.maxStudent << ",";
             out << QString::fromStdString(temp->data.day) << ",";
-            out << QString::fromStdString(temp->data.session) << "\n";
+            out << QString::fromStdString(temp->data.session) << ",";
+            out << (temp->data.isPublic ? "1" : "0") << "\n";  // Convert bool to int
+
             temp = temp->next;
         }
         file.close();
