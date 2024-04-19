@@ -110,6 +110,8 @@ void StaffMainView::setUpClasses(){
             btn_class->setIconSize(QSize(48, 48)); // Adjust size as needed
 
             connect(btn_class, &QPushButton::clicked, this, [=]() {
+                this_year->createClass();
+                setUpClasses();
                 //to be implemented
             });
         } else { // If there are no buttons left
