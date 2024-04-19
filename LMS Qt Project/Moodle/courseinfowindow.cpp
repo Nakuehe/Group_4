@@ -14,6 +14,9 @@ CourseInfoWindow::CourseInfoWindow(QWidget *parent, const Course* thisCourse, in
     // Set fixed size
     this->setFixedSize(this->size());
 
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Info");
+
     // Create semi-transparent black QWidget
     QWidget *darkenWidget = new QWidget(parent);
     darkenWidget->setStyleSheet("background-color: rgba(0, 0, 0, 0.7);");

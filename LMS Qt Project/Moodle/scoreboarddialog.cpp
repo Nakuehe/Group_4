@@ -23,6 +23,8 @@ ScoreboardDialog::ScoreboardDialog(QWidget *parent, Course* thisCourse, int inde
     ui->setupUi(this);
     // Set fixed size
     this->setFixedSize(this->size());
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Score");
 
     QWidget *darkenWidget = new QWidget(parent);
     darkenWidget->setStyleSheet("background-color: rgba(0, 0, 0, 0.7);");

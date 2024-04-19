@@ -10,6 +10,9 @@ ChangePasswordDialog::ChangePasswordDialog(QWidget *parent, User thisStudent, Us
     QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
     QFont font(fontFamily1, 14);
 
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Course");
+
     ui->buttonBox->setFont(font);
     ui->confirmNewPasswordLineEdit->setFont(font);
     ui->newPasswordLineEdit->setFont(font);

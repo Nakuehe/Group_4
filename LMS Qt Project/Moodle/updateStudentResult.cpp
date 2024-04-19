@@ -24,6 +24,8 @@ updateStudentResult::updateStudentResult(QWidget *parent, Course* thisCourse)
     ui->setupUi(this);
     // Set fixed size
     this->setFixedSize(this->size());
+    this->setWindowIcon(QIcon(":/Asset/loginpageAsset/logo.png"));
+    this->setWindowTitle("Update");
 
     QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
     QFont font(fontFamily1, 14);

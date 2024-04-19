@@ -27,11 +27,12 @@ struct CourseInfo {
     int maxStudent;
     std::string day;
     std::string session;
+    bool isPublic;
 
-    CourseInfo() : courseID(""), courseName(""), className(""), teacherName(""), credits(""), maxStudent(0), day(""), session("") {}
+    CourseInfo() : courseID(""), courseName(""), className(""), teacherName(""), credits(""), maxStudent(0), day(""), session(""), isPublic(false) {}
 
-    CourseInfo(const std::string& courseID, const std::string& courseName, const std::string& className, const std::string& teacherName, const std::string& credits, int maxStudent, const std::string& day, const std::string& session)
-        : courseID(courseID), courseName(courseName), className(className), teacherName(teacherName), credits(credits), maxStudent(maxStudent), day(day), session(session) {}
+    CourseInfo(const std::string& courseID, const std::string& courseName, const std::string& className, const std::string& teacherName, const std::string& credits, int maxStudent, const std::string& day, const std::string& session, const bool isPublic)
+        : courseID(courseID), courseName(courseName), className(className), teacherName(teacherName), credits(credits), maxStudent(maxStudent), day(day), session(session), isPublic(isPublic) {}
 };
 
 struct Course : public CourseInfo {
@@ -40,8 +41,8 @@ struct Course : public CourseInfo {
 
     Course() : CourseInfo(){};
 
-    Course(const std::string& courseID, const std::string& courseName, const std::string& className, const std::string& teacherName, const std::string& credits, int maxStudent, const std::string& day, const std::string& session)
-        : CourseInfo(courseID, courseName, className, teacherName, credits, maxStudent, day, session) {}
+    Course(const std::string& courseID, const std::string& courseName, const std::string& className, const std::string& teacherName, const std::string& credits, int maxStudent, const std::string& day, const std::string& session, const bool isPublic)
+        : CourseInfo(courseID, courseName, className, teacherName, credits, maxStudent, day, session, isPublic) {}
     void read_students_from_CSV(const QString& filename)
     {
         QFile file(filename);
@@ -123,6 +124,11 @@ struct Course : public CourseInfo {
 
         //    dialog.DayComboBox->setCurrentIndex(index);
         dialog.SessionComboBox->setCurrentText(QString::fromStdString(this->session));
+        if (this->isPublic) {
+            dialog.publicCheckBox->setCheckState(Qt::Checked);
+        } else {
+            dialog.publicCheckBox->setCheckState(Qt::Unchecked);
+        }
         //    int rindex = dialog.SessionComboBox->findText(QString::fromStdString(this->session), Qt::MatchExactly);
         //    if (rindex != -1)
         //        dialog.SessionComboBox->setCurrentIndex(rindex);
@@ -139,6 +145,7 @@ struct Course : public CourseInfo {
                 this->maxStudent = dialog.getMaxStudent().toInt();
                 this->day = dialog.getDay().toStdString();
                 this->session = dialog.getSession().left(2).toStdString();
+                this->isPublic = dialog.isCoursePublic();
 
                 QMessageBox::information(nullptr, "Confirmation", "Course information updated successfully.");
             }
