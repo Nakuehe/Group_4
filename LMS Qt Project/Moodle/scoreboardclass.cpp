@@ -127,7 +127,7 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
         headerLabels<<QString::fromStdString(ourse->data.courseID)+ "-" + QString::fromStdString(ourse->data.className);
         ourse = ourse->next;
     }
-    headerLabels << "GPA"<<"OverallGPA";
+    headerLabels << " GPA "<<"OverallGPA";
     ui->tableWidget_Scoreboard->setHorizontalHeaderLabels(headerLabels);
     ui->tableWidget_Scoreboard->horizontalHeader()->setStyleSheet("QHeaderView { font-size: 12pt; font-weight: bold; }");
 
