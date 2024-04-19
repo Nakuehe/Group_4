@@ -77,6 +77,8 @@ struct SchoolYear {
             this->addSemester(new_semester);
         }
     }
+    void createClass();
+
     void addSemester(const Semester& semester) {
         semesters.add(semester);
     }

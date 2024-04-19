@@ -54,6 +54,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         scoreboarddialog.h scoreboarddialog.cpp scoreboarddialog.ui
         updateStudentResult.h updateStudentResult.cpp updateStudentResult.ui
         scoreboardclass.h scoreboardclass.cpp scoreboardclass.ui
+        dialogclass.h dialogclass.cpp dialogclass.ui
+        SchoolYear.cpp
+
 
 
 
