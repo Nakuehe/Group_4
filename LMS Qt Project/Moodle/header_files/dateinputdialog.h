@@ -13,7 +13,6 @@
 #include <QFontDatabase>
 #include "fontloader.h"
 
-
 class DateInputDialog : public QDialog {
     Q_OBJECT
 
@@ -26,7 +25,6 @@ public:
     QComboBox *endDayComboBox;
     QComboBox *endMonthComboBox;
     QComboBox *endYearComboBox;
-
     DateInputDialog(QWidget *parent = nullptr) : QDialog(parent) {
 
         QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
@@ -62,7 +60,7 @@ public:
             endMonthComboBox->addItem(QString::number(i));
         }
         
-        for (int i = QDate::currentDate().year(); i >= 1900; --i) {
+        for (int i = QDate::currentDate().year()-5; i < 2100; i++) {
             startYearComboBox->addItem(QString::number(i));
             endYearComboBox->addItem(QString::number(i));
         }

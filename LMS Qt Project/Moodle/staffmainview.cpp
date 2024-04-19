@@ -113,6 +113,8 @@ void StaffMainView::setUpClasses(){
             btn_class->setIconSize(QSize(48, 48)); // Adjust size as needed
 
             connect(btn_class, &QPushButton::clicked, this, [=]() {
+                this_year->createClass();
+                setUpClasses();
                 //to be implemented
             });
         } else { // If there are no buttons left
@@ -451,7 +453,9 @@ void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
     if(ui->class_function_list->row(item) == 3) // view scoreboard of class
     {
 
+
         ScoreboardClass* scoreboardClass = new ScoreboardClass(this,student_list,SchoolYears,this_semester, this_class->classID);
+
         scoreboardClass->show();
     }
 }

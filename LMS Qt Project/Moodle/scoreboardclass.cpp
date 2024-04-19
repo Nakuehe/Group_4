@@ -45,16 +45,16 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
     QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
     QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
 
+    if(thisSemester == nullptr)
+    {
+        QMessageBox::warning(this, "Error", "Please fill all column update");
+        return;
+    }
     ui->pushButton->setText(QString::fromStdString(className) + " Scoreboard " + QString::fromStdString(thisSemester->semester));
 
     Node<Student>* temp = students->getHead();
 
 
-    if(thisSemester == nullptr)
-    {
-        //qDebug()<<"No Semester";
-        return;
-    }
     ui->tableWidget_Scoreboard->clear();
 
     ui->tableWidget_Scoreboard->setRowCount(students->size());
@@ -129,7 +129,7 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
         headerLabels<<QString::fromStdString(ourse->data.courseID)+ "-" + QString::fromStdString(ourse->data.className);
         ourse = ourse->next;
     }
-    headerLabels << "GPA"<<"OverallGPA";
+    headerLabels << " GPA "<<"OverallGPA";
     ui->tableWidget_Scoreboard->setHorizontalHeaderLabels(headerLabels);
     ui->tableWidget_Scoreboard->horizontalHeader()->setStyleSheet("QHeaderView { font-size: 12pt; font-weight: bold; }");
 

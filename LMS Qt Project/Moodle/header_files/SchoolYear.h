@@ -18,8 +18,23 @@ struct SchoolYear {
     SchoolYear(const std::string& year ="", const std::string &start_date = "", const std::string &end_date = "")
         : year(year), start_date(start_date), end_date(end_date){}
 
+    std::string getNextYear(const std::string& currentYear)
+    {
+        size_t hyphenPos = currentYear.find('-');
+        if (hyphenPos == std::string::npos || hyphenPos == 0 || hyphenPos == currentYear.length() - 1)
+        {
 
-    void createYear();
+            return currentYear;
+        }
+        std::string startYearStr = currentYear.substr(0, hyphenPos);
+        std::string endYearStr = currentYear.substr(hyphenPos + 1);
+        int startYear = std::stoi(startYearStr);
+        int endYear = std::stoi(endYearStr);
+        startYear++;
+        endYear++;
+        std::string nextYear = std::to_string(startYear) + "-" + std::to_string(endYear);
+        return nextYear;
+    }
     void createSemester()
     {   /*
         if(this->semesters.size()>2) return;
@@ -60,8 +75,10 @@ struct SchoolYear {
 
             Semester new_semester(semesterName, start_date_std, end_date_std);
             this->addSemester(new_semester);
+        }
     }
-    }
+    void createClass();
+
     void addSemester(const Semester& semester) {
         semesters.add(semester);
     }
