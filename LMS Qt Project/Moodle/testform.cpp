@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QScrollBar>
 #include <QTimer>
+#include "fontloader.h"
 
 TestForm::TestForm(QWidget *parent)
     : QWidget(parent)
@@ -14,20 +15,9 @@ TestForm::TestForm(QWidget *parent)
     setUpTableView();
 }
 
-QString TestForm::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
-}
-
-
 void TestForm::setUpTableView(){
 
     QString fontFamilyRegular = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
-    QString fontFamilyMedium = loadFont(":/asset/font/Helvetica Neue/helveticaneuemedium.ttf");
-    QString fontFamilyBold = loadFont(":/asset/font/Helvetica Neue/HelveticaNeue-Bold.otf");
 
     // Set the font of the table
 

@@ -13,23 +13,17 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QTableView" name="test_view_table">
-   <property name="geometry">
-    <rect>
-     <x>5</x>
-     <y>5</y>
-     <width>256</width>
-     <height>192</height>
-    </rect>
-   </property>
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QHeaderView {
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTableView" name="test_view_table">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QHeaderView {
     font-size: 12pt;
     font-weight: bold;
     background-color: #FFFFFF; /* Match the table's background color */
@@ -59,18 +53,10 @@ QTableView::item:selected {
 }
 
 </string>
-   </property>
-  </widget>
-  <widget class="QComboBox" name="student_list_box">
-   <property name="geometry">
-    <rect>
-     <x>330</x>
-     <y>230</y>
-     <width>211</width>
-     <height>51</height>
-    </rect>
-   </property>
-  </widget>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

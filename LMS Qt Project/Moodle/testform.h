@@ -21,7 +21,7 @@ private:
     Ui::TestForm *ui;
     QStandardItemModel *model;
 
-    QString loadFont(const QString &resourcePath);
+
     void setUpTableView();
     
 

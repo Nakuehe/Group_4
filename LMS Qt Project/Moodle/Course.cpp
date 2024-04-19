@@ -7,15 +7,25 @@
 #include <QStringList>
 #include <QDebug>
 #include <QString>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QInputDialog>
+
 
 void Course::ExportStudentCSVFile()
 {
-    QString fileName = QString::fromStdString(courseName);
-    fileName.append(".csv");
+    // QString fileName = QString::fromStdString(courseName);
+    // fileName.append(".csv");
+
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Export CSV", "", "CSV files (*.csv)");
+    if (fileName.isEmpty()) {
+        return; // User canceled the dialog
+    }
+
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        qDebug() << "Failed to open file for writing.";
+        QMessageBox::critical(nullptr, "Error", "Failed to open file for writing.");
         return;
     }
 
@@ -35,7 +45,7 @@ void Course::ExportStudentCSVFile()
     }
 
     file.close();
-    qDebug() << "The Course Student list is exported to " << fileName;
+    QMessageBox::information(nullptr, "Success", "The Course Student list is exported successfully.");
 }
 
 void Course::Export_Scoreboard_Form()
@@ -43,39 +53,49 @@ void Course::Export_Scoreboard_Form()
     Node<Score>* temp = Scoreboard.getHead();
     if(temp == nullptr)
     {
-        qDebug()<<"there is no student in a course\n";
+        QMessageBox::critical(nullptr, "Error", "There is no student in a course.");
         return;
     }
-    QString fileName = QString("%1/%2-%3-scoreboard.csv").arg(QString::fromStdString(year)).arg(QString::fromStdString(courseID)).arg(QString::fromStdString(className));
+
+    QString fileName = QFileDialog::getSaveFileName(nullptr, "Export CSV", "", "CSV files (*.csv)");
+    if (fileName.isEmpty()) {
+        return; // User canceled the dialog
+    }
+
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-        qDebug() << "Failed to open file for writing:" << file.errorString();
+        QMessageBox::critical(nullptr, "Error", "Failed to open file for writing.");
         return;
     }
+
     QTextStream fout(&file);
-    fout<<"id,fullname,midterm,final,other\n";
+    fout << "id,fullname,midterm,final,other\n";
     while(temp != nullptr)
     {
-        fout<<QString::fromStdString(temp->data.id_student)<<",";
-        fout<<QString::fromStdString(temp->data.fullName)<<",";
-        fout<<temp->data.mid_mark<<",";
-        fout<<temp->data.final_mark<<",";
-        fout<<temp->data.other_mark<<"\n";
+        fout << QString::fromStdString(temp->data.id_student) << ",";
+        fout << QString::fromStdString(temp->data.fullName) << ",";
+        fout << temp->data.mid_mark << ",";
+        fout << temp->data.final_mark << ",";
+        fout << temp->data.other_mark << "\n";
         temp = temp->next;
     }
-    file.close();
-    qDebug()<<"Export Successfully\n";
 
+    file.close();
+    QMessageBox::information(nullptr, "Success", "The Course Scoreboard is exported successfully.");
 }
 
 void Course::Import_Scoreboard_To()
 {
-    QString fileName = QString("%1/%2-%3-scoreboard.csv").arg(QString::fromStdString(year)).arg(QString::fromStdString(courseID)).arg(QString::fromStdString(className));
+    QString fileName = QFileDialog::getOpenFileName(nullptr, "Open CSV", "", "CSV files (*.csv)");
+    if (fileName.isEmpty()) {
+        return; // User canceled the dialog
+    }
+
     QFile file(fileName);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Failed to open file for reading:" << file.errorString();
+        QMessageBox::critical(nullptr, "Error", "Failed to open file for reading.");
         return;
     }
 
@@ -91,7 +111,7 @@ void Course::Import_Scoreboard_To()
 
         if (fields.size() < 5)
         {
-            qDebug() << "Invalid line format, skipping line:" << line;
+            QMessageBox::critical(nullptr, "Error", "Invalid line format, skipping line.");
             continue;
         }
 
@@ -108,10 +128,16 @@ void Course::Import_Scoreboard_To()
     }
 
     file.close();
-    qDebug() << "Import successfully";
+    QMessageBox::information(nullptr, "Success", "Import successfully.");
 }
 
 void Course::updateStudentResult()
 {
 
+}
+
+void Course::deleteThisStudentList(){
+    while(!students.isEmpty()){
+        students.removeFirst();
+    }
 }

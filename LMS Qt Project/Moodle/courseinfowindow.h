@@ -18,7 +18,6 @@ public:
     explicit CourseInfoWindow(QWidget *parent = nullptr, const Course* thisCourse = nullptr, int index = 0);
     ~CourseInfoWindow();
 
-    QString loadFont(const QString &resourcePath);  // Method to load the font
 
 signals:
     void shown();

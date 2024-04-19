@@ -1,5 +1,7 @@
 #include "courseinfowindow.h"
 #include "ui_courseinfowindow.h"
+#include "fontloader.h"
+
 
 CourseInfoWindow::CourseInfoWindow(QWidget *parent, const Course* thisCourse, int index)
     : QDialog(parent)
@@ -64,7 +66,7 @@ CourseInfoWindow::CourseInfoWindow(QWidget *parent, const Course* thisCourse, in
 
     ui->full_course_name->setStyleSheet("QLabel{ text-align: left; font-weight: 500; color: #0D63E6; border: none; }");
     ui->full_course_name->setFont(QFont(fontFamilyMedium, 20));
-    //ui->ful;l_course_name->setText(qCourseName);
+    ui->full_course_name->setText(qCourseName);
 
     //--------------END----------------
 
@@ -194,14 +196,6 @@ void CourseInfoWindow::showEvent(QShowEvent *event) {
 void CourseInfoWindow::hideEvent(QHideEvent *event) {
     emit hidden();
     QDialog::hideEvent(event);
-}
-
-QString CourseInfoWindow::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
 }
 
 CourseInfoWindow::~CourseInfoWindow()

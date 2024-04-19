@@ -12,6 +12,7 @@
 #include <QHeaderView>
 #include <QPainterPath>
 #include <QFont>
+#include "fontloader.h"
 
 
 
@@ -45,23 +46,28 @@ StudentView::StudentView(QWidget *parent, MainWindow* mainWindow, User thisStude
 
 void StudentView::closeEvent(QCloseEvent *event)
 {
+    
+
     int ret = QMessageBox::warning(this, "Warning", "Are you sure you want to log out?",
                                    QMessageBox::Yes | QMessageBox::No);
 
     if (ret == QMessageBox::Yes) {
         this->close();
         mainWindow->showCentered(); // Show the MainWindow
+        emit closed();
     }
     else{
         event->ignore();
     }
+
+    
 }
 
 void StudentView::setStudent(std::string StudentID){
     // Find courses that the student is in
-    LinkedList<SchoolYear> schoolYears = mainWindow->SchoolYears;
-    for (int i = 0; i < schoolYears.size(); i++) {
-        LinkedList<Semester> semesters = schoolYears.get(i).semesters;
+    LinkedList<SchoolYear>* schoolYears = mainWindow->SchoolYears;
+    for (int i = 0; i < schoolYears->size(); i++) {
+        LinkedList<Semester> semesters = schoolYears->get(i).semesters;
         for(int j = 0; j < semesters.size(); j++){
             LinkedList<Course> courses = semesters.get(j).courses;
             for (int k = 0; k < courses.size(); k++) {
@@ -130,14 +136,6 @@ void StudentView::setupPage(){
     avatar->setGeometry(0, 0, ui->avatar->width(), ui->avatar->height()); // Set the geometry to match the QLabel
 }
 
-QString StudentView::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
-}
-
 void StudentView::on_stackedWidget_currentChanged(int index) {
     QList<QPushButton*> btnList = ui->icon_only_widget->findChildren<QPushButton*>();
     btnList.append(ui->full_menu_widget->findChildren<QPushButton*>());
@@ -182,7 +180,7 @@ void StudentView::setUpCourseList() {
             std::string courseName;
             courseName = courseName + curCourse.courseID + " - " + curCourse.courseName;
             QString qCourseName = QString::fromStdString(courseName);
-            int wrapLen = 30;
+            int wrapLen = 25;
             if (qCourseName.length() > wrapLen) {
                 int lastSpace = qCourseName.lastIndexOf(' ', wrapLen);
                 if (lastSpace != -1) {
@@ -195,6 +193,7 @@ void StudentView::setUpCourseList() {
 
             connect(btn_course, &QPushButton::clicked, this, [=]() {
                 CourseInfoWindow *window = new CourseInfoWindow(this, &curCourse, i);
+                window->setAttribute(Qt::WA_DeleteOnClose);
                 window->show();
             });
 
@@ -239,10 +238,10 @@ void StudentView::setUpGradeView(){
     for (int row = 0; row < thisStudentScore->size(); ++row) {
         QString courseID = QString::fromStdString(thisStudentScore->get(row).courseID);
         QString courseName = QString::fromStdString(thisStudentScore->get(row).courseName);
-        QString midterm = thisStudentScore->get(row).mid_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).mid_mark);
-        QString final = thisStudentScore->get(row).final_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).final_mark);
-        QString bonus = thisStudentScore->get(row).other_mark == 0 ? "_" : QString::number(thisStudentScore->get(row).other_mark);
-        QString total = thisStudentScore->get(row).GPA == 0 ? "_" : QString::number(thisStudentScore->get(row).GPA);
+        QString midterm = thisStudentScore->get(row).mid_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).mid_mark);
+        QString final = thisStudentScore->get(row).final_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).final_mark);
+        QString bonus = thisStudentScore->get(row).other_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).other_mark);
+        QString total = thisStudentScore->get(row).total_mark == -1 ? "_" : QString::number(thisStudentScore->get(row).total_mark, 'f', 1);
 
         QStandardItem *item1 = new QStandardItem(QString(courseID));
         model->setItem(row, 0, item1);
@@ -283,7 +282,7 @@ void StudentView::setUpGradeView(){
     model->setHeaderData(1, Qt::Horizontal, tr("Course Name"));
     model->setHeaderData(2, Qt::Horizontal, tr("Midterm"));
     model->setHeaderData(3, Qt::Horizontal, tr("Final"));
-    model->setHeaderData(4, Qt::Horizontal, tr("Bonus"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Other"));
     model->setHeaderData(5, Qt::Horizontal, tr("Total"));
 
     ui->grade_view_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);

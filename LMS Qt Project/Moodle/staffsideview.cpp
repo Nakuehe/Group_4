@@ -5,11 +5,15 @@
 #include "QAbstractItemView"
 #include <QGraphicsDropShadowEffect>
 #include <QMessageBox>
+#include "fontloader.h"
+#include "changepassworddialog.h"
 
-StaffSideView::StaffSideView(QWidget *parent, MainWindow* mainWindow, LinkedList<SchoolYear>* SchoolYears)
+StaffSideView::StaffSideView(QWidget *parent, MainWindow* mainWindow, User thisStaffUser, UserManager* s_UserManager,LinkedList<SchoolYear>* SchoolYears)
     : QDialog(parent)
     , SchoolYears(SchoolYears)
     , mainWindow(mainWindow)
+    , thisStaffUser(thisStaffUser)
+    , s_UserManager(s_UserManager)
     , ui(new Ui::StaffSideView)
 {
     ui->setupUi(this);
@@ -72,14 +76,18 @@ StaffSideView::StaffSideView(QWidget *parent, MainWindow* mainWindow, LinkedList
     ui->confirm_button->setCursor(QCursor(Qt::PointingHandCursor));
     ui->confirm_button->setFont(QFont(fontFamilyBold, 15));
 
+    connect(ui->changePasswordButton, &QPushButton::clicked, this, &StaffSideView::on_changePasswordButton_clicked);
+    ui->changePasswordButton->setFlat(true);
+    ui->changePasswordButton->setStyleSheet("QPushButton:hover { color: #ff6600; text-decoration: underline;} QPushButton:pressed { background-color: transparent; } QPushButton { text-align: center; font-weight: 500; color: #0D63E6; border: none; }");
+    ui->changePasswordButton->setFont(QFont(fontFamilyRegular, 12));
+    ui->changePasswordButton->setCursor(QCursor(Qt::PointingHandCursor));
+
+
 }
 
-QString StaffSideView::loadFont(const QString &resourcePath) {
-    int id = QFontDatabase::addApplicationFont(resourcePath);
-    if (id != -1) {
-        return QFontDatabase::applicationFontFamilies(id).at(0);
-    }
-    return QString();
+void StaffSideView::on_changePasswordButton_clicked(){
+    ChangePasswordDialog dialog(this, thisStaffUser, s_UserManager);
+    dialog.exec();
 }
 
 void StaffSideView::onConfirmButtonClicked()
@@ -92,7 +100,7 @@ void StaffSideView::onConfirmButtonClicked()
         QString check_name = QString::fromStdString(schoolYear->year);
 
         if (check_name == selectedSchoolYear) {
-            StaffMainView* staffMainView = new StaffMainView(nullptr, this, schoolYear);
+            StaffMainView* staffMainView = new StaffMainView(nullptr, this, schoolYear,SchoolYears);
             staffMainView->show();
             this->hide(); // Hide the MainWindow
             break;

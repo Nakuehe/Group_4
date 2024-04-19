@@ -21,8 +21,8 @@ struct Semester {
 
      //Semester(const std::string& semester, const std::string& start_date, const std::string& end_date)
          //: semester(semester), start_date(start_date), end_date(end_date){}
-    Semester(const std::string& semester)
-        : semester(semester) {}
+    Semester(const std::string& semester, const std::string& start_date, const std::string& end_date)
+        : semester(semester), start_date(start_date), end_date(end_date) {}
 //Semester(const std::string& semester, const std::string& start_date, const std::string& end_date)
 //       : semester(semester), start_date(start_date), end_date(end_date){}
     void createCourse()
@@ -38,8 +38,8 @@ struct Semester {
             new_course.credits = dialog.getcredits().toStdString();
             new_course.maxStudent = dialog.getMaxStudent().toInt();
             new_course.day = dialog.getDay().toStdString();
-            new_course.session = dialog.getSession().toStdString();
-            new_course.maxStudent = 50;
+            new_course.session = dialog.getSession().left(2).toStdString();
+
             this->addCourse(new_course);
         }
     }
@@ -49,9 +49,11 @@ struct Semester {
     void addCourse(const Course& course){
         courses.add(course);
     }
-    void removeCourse(const Course& course) {
+
+    void removeCourse(const Course& course){
         courses.remove(course);
     }
+
     Node<Course>* Find_Course();
     //void Update_Student_Result();
 };

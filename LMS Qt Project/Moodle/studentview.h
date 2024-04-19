@@ -55,7 +55,6 @@ public:
 
     void setStudent(std::string StudentID);  // Method to set the student
     void setupPage();  // Method to set up the page
-    QString loadFont(const QString &resourcePath);  // Method to load the font
 
     void on_changePasswordButton_clicked();
 
@@ -72,6 +71,9 @@ private slots:
     void on_grade_btn1_toggled();
     void on_grade_btn2_toggled();
     void resizeColumns();
+
+signals:
+    void closed();
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

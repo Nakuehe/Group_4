@@ -80,7 +80,7 @@ public:
         return count;
     }
 
-    T& get(int index) {
+    T& get(int index) const {
         if (index < 0 || index >= count) {
             throw std::out_of_range("Index out of range");
         }
