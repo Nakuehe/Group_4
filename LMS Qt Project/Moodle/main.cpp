@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include <QtCore>
 #include <QApplication>
 #include <QListWidget>
 
