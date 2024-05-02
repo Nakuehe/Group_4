@@ -1,5 +1,6 @@
 #include "dialogclass.h"
 #include "ui_dialogclass.h"
+#include "fontloader.h"
 
 QString DialogClass::getClassName()
 {
@@ -21,6 +22,11 @@ DialogClass::DialogClass(QWidget *parent)
     , ui(new Ui::DialogClass)
 {
     ui->setupUi(this);
+    QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
+    QFont font(fontFamily1, 14);
+
+    ui ->label ->setFont(font);
+    ui->lineEdit->setFont(font);
 }
 
 DialogClass::~DialogClass()

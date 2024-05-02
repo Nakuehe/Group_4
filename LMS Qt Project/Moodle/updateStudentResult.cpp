@@ -137,11 +137,24 @@ void updateStudentResult::on_pushButton_Accept_clicked()
     QString mid_mark = ui->lineEdit_mid->text();
     QString final_mark = ui->lineEdit_final->text();
     QString other_mark = ui->lineEdit_other->text();
-    if(mid_mark == QString("") || final_mark == QString("") || other_mark == QString(""))
+
+    if(mid_mark.isEmpty() || final_mark.isEmpty() || other_mark.isEmpty())
     {
         QMessageBox::warning(this, "Error", "Please fill all column update");
         return;
     }
+
+    bool ok1, ok2, ok3;
+    double mid = mid_mark.toDouble(&ok1);
+    double final = final_mark.toDouble(&ok2);
+    double other = other_mark.toDouble(&ok3);
+
+    if(!ok1 || !ok2 || !ok3 || mid < 0 || mid > 10 || final < 0 || final > 10 || other < 0 || other > 10)
+    {
+        QMessageBox::warning(this, "Error", "Marks must be in the range 0 to 10");
+        return;
+}
+
     Node<Score>* it = thisCourse->Scoreboard.getHead();
     // qDebug() << "ID: " << ID << '\n';
 

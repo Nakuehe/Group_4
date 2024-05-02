@@ -440,6 +440,12 @@ void StaffMainView::onCourseListItemClicked(QListWidgetItem* item)
 }
 void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
 {
+
+    if(ui->class_function_list->row(item) == 0) // if the third item was clicked
+    {
+        this_class->add_a_student2Class();
+    }
+
     if(ui->class_function_list->row(item) == 1) // if the third item was clicked
     {
         this_class->readStudentToClass();
@@ -452,11 +458,16 @@ void StaffMainView::onClassListItemClicked(QListWidgetItem* item)
     }
     if(ui->class_function_list->row(item) == 3) // view scoreboard of class
     {
+        if(this_semester == nullptr){
+            QMessageBox::warning(this, "Warning", "Please choose a semester before viewing this scoreboard");
+            return;
+        }
 
-
+        else{
         ScoreboardClass* scoreboardClass = new ScoreboardClass(this,student_list,SchoolYears,this_semester, this_class->classID);
 
         scoreboardClass->show();
+        }
     }
 }
 

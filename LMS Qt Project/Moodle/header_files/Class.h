@@ -19,6 +19,7 @@ struct Class {
     void addStudent(const Student& student){
         students.add(student); //pseudo code
     }
+
     void add_a_student2Class()
     {
         STUDENTINPUTDIALOG dialog;

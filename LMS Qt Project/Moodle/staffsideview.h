@@ -38,6 +38,7 @@ private:
     void onConfirmButtonClicked();
     void on_changePasswordButton_clicked();
     void onAddSchoolYearButtonClicked();
+    void comboBoxUpdate();
 };
 
 #endif // STAFFSIDEVIEW_H

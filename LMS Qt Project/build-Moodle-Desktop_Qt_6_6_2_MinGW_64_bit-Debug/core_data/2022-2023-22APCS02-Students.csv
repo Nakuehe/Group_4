@@ -1,4 +1,6 @@
 StudentID,FirstName,LastName,Gender,DateOfBirth,SocialID
+,,,Male,1/1/1900,
+123,,,Male,1/1/2024,
 22125001,Tang Xuan,Bac,Male,23/02/2005,049205123456
 22125002,Vo Minh,Dang,Male,17/11/2005,049205789012
 22125003,Tran Nguyen Thanh,Danh,Male,28/07/2005,049205345678

@@ -35,7 +35,5 @@ void SchoolYear::createClass()
             }
             Class new_class(className);
             this->addClass(new_class);
-
-
     }
 }

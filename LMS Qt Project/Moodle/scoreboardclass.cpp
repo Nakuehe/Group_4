@@ -134,6 +134,19 @@ ScoreboardClass::ScoreboardClass(QWidget *parent, LinkedList<Student>* students 
     ui->tableWidget_Scoreboard->horizontalHeader()->setStyleSheet("QHeaderView { font-size: 12pt; font-weight: bold; }");
 
     ui->tableWidget_Scoreboard->setFont(QFont(fontFamilyRegular, 12));
+
+    // Make the table view uneditable
+    ui->tableWidget_Scoreboard->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    ui->tableWidget_Scoreboard->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    ui->tableWidget_Scoreboard->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+
+    ui->tableWidget_Scoreboard->setDragEnabled(false);
+    ui->tableWidget_Scoreboard->setDragDropOverwriteMode(false);
+    ui->tableWidget_Scoreboard->setDragDropMode(QAbstractItemView::NoDragDrop);
+    ui->tableWidget_Scoreboard->setSelectionMode(QAbstractItemView::NoSelection);
+
+
     resizeColumns();
 
 }

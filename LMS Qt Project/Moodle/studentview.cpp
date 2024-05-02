@@ -301,6 +301,9 @@ void StudentView::setUpGradeView(){
     model->setHeaderData(4, Qt::Horizontal, tr("Other"));
     model->setHeaderData(5, Qt::Horizontal, tr("Total"));
 
+    // Make the table view uneditable
+    ui->grade_view_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     ui->grade_view_table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     ui->grade_view_table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 
@@ -321,8 +324,7 @@ void StudentView::setUpGradeView(){
     // Set the model
     ui->grade_view_table->setModel(model);
 
-    // Make the table view uneditable
-    ui->grade_view_table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 
     // Delay the resizing of the columns
     QTimer::singleShot(0, this, SLOT(resizeColumns()));

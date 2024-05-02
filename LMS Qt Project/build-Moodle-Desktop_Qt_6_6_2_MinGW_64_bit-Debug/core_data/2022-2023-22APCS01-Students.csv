@@ -1,4 +1,6 @@
 StudentID,FirstName,LastName,Gender,DateOfBirth,SocialID
+,,,Male,1/1/2024,
+123,,,Male,1/1/2024,
 22125024,Tran Duc,An,Male,12/05/2005,049205123456
 22125025,Le Hoang,An,Male,17/11/2005,049205789012
 22125029,Nguyen Tien,Dat,Male,28/07/2005,049205345678

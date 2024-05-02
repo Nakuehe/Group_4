@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-646a7601cec5f59d0b2d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Moodle",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Moodle::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Moodle-Release-755d3f1ae06abb46f831.json",
+					"name" : "Moodle",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Moodle_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Moodle_autogen-Release-afe80d2bce730e0ca2c8.json",
+					"name" : "Moodle_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Moodle_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Moodle_autogen_timestamp_deps-Release-707f05dfd593ded4f455.json",
+					"name" : "Moodle_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "E:/DIN/Note-taking-2023/CS162_LAB/test_moodle/Group_4/LMS Qt Project/build-Moodle-Desktop_Qt_6_6_2_MinGW_64_bit-Release",
+		"source" : "E:/DIN/Note-taking-2023/CS162_LAB/test_moodle/Group_4/LMS Qt Project/Moodle"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

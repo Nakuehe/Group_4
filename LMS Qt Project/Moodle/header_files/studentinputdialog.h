@@ -27,6 +27,24 @@ public:
     QLineEdit *dateOfBirthEdit;
     QLineEdit *socialIDEdit;
 
+    bool validate() {
+        // Check if studentID is an 8-digit number
+        QString studentID = getStudentID();
+        if (studentID.length() != 8 || !studentID.toLongLong()) {
+            QMessageBox::warning(this, "Invalid student ID", "Student ID must be an 8-digit number.");
+            return false;
+        }
+
+        // Check if firstName, lastName, gender, and socialID are not empty
+        if (getFirstName().isEmpty() || getLastName().isEmpty() || getGender().isEmpty() || getsocialID().isEmpty()) {
+            QMessageBox::warning(this, "Empty fields", "Please fill in all fields.");
+            return false;
+        }
+
+        // If all checks pass, return true
+        return true;
+    }
+
     STUDENTINPUTDIALOG(QWidget *parent = nullptr) : QDialog(parent)
     {
         QString fontFamily1 = loadFont(":/asset/font/HelveticaWorld-Regular.ttf");
@@ -87,6 +105,12 @@ public:
                 QMessageBox::warning(this, "Invalid date", "The selected date is not valid.");
                 return;
             }
+
+            // Validate the input
+            if (!validate()) {
+                return;
+            }
+
             accept();
         });
         
@@ -115,6 +139,8 @@ public:
     QString getsocialID() {
         return socialIDEdit->text();
     }
+
+    
 
 };
 
