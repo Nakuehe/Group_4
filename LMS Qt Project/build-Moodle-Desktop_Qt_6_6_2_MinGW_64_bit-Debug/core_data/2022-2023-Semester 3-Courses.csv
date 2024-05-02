@@ -1,1 +1,1 @@
-CourseID,CourseName,ClassID,LecturerName,CreditNumber,MaxNumberOfStudents,DayOfWeek,Session
+CourseID,CourseName,ClassID,LecturerName,CreditNumber,MaxNumberOfStudents,DayOfWeek,Session,IsPublic

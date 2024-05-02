@@ -1,2 +1,1 @@
-CourseID,CourseName,ClassID,LecturerName,CreditNumber,MaxNumberOfStudents,DayOfWeek,Session
-CS162,Introduction to Computer Science II,23APCS02,Dinh Ba Tien,4,50,MON,S1
+CourseID,CourseName,ClassID,LecturerName,CreditNumber,MaxNumberOfStudents,DayOfWeek,Session,IsPublic
